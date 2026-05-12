@@ -60,11 +60,19 @@ function jsonOut($data, $code = 200) {
     exit;
 }
 
+// ─── Load Controllers ───
+require_once __DIR__ . '/controllers/AuthController.php';
+
+// ═══ ROUTING ═══
+// Auth routes (public)
+if ($resource === 'auth') {
+    handleAuth($db, $method, $id, $input);
+}
+
 // All other routes require authentication
 if (empty($_SESSION['user_id'])) {
     jsonOut(['error' => 'Not authenticated'], 401);
 }
-
 
 
 $db->close();
