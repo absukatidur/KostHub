@@ -1,0 +1,59 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue-50: #eff6ff; --blue-100: #dbeafe; --blue-200: #bfdbfe;
+  --blue-400: #60a5fa; --blue-500: #3b82f6; --blue-600: #2563eb;
+  --blue-700: #1d4ed8; --blue-800: #1e40af; --blue-900: #1e3a8a;
+  --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1; --slate-400: #94a3b8; --slate-500: #64748b;
+  --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --green-50: #f0fdf4; --green-100: #dcfce7; --green-200: #bbf7d0;
+  --green-400: #4ade80; --green-500: #22c55e; --green-600: #16a34a; --green-700: #15803d;
+  --amber-50: #fffbeb; --amber-100: #fef3c7; --amber-200: #fde68a;
+  --amber-400: #fbbf24; --amber-500: #f59e0b; --amber-600: #d97706; --amber-700: #b45309;
+  --red-50: #fef2f2; --red-100: #fee2e2; --red-200: #fecaca;
+  --red-400: #f87171; --red-500: #ef4444; --red-600: #dc2626; --red-700: #b91c1c;
+  --purple-50: #faf5ff; --purple-100: #f3e8ff; --purple-500: #a855f7; --purple-600: #9333ea;
+  --sidebar-w: 240px;
+  --header-h: 60px;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--slate-50);
+  color: var(--slate-800);
+  font-size: 14px;
+  line-height: 1.6;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ─── SIDEBAR ─── */
+#sidebar {
+  width: var(--sidebar-w);
+  background: var(--slate-900);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 100;
+  transition: transform 0.25s ease;
+}
+.sidebar-logo {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.sidebar-logo h1 {
+  font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.3px;
+}
+.sidebar-logo span { color: var(--blue-400); }
+.sidebar-logo p { font-size: 11px; color: var(--slate-400); margin-top: 2px; font-family: 'DM Mono', monospace; }
+
+.sidebar-nav { flex: 1; padding: 12px 10px; overflow-y: auto; }
+.nav-section { margin-bottom: 20px; }
+.nav-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--slate-500); text-transform: uppercase;
+  padding: 0 10px; margin-bottom: 6px;
+}
