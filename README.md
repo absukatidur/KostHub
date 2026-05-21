@@ -68,10 +68,7 @@ KostHub is a modern web-based boarding house (kost) room management system focus
   * `name` (VARCHAR 100)
   * `email` (VARCHAR 100)
   * `wa` (VARCHAR 20)
-  * `ktp` (VARCHAR 50)
   * `room` (VARCHAR 10)
-  * `emergency1` (VARCHAR 100)
-  * `emergency2` (VARCHAR 100)
 
 * **`orders`** (Rental Transactions)
   * `id` (VARCHAR 20, PK)
