@@ -3,7 +3,6 @@
 $pageTitle = 'KostHub — Admin Dashboard';
 $extraJs = [
     'assets/js/pages-dashboard.js',
-    // ... panggil script halaman lain jika dipisah
 ];
 
 require_once 'components/header.php';         // Berisi <html>, <head>, <link css>
