@@ -1,5 +1,4 @@
-<!-- ══════════════════════════ SIDEBAR ══════════════════════════ -->
-<nav id="sidebar">
+﻿<nav id="sidebar">
   <div class="sidebar-logo">
     <h1>Kost<span>Hub</span></h1>
     <p>v1.0.0 · admin</p>
