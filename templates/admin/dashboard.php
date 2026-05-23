@@ -5,18 +5,17 @@
   <div>
     <div class="section-header">
       <div>
-        <h2>Selamat datang, Admin 👋</h2>
+        <h2>Selamat datang, Admin</h2>
         <p data-bind="dateText"></p>
       </div>
-      <button class="btn btn-primary" data-action="create-order"><i data-lucide="plus"
-          style="width:14px;height:14px"></i> Buat Order</button>
+      <button class="btn btn-primary" data-action="create-order"><i class="bi bi-plus-lg" style="font-size:14px"></i> Buat Order</button>
     </div>
     <div class="stats-grid" data-slot="stats"></div>
     <div class="two-col" style="margin-bottom:14px">
       <div class="card">
         <div class="card-header"><span class="card-title">Pendapatan Penyewaan</span></div>
         <div class="chart-bars" data-slot="chart"></div>
-        <div style="font-size:11px;color:var(--slate-400);text-align:center;margin-top:6px">Dalam jutaan Rp</div>
+        <div style="font-size:11px;color:var(--slate-muted);text-align:center;margin-top:6px">Dalam jutaan Rp</div>
       </div>
       <div class="card">
         <div class="card-header"><span class="card-title">Order Terbaru</span><button class="btn btn-secondary btn-sm"
@@ -34,7 +33,7 @@
           </table>
         </div>
       </div>
-    </div>
+    </div>  
     <div class="two-col">
       <div class="card">
         <div class="card-header"><span class="card-title">Aktivitas Terkini</span></div>
@@ -53,7 +52,7 @@
 <!-- Item: Stat Card -->
 <template id="tpl-stat-card">
   <div class="stat-card">
-    <div class="icon-wrap"><i style="width:16px;height:16px"></i></div>
+    <div class="icon-wrap"><i style="font-size:16px"></i></div>
     <div class="label"></div>
     <div class="value"></div>
     <div class="sub"></div>
@@ -72,7 +71,7 @@
   <tr>
     <td>
       <div class="ro-customer" style="font-weight:600"></div>
-      <div class="ro-id" style="font-size:11px;color:var(--slate-400)"></div>
+      <div class="ro-id" style="font-size:11px;color:var(--slate-muted)"></div>
     </td>
     <td class="ro-room"></td>
     <td class="ro-status"></td>
@@ -82,7 +81,7 @@
 <!-- Item: Activity Item -->
 <template id="tpl-activity-item">
   <div class="activity-item">
-    <div class="act-dot"><i style="width:14px;height:14px"></i></div>
+    <div class="act-dot"><i style="font-size:14px"></i></div>
     <div class="act-content">
       <div class="act-title"></div>
       <div class="act-detail act-meta"></div>
