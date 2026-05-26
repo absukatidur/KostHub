@@ -3,7 +3,10 @@
 ## Description
 KostHub is a modern web-based boarding house (kost) room management system focused on providing a platform where administrators can easily manage rooms, tenants, rental transactions, and repairs. This application is also equipped with a Tenant Portal, designed to make it easier for boarding house tenants to check bills, report facility damages, and independently submit room transfer requests.
 
----
+## Team
+* **Made Agastya Devanantha Dharmawan (F1D02410071)**  - Project Leader: Backend & Frontend Developer
+* **Muhammad Andika Azkiya (F1D02410076)**             - Team Member   : Frontend Developer
+* **Faiz Ahmad Tsaqib Wirawan (F1D02410043)**          - Team Member   : Frontend Developer
 
 ## Main Menu & File Mapping
 
