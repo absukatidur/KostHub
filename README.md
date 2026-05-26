@@ -127,19 +127,3 @@ KostHub is a modern web-based boarding house (kost) room management system focus
   * `type` (VARCHAR 50)
 
 ---
-
-## Installation & Setup Instructions
-
-1. **Place Codebase**: Clone or copy the project files into your local server root (e.g., `C:/xampp/htdocs/Vanilla_Web_1.6`).
-2. **Create MySQL Database**: Open phpMyAdmin or your MySQL CLI, and create a blank database:
-   ```sql
-   CREATE DATABASE kosmanager;
-   ```
-3. **Execute Table Setup**:
-   * Open your browser and navigate to: `http://localhost/Vanilla_Web_1.6/db/setup.php`
-   * This installer script automatically initializes the `users` and `requests` tables, configures constraints, and generates mock tenant accounts.
-4. **Access the Web Portal**:
-   * Navigate to `http://localhost/Vanilla_Web_1.6/` to access the portal.
-   * **Demo Accounts**:
-     * **Admin Portal**: Login with username `admin` and password `admin123`
-     * **Tenant Portal**: Login with username `andi` and password `user123`
