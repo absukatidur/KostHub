@@ -3,44 +3,55 @@
 ## Description
 KostHub is a modern web-based boarding house (kost) room management system focused on providing a platform where administrators can easily manage rooms, tenants, rental transactions, and repairs. This application is also equipped with a Tenant Portal, designed to make it easier for boarding house tenants to check bills, report facility damages, and independently submit room transfer requests.
 
-## Address
-[http://localhost]
+---
 
-## Main Menu
-```text
-- Admin
-    - Dashboard
-    - Room Types (Master Data)
-    - Customers (Master Data)
-    - Room Management
-    - Orders / Rentals
-    - Room Transfer
-    - Repairs
-    - Public Facilities
-    - Activity Logs
-    - User Requests
-- User (Tenant)
-    - Dashboard
-    - Bills & Payments
-    - Repairs
-    - Boarding House Facilities
-    - My Profile
-    - Submission Services (Transfer / Checkout)
+## Main Menu & File Mapping
 
-```
-## TechStack 
-* **Frontend**: HTML5, CSS3 (Custom styling, CSS Variables), Vanilla JavaScript (ES6+ API fetching, DOM manipulation).
-* **Icons**: Lucide Icons.
-* **Backend**: Vanilla PHP (Custom API Router handling RESTful endpoints).
-* **Database**: MySQL.
-* **Architecture**: Client-Server architecture using AJAX/Fetch API for asynchronous data loading.
+### Admin Panel
+* **Dashboard** - Dynamic dashboard showing key operational metrics: vacant/occupied rooms count, pending bookings, active repairs, monthly earnings, and recent logs.
+* **Tipe Kamar (Room Types)** - Manage categories of rooms, rents, prices, and amenities.
+* **Customer (Tenants)** - Manage registered boarding house residents, WhatsApp contacts, and active room assignments.
+* **Manajemen Kamar (Room Management)** - Operational list of rooms to check live occupancy status, tenant lease durations, and facility packages.
+* **Order / Sewa (Orders/Rentals)** - Add, approve, and track rental agreements, bills, and payment statuses.
+* **Pindah Kamar (Room Transfer)**  - Dedicated admin panel for coordinating room swap logistics.
+* **Perbaikan (Repairs)** - Track facility reports, assign technicians, monitor maintenance stages, and review tenant upvotes for public facilities.
+* **Fasilitas Umum (Public Facilities)**  - Manage the operational status of shared building areas (kitchens, parking, laundry, etc.).
+* **Log Aktivitas (Activity Logs)** - Audit logs detailing system transactions and administrator actions.
+* **Permintaan User (User Requests)** - Accept or reject tenant-initiated room transfers or checkouts, with customizable administrator notes.
+* **Reset Data**  - Administrative tool to quickly restore the database to seed conditions for debugging.
 
-## DBMS: Configuration, Table Specification
+### User (Tenant) Portal
+* **Dashboard** - Overview of tenant's current room, active lease date, payment invoices, and active maintenance reports.
+* **Tagihan (Bills & Payments)** - Monitor lease payments and process rent bills.
+* **Perbaikan (Repairs)** - Report new damages inside rooms, and view/upvote open reports for shared public facilities.
+* **Fasilitas (Boarding House Facilities)** - Check live statuses of common area amenities.
+* **Cari Kamar (Browse & Book)** - Browse vacant rooms and submit booking requests.
+* **Profil (My Profile)** - View and modify resident contact details.
+* **Layanan (Submission Services)** - File official requests to transfer rooms (`pindah`) or schedule a room check-out (`checkout`).
+
+---
+
+## Tech Stack & Architecture
+
+* **Frontend**: HTML5, Vanilla CSS3 (curated theme featuring modern dark slate aesthetics, glassmorphism, responsive grid layouts, and custom CSS Variables), and minimal client-side Vanilla JavaScript (for sidebar responsive toggle, automatic alert fades, and live payment calculation).
+* **Icons**: Bootstrap Icons (v1.11.3, loaded via CDN).
+* **Backend**: Traditional Server-Rendered PHP 8.x.
+* **Database**: MySQL (Host: `localhost`, User: `root`, Database: `kosmanager`).
+* **Architecture**: Modern, secure Multi-Page Application (MPA) using:
+  * **Session-Based Authentication Guards**: Server-side role-checks redirecting unauthorized requests before HTML rendering.
+  * **Layout Composition Modules**: Shared, reusable UI components for headers, top navigation bars, and sidebar controls.
+  * **Direct DB Operations**: Secure direct database connection handling using native PHP MySQLi with prepared statements.
+  * **State Management**: Session-based flash alerts and direct, validated PHP POST form submissions.
+
+---
+
+## DBMS Configuration & Table Specification
 
 ### Configuration
 * **DBMS**: MySQL
 * **Host**: `localhost`
 * **Username**: `root`
+* **Password**: `""` (empty string by default)
 * **Database Name**: `kosmanager`
 
 ### Table Specification
@@ -50,7 +61,7 @@ KostHub is a modern web-based boarding house (kost) room management system focus
   * `username` (VARCHAR 50, Unique)
   * `password` (VARCHAR 255)
   * `role` (ENUM: 'admin', 'user')
-  * `customer_id` (VARCHAR 10, Nullable, FK)
+  * `customer_id` (VARCHAR 10, Nullable, FK to `customers.id`)
 
 * **`rooms`** (Room Master Data)
   * `id` (VARCHAR 10, PK)
@@ -88,6 +99,8 @@ KostHub is a modern web-based boarding house (kost) room management system focus
   * `reported` (DATE)
   * `status` (VARCHAR 20)
   * `tech` (VARCHAR 100)
+  * `votes` (INT) - Number of supporting votes/reports for general public facility repairs
+  * `voted_by` (TEXT, Nullable) - JSON array of customer IDs who upvoted the repair report
 
 * **`facilities`** (Public Amenities)
   * `id` (VARCHAR 10, PK)
@@ -100,7 +113,7 @@ KostHub is a modern web-based boarding house (kost) room management system focus
   * `id` (VARCHAR 10, PK)
   * `customer_id` (VARCHAR 10)
   * `type` (ENUM: 'pindah', 'checkout')
-  * `detail` (TEXT)
+  * `detail` (TEXT) - JSON string containing specific request details (e.g., target room, check-out date, and descriptions)
   * `status` (ENUM: 'pending', 'approved', 'rejected')
   * `created_at` (DATETIME)
   * `resolved_at` (DATETIME, Nullable)
@@ -112,3 +125,21 @@ KostHub is a modern web-based boarding house (kost) room management system focus
   * `action` (VARCHAR 100)
   * `detail` (TEXT)
   * `type` (VARCHAR 50)
+
+---
+
+## Installation & Setup Instructions
+
+1. **Place Codebase**: Clone or copy the project files into your local server root (e.g., `C:/xampp/htdocs/Vanilla_Web_1.6`).
+2. **Create MySQL Database**: Open phpMyAdmin or your MySQL CLI, and create a blank database:
+   ```sql
+   CREATE DATABASE kosmanager;
+   ```
+3. **Execute Table Setup**:
+   * Open your browser and navigate to: `http://localhost/Vanilla_Web_1.6/db/setup.php`
+   * This installer script automatically initializes the `users` and `requests` tables, configures constraints, and generates mock tenant accounts.
+4. **Access the Web Portal**:
+   * Navigate to `http://localhost/Vanilla_Web_1.6/` to access the portal.
+   * **Demo Accounts**:
+     * **Admin Portal**: Login with username `admin` and password `admin123`
+     * **Tenant Portal**: Login with username `andi` and password `user123`
