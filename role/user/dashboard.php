@@ -1,0 +1,116 @@
+<?php
+$basePath = '../';
+require_once '../components/header.php';
+require_once '../components/user_sidebar.php';
+require_once '../components/user_topbar.php';
+?>
+
+<div>
+  <div class="section-header">
+    <div>
+      <h2>Selamat datang, <?= htmlspecialchars($customer['name']) ?> 👋</h2>
+      <p><?= htmlspecialchars($dateText) ?></p>
+    </div>
+  </div>
+
+  <?php showFlash(); ?>
+
+  <!-- Alerts for pending orders or no room -->
+  <div class="mb-16">
+    <?php if (!$room): ?>
+      <div class="no-room-cta" style="background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 12px; padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 20px;">
+        <div class="nrc-icon" style="font-size: 40px; color: var(--brand-accent); background: var(--blue-faded); width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+          <i class="bi bi-house"></i>
+        </div>
+        <h3 style="margin: 0; color: var(--slate-white); font-size: 18px;">Anda belum memiliki kamar</h3>
+        <p style="margin: 0; color: var(--slate-muted); font-size: 13.5px; max-width: 400px;">Jelajahi kamar yang tersedia dan pesan kamar impian Anda sekarang!</p>
+        <a href="browse_rooms.php" class="btn btn-primary" style="text-decoration: none;">
+          <i class="bi bi-search"></i> Cari Kamar Sekarang
+        </a>
+      </div>
+    <?php else: ?>
+      <?php foreach ($pendingOrders as $o): ?>
+        <div class="user-alert alert-warning" style="background: rgba(249, 180, 122, 0.1); border: 1px solid rgba(249, 180, 122, 0.2); border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 10px; color: var(--amber-pale)">
+            <i class="bi bi-exclamation-circle" style="font-size: 18px;"></i>
+            <span style="font-size: 13.5px; font-weight: 500">Tagihan <?= htmlspecialchars($o['id']) ?> sebesar <?= fmtRupiah($o['total']) ?> belum dibayar</span>
+          </div>
+          <a href="tagihan.php" class="btn btn-primary btn-sm" style="text-decoration: none;">Bayar</a>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  </div>
+
+  <?php if ($room): ?>
+    <!-- Room Info Card -->
+    <div class="card mb-16" style="margin-bottom: 20px;">
+      <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px; border-bottom: 1px solid var(--border-soft); padding-bottom: 14px;">
+        <div class="icon-wrap ic-blue" style="width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <i class="bi bi-door-open"></i>
+        </div>
+        <div style="flex: 1">
+          <h3 style="margin: 0; font-size: 16px; color: var(--slate-white);">Kamar <?= htmlspecialchars($room['id']) ?></h3>
+          <p style="margin: 0; font-size: 12px; color: var(--slate-muted);">Lantai <?= htmlspecialchars($room['floor']) ?> · <?= htmlspecialchars($room['type']) ?></p>
+        </div>
+        <div>
+          <?= statusBadge($room['status']) ?>
+        </div>
+      </div>
+      
+      <div class="detail-row" style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border-faint);"><span class="detail-key" style="color:var(--slate-muted)">Tipe</span><span class="detail-val" style="color:var(--slate-bright)"><?= htmlspecialchars($room['type']) ?> (<?= htmlspecialchars($room['rent']) ?>)</span></div>
+      <div class="detail-row" style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border-faint);"><span class="detail-key" style="color:var(--slate-muted)">Harga</span><span class="detail-val" style="color:var(--slate-bright)"><?= fmtRupiah($room['price']) ?></span></div>
+      <div class="detail-row" style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border-faint);"><span class="detail-key" style="color:var(--slate-muted)">Fasilitas</span><span class="detail-val" style="color:var(--slate-bright)"><?= htmlspecialchars($room['facilities'] ?: '-') ?></span></div>
+      
+      <div class="detail-row" style="display: flex; justify-content: space-between; padding: 6px 0;">
+        <span class="detail-key" style="color:var(--slate-muted)">Sewa Hingga</span>
+        <span class="detail-val" style="color:var(--slate-bright)">
+          <?php 
+          $until = $room['until'];
+          if ($until && $until !== '-') {
+              $diff = ceil((strtotime($until) - time()) / 86400);
+              $cls = 'ok';
+              $label = "$diff hari lagi";
+              if ($diff <= 7) {
+                  $cls = 'danger';
+                  $label = $diff <= 0 ? 'Sudah lewat!' : "$diff hari lagi!";
+              } elseif ($diff <= 30) {
+                  $cls = 'warning';
+              }
+              echo htmlspecialchars($until) . ' <span class="lease-countdown ' . $cls . '" style="margin-left:8px; padding: 1px 6px; border-radius: 4px; font-size:11px; font-weight:700; ' . 
+                   ($cls === 'danger' ? 'background:rgba(239, 68, 68, 0.15); color:#ef4444;' : ($cls === 'warning' ? 'background:rgba(249, 180, 122, 0.15); color:#f9b47a;' : 'background:rgba(16, 185, 129, 0.15); color:#10b981;')) . '">' . $label . '</span>';
+          } else {
+              echo '-';
+          }
+          ?>
+        </span>
+      </div>
+    </div>
+  <?php endif; ?>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid mb-16">
+    <!-- Total Tagihan -->
+    <div class="stat-card">
+      <div class="icon-wrap ic-blue"><i class="bi bi-receipt" style="font-size:16px"></i></div>
+      <div class="label">Total Tagihan</div>
+      <div class="value"><?= count($pendingOrders) ?></div>
+      <div class="sub">belum dibayar</div>
+    </div>
+    <!-- Perbaikan Aktif -->
+    <div class="stat-card">
+      <div class="icon-wrap ic-amber"><i class="bi bi-wrench" style="font-size:16px"></i></div>
+      <div class="label">Perbaikan Aktif</div>
+      <div class="value"><?= $activeRepairsCount ?></div>
+      <div class="sub">sedang proses</div>
+    </div>
+    <!-- Pengajuan Pending -->
+    <div class="stat-card">
+      <div class="icon-wrap ic-purple"><i class="bi bi-file-earmark-text" style="font-size:16px"></i></div>
+      <div class="label">Pengajuan</div>
+      <div class="value"><?= $pendingRequestsCount ?></div>
+      <div class="sub">menunggu persetujuan</div>
+    </div>
+  </div>
+</div>
+
+<?php require_once '../components/user_footer_scripts.php'; ?>
