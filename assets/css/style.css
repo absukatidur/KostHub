@@ -138,9 +138,7 @@ body {
   padding: 12px 10px;
   overflow-y: auto;
   scrollbar-width: none;
-  /* firefox */
   -ms-overflow-style: none;
-  /* IE/Edge */
 }
 
 .sidebar-nav::-webkit-scrollbar {
@@ -227,7 +225,7 @@ body {
 }
 
 
-/*Topba*/
+/* Topbar */
 #topbar {
   height: var(--header-h);
   background: var(--bg-header);
@@ -239,4 +237,343 @@ body {
   position: sticky;
   top: 0;
   z-index: 50;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--slate-bright);
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border-dim);
+  background: var(--slate-very-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--slate-muted);
+  transition: all 0.15s;
+  position: relative;
+}
+
+.btn-icon:hover {
+  background: var(--slate-soft);
+  color: var(--brand-accent);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--brand-accent);
+  color: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+
+/* Page content wrapper */
+
+#page-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+
+/*  Tabs */
+
+.page-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--slate-soft);
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  padding: 8px 16px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--slate-base);
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  /* overlap parent border */
+  transition: all 0.15s;
+}
+
+.tab-btn:hover {
+  color: var(--slate-text);
+}
+
+.tab-btn.active {
+  color: var(--brand-accent);
+  border-bottom-color: var(--brand-accent);
+}
+
+
+/* ================================
+   Stat Cards (dashboard)
+   ================================ */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-dim);
+  padding: 16px 18px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* slight lift on hover so the card feels interactive */
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.stat-card .label {
+  font-size: 12px;
+  color: var(--slate-muted);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.stat-card .value {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--slate-white);
+}
+
+.stat-card .sub {
+  font-size: 12px;
+  color: var(--slate-muted);
+  margin-top: 4px;
+}
+
+.stat-card .icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+/* icon color helpers */
+.ic-blue {
+  background: var(--blue-mid-light);
+  color: var(--slate-muted);
+}
+
+.ic-green {
+  background: var(--green-light);
+  color: var(--green-mid);
+}
+
+.ic-amber {
+  background: var(--amber-light);
+  color: var(--brand-accent);
+}
+
+.ic-red {
+  background: var(--red-light);
+  color: var(--red-mid);
+}
+
+.ic-purple {
+  background: var(--purple-light);
+  color: var(--purple-main);
+}
+
+
+/* --- Card --- */
+
+.card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-dim);
+  padding: 20px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--slate-bright);
+}
+
+
+/* ================================
+   Buttons
+   ================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--brand-accent);
+  color: var(--bg-dark);
+}
+
+.btn-primary:hover {
+  background: var(--brand-accent-hover);
+}
+
+.btn-secondary {
+  background: var(--slate-very-faint);
+  color: var(--slate-text);
+  border: 1px solid var(--border-dim);
+}
+
+.btn-secondary:hover {
+  background: var(--slate-soft);
+}
+
+.btn-danger {
+  background: var(--red-faded);
+  color: var(--red-mid);
+  border: 1px solid var(--red-soft);
+}
+
+.btn-danger:hover {
+  background: var(--red-soft);
+}
+
+.btn-success {
+  background: var(--green-mid);
+  color: var(--bg-dark);
+}
+
+.btn-success:hover {
+  background: var(--green-main);
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+
+/* ================================
+   Badges
+   ================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* small colored dot before each badge */
+.badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.badge-green {
+  background: var(--green-light);
+  color: var(--green-pale);
+}
+
+.badge-green::before {
+  background: var(--green-main);
+}
+
+.badge-amber {
+  background: var(--amber-light);
+  color: var(--amber-pale);
+}
+
+.badge-amber::before {
+  background: var(--amber-main);
+}
+
+.badge-red {
+  background: var(--red-light);
+  color: var(--red-pale);
+}
+
+.badge-red::before {
+  background: var(--red-main);
+}
+
+.badge-blue {
+  background: var(--blue-light);
+  color: var(--brand-accent-hover);
+}
+
+.badge-blue::before {
+  background: var(--blue-main);
+}
+
+.badge-gray {
+  background: var(--slate-thin);
+  color: var(--slate-mid);
+}
+
+.badge-gray::before {
+  background: var(--slate-muted);
+}
+
+.badge-purple {
+  background: var(--purple-light);
+  color: var(--purple-deep);
+}
+
+.badge-purple::before {
+  background: var(--purple-main);
 }
