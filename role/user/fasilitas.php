@@ -1,5 +1,11 @@
 <?php
 $basePath = '../';
+require_once '../../db/db.php';
+requireUser();
+
+// Load facilities from the database
+$facilities = $db->query("SELECT * FROM facilities ORDER BY id")->fetch_all(MYSQLI_ASSOC);
+
 require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';
