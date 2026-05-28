@@ -1,0 +1,378 @@
+.user-room-card {
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--blue-light) 100%);
+  border-color: var(--purple-medium-light);
+}
+
+/* Alert banner */
+.user-alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  animation: slideUp 0.3s ease;
+}
+
+.user-alert.alert-warning {
+  background: var(--amber-faded);
+  border: 1px solid var(--amber-soft);
+  color: var(--amber-pale);
+}
+
+.user-alert.alert-danger {
+  background: var(--red-faded);
+  border: 1px solid var(--red-soft);
+  color: var(--red-pale);
+}
+
+.user-alert.alert-info {
+  background: var(--blue-faded);
+  border: 1px solid var(--blue-soft);
+  color: var(--brand-accent-hover);
+}
+
+/* Payment methods */
+.pay-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.pay-method-group {
+  margin-bottom: 12px;
+}
+
+.pay-group-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--slate-muted);
+  margin-bottom: 8px;
+}
+
+.pay-method-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border-dim);
+  background: var(--slate-faint);
+  cursor: pointer;
+  transition: all 0.15s;
+  width: 100%;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--slate-text);
+  margin-bottom: 6px;
+}
+
+.pay-method-btn:hover {
+  border-color: var(--brand-accent);
+  background: var(--amber-faded);
+}
+
+.pay-method-btn.selected {
+  border-color: var(--brand-accent);
+  background: var(--amber-soft);
+  box-shadow: 0 0 0 3px var(--amber-light);
+}
+
+.pay-method-btn .pm-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--slate-white);
+}
+
+.pay-method-btn .pm-name {
+  font-weight: 600;
+}
+
+.pay-method-btn .pm-desc {
+  font-size: 11px;
+  color: var(--slate-muted);
+}
+
+/* Payment detail (VA number etc) */
+.pay-detail {
+  background: var(--slate-faint);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 16px;
+  text-align: center;
+  border: 1px solid var(--border-soft);
+}
+
+.pay-va-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--slate-muted);
+  margin-bottom: 8px;
+}
+
+.pay-va-number {
+  font-family: 'DM Mono', monospace;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--slate-white);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.pay-va-hint {
+  font-size: 11px;
+  color: var(--slate-muted);
+}
+
+/* Request cards */
+.request-action-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.request-action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Lease countdown */
+.lease-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.lease-countdown.ok {
+  background: var(--green-light);
+  color: var(--green-pale);
+}
+
+.lease-countdown.warning {
+  background: var(--amber-light);
+  color: var(--amber-pale);
+}
+
+.lease-countdown.danger {
+  background: var(--red-light);
+  color: var(--red-pale);
+}
+
+/* BROWSE ROOMS GRID */
+.browse-rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.room-browse-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.room-browse-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  border-color: var(--blue-soft);
+}
+
+.rbc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px 0;
+}
+
+.rbc-body {
+  padding: 12px 18px 16px;
+  flex: 1;
+}
+
+.rbc-room-id {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--slate-white);
+  margin-bottom: 2px;
+}
+
+.rbc-room-meta {
+  font-size: 12px;
+  color: var(--slate-muted);
+  margin-bottom: 12px;
+}
+
+.rbc-facilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.fac-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--border-soft);
+  color: var(--slate-muted);
+  border: 1px solid var(--border-dim);
+}
+
+.rbc-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.rbc-price {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--brand-accent);
+}
+
+.rbc-rent-type {
+  font-size: 12px;
+  color: var(--slate-muted);
+  font-weight: 500;
+}
+
+.rbc-footer {
+  padding: 0 18px 18px;
+}
+
+.rbc-footer .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Badge purple for Executive */
+.badge-purple {
+  background: var(--purple-light);
+  color: var(--purple-deep);
+}
+
+/*  NO ROOM CTA*/
+.no-room-cta {
+  text-align: center;
+  padding: 48px 24px;
+  background: linear-gradient(135deg, var(--blue-faded) 0%, var(--slate-thin) 100%);
+  border: 2px dashed var(--purple-medium-light);
+  border-radius: 20px;
+  animation: fadeSlideUp 0.5s ease;
+}
+
+.nrc-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--blue-main), var(--slate-muted));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: var(--slate-white);
+  box-shadow: 0 8px 32px var(--blue-mid-light);
+}
+
+.no-room-cta h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--slate-bright);
+  margin-bottom: 6px;
+}
+
+.no-room-cta p {
+  font-size: 14px;
+  color: var(--slate-muted);
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .browse-rooms-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* UTILITY & COMMON HELPERS  */
+.d-none {
+  display: none !important;
+}
+
+.flex-1 {
+  flex: 1 !important;
+}
+
+.w-full {
+  width: 100% !important;
+}
+
+.mb-16 {
+  margin-bottom: 16px !important;
+}
+
+/* Bootstrap icon sizes */
+.btn svg,
+.btn i,
+.modal-close svg,
+.modal-close i {
+  width: 14px;
+  height: 14px;
+}
+
+/* SHARED MODALS & COMPONENTS */
+.confirm-icon svg,
+.confirm-icon i {
+  width: 24px;
+  height: 24px;
+}
+
+.stat-card .icon-wrap svg,
+.stat-card .icon-wrap i {
+  width: 16px;
+  height: 16px;
+}
+
+/* USER FACILITIES */
+.user-facility-card {
+  position: relative;
+}
