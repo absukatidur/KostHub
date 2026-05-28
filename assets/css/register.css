@@ -1,0 +1,174 @@
+.login-card {
+  max-width: 520px;
+}
+
+.form-row {
+  display: flex;
+  gap: 14px;
+}
+
+.form-row > .input-group {
+  flex: 1;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0 20px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.divider span {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.register-link a {
+  color: #f9b47a;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.register-link a:hover {
+  color: #fcd5b0;
+}
+
+.pw-strength {
+  height: 3px;
+  border-radius: 3px;
+  margin-top: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.pw-strength-bar {
+  height: 100%;
+  width: 0;
+  border-radius: 3px;
+  transition: all 0.4s ease;
+}
+
+.pw-hint {
+  font-size: 11px;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.3);
+  transition: color 0.3s;
+}
+
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.success-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  max-width: 380px;
+  animation: cardIn 0.4s ease;
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(34, 197, 94, 0.3);
+}
+
+.success-icon i,
+.success-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.success-card h2 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.success-card p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.btn-go-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #f9b47a, #e8a36a);
+  color: #0f1123;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(249, 180, 122, 0.3);
+}
+
+.btn-go-login i,
+.btn-go-login svg {
+  width: 16px;
+  height: 16px;
+}
+
+.btn-go-login:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(249, 180, 122, 0.4);
+}
+
+#btn-register {
+  margin-top: 12px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 520px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
