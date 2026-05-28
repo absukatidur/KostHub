@@ -376,3 +376,429 @@
 .user-facility-card {
   position: relative;
 }
+
+.user-facility-card .ufc-status {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.user-facility-card .ufc-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--blue-faded);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: var(--brand-accent);
+}
+
+.user-facility-card .ufc-icon-wrapper svg,
+.user-facility-card .ufc-icon-wrapper i {
+  width: 18px;
+  height: 18px;
+}
+
+.user-facility-card .ufc-name {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.user-facility-card .ufc-meta {
+  font-size: 12px;
+  color: var(--slate-muted);
+  margin-bottom: 8px;
+}
+
+.user-facility-card .ufc-desc {
+  font-size: 13px;
+  color: var(--slate-mid);
+}
+
+/* USER PROFILE */
+.user-profile-card {
+  max-width: 600px;
+}
+
+.user-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--slate-thin);
+}
+
+.user-profile-header .profile-avatar {
+  width: 56px;
+  height: 56px;
+  font-size: 20px;
+}
+
+.user-profile-header .prof-name {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.user-profile-header .prof-room {
+  font-size: 13px;
+  color: var(--slate-muted);
+}
+
+/* USER REPAIRS */
+.ur-id {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--slate-muted);
+}
+
+.public-repairs-card {
+  margin-bottom: 24px;
+}
+
+.public-repairs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.public-repair-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.public-repair-item:hover {
+  border-color: var(--blue-soft);
+  transform: translateY(-1px);
+}
+
+.pr-target {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--brand-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.pr-issue {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--slate-bright);
+  margin-bottom: 4px;
+}
+
+.pr-meta {
+  font-size: 12px;
+  color: var(--slate-muted);
+}
+
+.pr-meta i {
+  color: var(--slate-mid);
+}
+
+.pr-vote-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  transition: all 0.15s ease;
+}
+
+.pr-vote-btn.voted {
+  background: var(--green-faded) !important;
+  color: var(--green-vivid) !important;
+  border-color: var(--green-soft) !important;
+  cursor: not-allowed;
+}
+
+/* USER DASHBOARD */
+.user-room-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.user-room-card-header .icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+}
+
+.user-room-card-header .icon-wrap svg,
+.user-room-card-header .icon-wrap i {
+  width: 22px;
+  height: 22px;
+}
+
+.user-room-card-header .ud-room-id {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.user-room-card-header .ud-room-meta {
+  font-size: 13px;
+  color: var(--slate-muted);
+}
+
+.user-room-card-header .ud-room-badge {
+  margin-left: auto;
+}
+
+.user-alert svg,
+.user-alert i {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.user-alert .alert-action {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* USER BILLING / TAGIHAN */
+.uo-id {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--brand-accent);
+}
+
+.uo-start,
+.uo-end {
+  font-size: 12px;
+}
+
+.uo-end {
+  color: var(--slate-muted);
+}
+
+.uo-total {
+  font-weight: 600;
+}
+
+.payment-summary {
+  background: var(--blue-faded);
+  border: 1px solid var(--blue-soft);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.payment-summary .payment-summary-title {
+  font-size: 12px;
+  color: var(--brand-accent);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.payment-summary .pay-total {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--brand-accent-hover);
+}
+
+.payment-summary .pay-order-id {
+  font-size: 12px;
+  color: var(--blue-main);
+  margin-top: 4px;
+}
+
+.pay-methods-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--slate-text);
+  margin-bottom: 12px;
+}
+
+/* USER LAYANAN */
+.request-action-card .icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.request-action-card .icon-wrap svg,
+.request-action-card .icon-wrap i {
+  width: 20px;
+  height: 20px;
+}
+
+.request-action-card .rac-title {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.request-action-card .rac-desc {
+  font-size: 12px;
+  color: var(--slate-muted);
+  margin-bottom: 14px;
+}
+
+.rq-id {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--slate-muted);
+}
+
+.rq-detail {
+  font-size: 12px;
+  max-width: 200px;
+}
+
+.rq-date {
+  font-size: 12px;
+  color: var(--slate-muted);
+}
+
+/* BROWSE ROOMS */
+.browse-filters {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.browse-empty-body {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.browse-empty-body svg,
+.browse-empty-body i {
+  width: 48px;
+  height: 48px;
+  color: var(--slate-dim);
+  margin-bottom: 12px;
+}
+
+.browse-empty-body .browse-empty-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--slate-base);
+  margin-bottom: 4px;
+}
+
+.browse-empty-body .browse-empty-desc {
+  font-size: 13px;
+  color: var(--slate-muted);
+}
+
+.booking-summary-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  background: var(--blue-faded);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.booking-summary-header .bsh-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--blue-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-accent);
+}
+
+.booking-summary-header .bsh-icon-wrap svg,
+.booking-summary-header .bsh-icon-wrap i {
+  width: 22px;
+  height: 22px;
+}
+
+.booking-summary-header .bk-room-id {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--brand-accent-hover);
+}
+
+.booking-summary-header .bk-room-meta {
+  font-size: 13px;
+  color: var(--blue-main);
+}
+
+.booking-summary-header .bsh-price-wrap {
+  margin-left: auto;
+  text-align: right;
+}
+
+.booking-summary-header .bsh-price-wrap .bk-room-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--brand-accent-hover);
+}
+
+.booking-summary-header .bsh-price-wrap .bk-room-rent {
+  font-size: 11px;
+  color: var(--blue-muted);
+}
+
+.booking-summary-body {
+  background: var(--blue-faded);
+  border: 1px solid var(--blue-soft);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.booking-summary-body .bsb-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-accent-hover);
+  margin-bottom: 8px;
+}
+
+.booking-summary-body .bsb-total-row {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--blue-soft);
+}
+
+.booking-summary-body .bsb-total-row .detail-key {
+  font-weight: 700;
+}
+
+.booking-summary-body .bsb-total-row .detail-val {
+  color: var(--brand-accent-hover);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.no-room-cta .nrc-icon svg,
+.no-room-cta .nrc-icon i {
+  width: 40px;
+  height: 40px;
+}
+
+.no-room-cta .nrc-btn {
+  margin-top: 16px;
+  padding: 12px 28px;
+}
+
+.no-room-cta .nrc-btn svg,
+.no-room-cta .nrc-btn i {
+  width: 16px;
+  height: 16px;
+}
+
+.sidebar-footer button {
+  color: var(--red-main);
+}
