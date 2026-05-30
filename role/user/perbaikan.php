@@ -1,5 +1,73 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireUser();
+
+$pageTitle = 'Perbaikan — KostHub';
+$pageTitleShort = 'Perbaikan';
+
+$cid = $_SESSION['customer_id'];
+
+// Get customer info
+$stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->bind_param('s', $cid);
+$stmt->execute();
+$customer = $stmt->get_result()->fetch_assoc();
+
+if (!$customer) {
+    session_destroy();
+    header('Location: ../login.php');
+    exit;
+}
+
+$roomTarget = 'Kamar ' . ($customer['room'] ?? '');
+
+// Handle vote upvote POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'vote') {
+    $id = $_POST['id'] ?? '';
+    if ($id) {
+        $stmt = $db->prepare("SELECT * FROM repairs WHERE id = ?");
+        $stmt->bind_param('s', $id);
+        $stmt->execute();
+        $repair = $stmt->get_result()->fetch_assoc();
+
+        if ($repair) {
+            $voters = json_decode($repair['voted_by'] ?? '[]', true);
+            if (!is_array($voters)) $voters = [];
+
+            if (!in_array($cid, $voters)) {
+                $voters[] = $cid;
+                $votes = count($voters);
+                $voters_json = json_encode($voters);
+
+                $stmt_upd = $db->prepare("UPDATE repairs SET votes = ?, voted_by = ? WHERE id = ?");
+                $stmt_upd->bind_param('iss', $votes, $voters_json, $id);
+                if ($stmt_upd->execute()) {
+                    addLog($db, 'Dukungan laporan perbaikan', "Tenant $cid mendukung perbaikan $id", 'repair');
+                    flashMsg("Dukungan Anda berhasil ditambahkan!", 'success');
+                } else {
+                    flashMsg("Gagal memproses dukungan.", 'error');
+                }
+            } else {
+                flashMsg("Anda sudah mendukung laporan perbaikan ini.", 'warning');
+            }
+        }
+    }
+    header('Location: perbaikan.php');
+    exit;
+}
+
+// Fetch general facility repairs (type = fasum, status !== done)
+$publicRepairs = $db->query("SELECT * FROM repairs WHERE type = 'fasum' AND status != 'done' ORDER BY reported DESC")->fetch_all(MYSQLI_ASSOC);
+
+// Fetch all repairs to filter my reports
+$allRepairs = $db->query("SELECT * FROM repairs ORDER BY reported DESC")->fetch_all(MYSQLI_ASSOC);
+$myRepairs = array_filter($allRepairs, function($r) use ($roomTarget, $cid) {
+    $voters = json_decode($r['voted_by'] ?? '[]', true);
+    if (!is_array($voters)) $voters = [];
+    return $r['target'] === $roomTarget || in_array($cid, $voters);
+});
+
 require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';

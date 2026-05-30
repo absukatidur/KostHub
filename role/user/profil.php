@@ -1,5 +1,27 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireUser();
+
+$pageTitle = 'Profil Saya — KostHub';
+$pageTitleShort = 'Profil';
+
+$cid = $_SESSION['customer_id'];
+
+// Get customer info
+$stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->bind_param('s', $cid);
+$stmt->execute();
+$customer = $stmt->get_result()->fetch_assoc();
+
+if (!$customer) {
+    session_destroy();
+    header('Location: ../login.php');
+    exit;
+}
+
+$initial = strtoupper(substr($customer['name'], 0, 2));
+
 require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';

@@ -1,5 +1,63 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireUser();
+
+$pageTitle = 'Dashboard — KostHub';
+$pageTitleShort = 'Dashboard';
+
+// Date Text
+$days = ['Sunday' => 'Minggu', 'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'];
+$months = [
+    'January' => 'Januari', 'February' => 'Februari', 'March' => 'Maret', 'April' => 'April', 'May' => 'Mei', 'June' => 'Juni',
+    'July' => 'Juli', 'August' => 'Agustus', 'September' => 'September', 'October' => 'Oktober', 'November' => 'November', 'December' => 'Desember'
+];
+$dayName = $days[date('l')];
+$monthName = $months[date('F')];
+$dateText = $dayName . ', ' . date('j') . ' ' . $monthName . ' ' . date('Y') . ' · Portal Penghuni';
+
+$cid = $_SESSION['customer_id'];
+
+// Get customer info
+$stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->bind_param('s', $cid);
+$stmt->execute();
+$customer = $stmt->get_result()->fetch_assoc();
+
+if (!$customer) {
+    session_destroy();
+    header('Location: ../login.php');
+    exit;
+}
+
+// Get room info
+$room = null;
+if (!empty($customer['room'])) {
+    $rs = $db->prepare("SELECT * FROM rooms WHERE id = ?");
+    $rs->bind_param('s', $customer['room']);
+    $rs->execute();
+    $room = $rs->get_result()->fetch_assoc();
+}
+
+// Get pending orders
+$os = $db->prepare("SELECT * FROM orders WHERE customer = ? AND status = 'pending'");
+$os->bind_param('s', $customer['name']);
+$os->execute();
+$pendingOrders = $os->get_result()->fetch_all(MYSQLI_ASSOC);
+
+// Get user's active repairs
+$target = 'Kamar ' . ($customer['room'] ?? '');
+$rp = $db->prepare("SELECT COUNT(*) as count FROM repairs WHERE target = ? AND status != 'done'");
+$rp->bind_param('s', $target);
+$rp->execute();
+$activeRepairsCount = $rp->get_result()->fetch_assoc()['count'] ?? 0;
+
+// Get user's pending requests
+$rq = $db->prepare("SELECT COUNT(*) as count FROM requests WHERE customer_id = ? AND status = 'pending'");
+$rq->bind_param('s', $cid);
+$rq->execute();
+$pendingRequestsCount = $rq->get_result()->fetch_assoc()['count'] ?? 0;
+
 require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';

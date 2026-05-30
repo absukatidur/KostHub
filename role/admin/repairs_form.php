@@ -168,32 +168,7 @@ require_once '../components/admin_topbar.php';
 </div>
 
 <script>
-function toggleTargetOptions() {
-  const type = document.getElementById('nr-type').value;
-  const targetSelect = document.getElementById('nr-target');
-  const options = targetSelect.options;
-  
-  let firstVisibleIndex = -1;
-  for (let i = 0; i < options.length; i++) {
-    const opt = options[i];
-    if (type === 'kamar') {
-      if (opt.classList.contains('room-opt')) {
-        opt.style.display = '';
-        if (firstVisibleIndex === -1) firstVisibleIndex = i;
-      } else {
-        opt.style.display = 'none';
-      }
-    } else {
-      if (opt.classList.contains('fac-opt')) {
-        opt.style.display = '';
-        if (firstVisibleIndex === -1) firstVisibleIndex = i;
-      } else {
-        opt.style.display = 'none';
-      }
-    }
-  }
-  targetSelect.selectedIndex = firstVisibleIndex;
-}
+<script src="<?= $basePath ?? '' ?>assets/js/user-books.js?v=<?= time() ?>"></script>
 </script>
 
 <?php require_once '../components/footer_scripts.php'; ?>

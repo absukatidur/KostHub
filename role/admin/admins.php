@@ -130,27 +130,7 @@ require_once '../components/admin_topbar.php';
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const searchInput = document.getElementById('staff-search');
-  if (searchInput) {
-    searchInput.oninput = function() {
-      const q = this.value.toLowerCase();
-      let visibleCount = 0;
-      const rows = document.querySelectorAll('#staff-tbody tr');
-      rows.forEach(tr => {
-        if (tr.cells.length < 2) return;
-        const text = tr.textContent.toLowerCase();
-        if (text.includes(q)) {
-          tr.style.display = '';
-          visibleCount++;
-        } else {
-          tr.style.display = 'none';
-        }
-      });
-      document.getElementById('staff-count').textContent = `Menampilkan ${visibleCount} akun staff`;
-    };
-  }
-});
+initTableSearch('staff-search', '#staff-tbody tr', 'staff-count', 'Menampilkan {count} akun staff');
 </script>
 
 <?php require_once '../components/footer_scripts.php'; ?>

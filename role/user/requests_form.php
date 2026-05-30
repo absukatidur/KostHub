@@ -1,5 +1,79 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireUser();
+
+$type = $_GET['type'] ?? 'pindah';
+if (!in_array($type, ['pindah', 'checkout'])) {
+    flashMsg("Tipe pengajuan tidak valid.", 'error');
+    header('Location: layanan.php');
+    exit;
+}
+
+$cid = $_SESSION['customer_id'];
+
+// Get customer info
+$stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->bind_param('s', $cid);
+$stmt->execute();
+$customer = $stmt->get_result()->fetch_assoc();
+
+if (!$customer || empty($customer['room'])) {
+    flashMsg("Anda harus menempati kamar untuk melakukan pengajuan.", 'error');
+    header('Location: layanan.php');
+    exit;
+}
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $detailData = [];
+
+    if ($type === 'pindah') {
+        $toRoom = $_POST['to_room'] ?? '';
+        $reason = trim($_POST['reason'] ?? '');
+        
+        if (!$toRoom || !$reason) {
+            $error = 'Kamar tujuan dan alasan pindah harus diisi';
+        } else {
+            $detailData = ['toRoom' => $toRoom, 'reason' => $reason];
+        }
+    } else {
+        $date = $_POST['date'] ?? '';
+        $reason = trim($_POST['reason'] ?? '');
+        
+        if (!$date || !$reason) {
+            $error = 'Tanggal checkout dan alasan checkout harus diisi';
+        } else {
+            $detailData = ['date' => $date, 'reason' => $reason];
+        }
+    }
+
+    if (empty($error)) {
+        $nid = nextId($db, 'requests', 'REQ-');
+        $detailJson = json_encode($detailData);
+
+        $stmtReq = $db->prepare("INSERT INTO requests (id, customer_id, type, detail, status) VALUES (?, ?, ?, ?, 'pending')");
+        $stmtReq->bind_param('ssss', $nid, $cid, $type, $detailJson);
+        
+        if ($stmtReq->execute()) {
+            $typeLabel = $type === 'pindah' ? 'Pindah Kamar' : 'Checkout';
+            addLog($db, "Pengajuan $typeLabel", "$nid oleh {$customer['name']}", 'customer');
+            flashMsg("Pengajuan $typeLabel berhasil dikirim.", 'success');
+            header('Location: layanan.php');
+            exit;
+        } else {
+            $error = 'Gagal menyimpan pengajuan: ' . $db->error;
+        }
+    }
+}
+
+// Fetch all empty/cleaning rooms for pindah dropdown
+$rooms = $db->query("SELECT id, type, price FROM rooms WHERE status IN ('empty', 'cleaning') ORDER BY id")->fetch_all(MYSQLI_ASSOC);
+
+$pageTitle = ($type === 'pindah' ? 'Ajukan Pindah Kamar' : 'Pengajuan Checkout') . ' — KostHub';
+$pageTitleShort = 'Layanan';
+
 require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';

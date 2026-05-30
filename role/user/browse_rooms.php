@@ -1,5 +1,30 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireUser();
+
+$pageTitle = 'Cari Kamar Tersedia — KostHub';
+$pageTitleShort = 'Cari Kamar';
+
+$cid = $_SESSION['customer_id'];
+
+// Get customer info
+$stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->bind_param('s', $cid);
+$stmt->execute();
+$customer = $stmt->get_result()->fetch_assoc();
+
+if (!$customer) {
+    session_destroy();
+    header('Location: ../login.php');
+    exit;
+}
+
+$hasActiveRoom = !empty($customer['room']);
+
+// Fetch empty rooms
+$rooms = $db->query("SELECT * FROM rooms WHERE status = 'empty' ORDER BY floor, id")->fetch_all(MYSQLI_ASSOC);
+
 require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';
@@ -87,43 +112,7 @@ require_once '../components/user_topbar.php';
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const typeFilter = document.getElementById('bf-type');
-  const floorFilter = document.getElementById('bf-floor');
-  const roomsGrid = document.getElementById('rooms-grid');
-  const emptyMsg = document.getElementById('empty-msg');
-
-  function filterRooms() {
-    const selectedType = typeFilter.value;
-    const selectedFloor = floorFilter.value;
-    
-    let visibleCount = 0;
-    const cards = document.querySelectorAll('.room-browse-card');
-    cards.forEach(card => {
-      const cType = card.getAttribute('data-type');
-      const cFloor = card.getAttribute('data-floor');
-      
-      const typeMatch = selectedType === '' || cType === selectedType;
-      const floorMatch = selectedFloor === '' || cFloor === selectedFloor;
-      
-      if (typeMatch && floorMatch) {
-        card.style.display = 'flex';
-        visibleCount++;
-      } else {
-        card.style.display = 'none';
-      }
-    });
-
-    if (visibleCount === 0 && cards.length > 0) {
-      emptyMsg.style.display = 'block';
-    } else {
-      emptyMsg.style.display = 'none';
-    }
-  }
-
-  typeFilter.onchange = filterRooms;
-  floorFilter.onchange = filterRooms;
-});
+<script src="<?= $basePath ?? '' ?>assets/js/user-browse-rooms.js?v=<?= time() ?>"></script>
 </script>
 
 <?php require_once '../components/user_footer_scripts.php'; ?>

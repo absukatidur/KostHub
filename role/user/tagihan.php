@@ -1,5 +1,31 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireUser();
+
+$pageTitle = 'Tagihan & Pembayaran — KostHub';
+$pageTitleShort = 'Tagihan';
+
+$cid = $_SESSION['customer_id'];
+
+// Get customer info
+$stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->bind_param('s', $cid);
+$stmt->execute();
+$customer = $stmt->get_result()->fetch_assoc();
+
+if (!$customer) {
+    session_destroy();
+    header('Location: ../login.php');
+    exit;
+}
+
+// Fetch all orders for this customer
+$stmt_orders = $db->prepare("SELECT * FROM orders WHERE customer = ? ORDER BY id DESC");
+$stmt_orders->bind_param('s', $customer['name']);
+$stmt_orders->execute();
+$orders = $stmt_orders->get_result()->fetch_all(MYSQLI_ASSOC);
+
 require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';

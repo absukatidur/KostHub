@@ -1,5 +1,103 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireUser();
+
+$id = $_GET['id'] ?? '';
+if (!$id) {
+    flashMsg("ID Kamar tidak valid.", 'error');
+    header('Location: browse_rooms.php');
+    exit;
+}
+
+$cid = $_SESSION['customer_id'];
+
+// Get customer info
+$stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->bind_param('s', $cid);
+$stmt->execute();
+$customer = $stmt->get_result()->fetch_assoc();
+
+if (!$customer) {
+    session_destroy();
+    header('Location: ../login.php');
+    exit;
+}
+
+// Check if customer already occupies a room
+if (!empty($customer['room'])) {
+    flashMsg("Anda sudah memiliki kamar aktif. Silakan ajukan checkout terlebih dahulu.", 'error');
+    header('Location: browse_rooms.php');
+    exit;
+}
+
+// Verify room is empty
+$stmt_room = $db->prepare("SELECT * FROM rooms WHERE id = ? AND status = 'empty'");
+$stmt_room->bind_param('s', $id);
+$stmt_room->execute();
+$room = $stmt_room->get_result()->fetch_assoc();
+
+if (!$room) {
+    flashMsg("Kamar sudah tidak tersedia untuk dipesan.", 'error');
+    header('Location: browse_rooms.php');
+    exit;
+}
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $type = $_POST['type'] ?? 'Bulanan';
+    $start = $_POST['start'] ?? '';
+    $end = $_POST['end'] ?? '';
+    $total = intval($_POST['total'] ?? 0);
+
+    if (!$start || !$end || $total <= 0) {
+        $error = 'Semua field wajib diisi dengan benar';
+    } else {
+        $db->begin_transaction();
+        try {
+            // Re-verify room is empty
+            $rs = $db->prepare("SELECT id FROM rooms WHERE id = ? AND status = 'empty' FOR UPDATE");
+            $rs->bind_param('s', $id);
+            $rs->execute();
+            if ($rs->get_result()->num_rows === 0) {
+                throw new Exception("Kamar sudah dipesan oleh orang lain baru-baru ini.");
+            }
+
+            $orderId = nextId($db, 'orders', 'ORD-');
+            
+            // Create order
+            $stmtOrd = $db->prepare("INSERT INTO orders (id, customer, room, type, `start`, `end`, total, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')");
+            $stmtOrd->bind_param('ssssssi', $orderId, $customer['name'], $id, $type, $start, $end, $total);
+            $stmtOrd->execute();
+
+            // Update room
+            $stmtRoom = $db->prepare("UPDATE rooms SET status = 'occupied', tenant = ?, `until` = ? WHERE id = ?");
+            $stmtRoom->bind_param('sss', $customer['name'], $end, $id);
+            $stmtRoom->execute();
+
+            // Update customer
+            $stmtCust = $db->prepare("UPDATE customers SET room = ? WHERE id = ?");
+            $stmtCust->bind_param('ss', $id, $cid);
+            $stmtCust->execute();
+
+            addLog($db, 'Booking oleh user', "{$customer['name']} memesan Kamar $id ($orderId)", 'order');
+            
+            $db->commit();
+            
+            flashMsg("Pemesanan Kamar $id berhasil dibuat! Silakan selesaikan pembayaran tagihan Anda.", 'success');
+            header("Location: pay.php?id=" . urlencode($orderId));
+            exit;
+        } catch (Exception $e) {
+            $db->rollback();
+            $error = $e->getMessage();
+        }
+    }
+}
+
+$pageTitle = 'Pesan Kamar ' . htmlspecialchars($id) . ' — KostHub';
+$pageTitleShort = 'Cari Kamar';
+
 require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';
@@ -77,47 +175,7 @@ require_once '../components/user_topbar.php';
 </div>
 
 <script>
-function calculatePeriod() {
-  const price = <?= intval($room['price']) ?>;
-  const type = document.getElementById('bk-type').value;
-  const startVal = document.getElementById('bk-start').value;
-
-  // Calculate Total
-  let total = price;
-  if (type === 'Tahunan') {
-    total = price * 12;
-  }
-  
-  // Format total as Rupiah
-  const formatted = 'Rp ' + total.toLocaleString('id-ID');
-  document.getElementById('bk-total-display').textContent = formatted;
-  document.getElementById('bk-total').value = total;
-
-  // Calculate End Date
-  if (startVal) {
-    const d = new Date(startVal);
-    if (isNaN(d.getTime())) return;
-    
-    if (type === 'Harian') {
-      d.setDate(d.getDate() + 1);
-    } else if (type === 'Bulanan') {
-      d.setMonth(d.getMonth() + 1);
-    } else if (type === 'Tahunan') {
-      d.setFullYear(d.getFullYear() + 1);
-    }
-    
-    // Format to yyyy-mm-dd
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    document.getElementById('bk-end').value = `${yyyy}-${mm}-${dd}`;
-  }
-}
-
-// Initial calculation on load
-document.addEventListener('DOMContentLoaded', () => {
-  calculatePeriod();
-});
+<script src="<?= $basePath ?? '' ?>assets/js/admin-orders-form.js?v=<?= time() ?>"></script>
 </script>
 
 <?php require_once '../components/user_footer_scripts.php'; ?>

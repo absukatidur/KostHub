@@ -1,9 +1,12 @@
 <?php
 $basePath = '../';
-require_once '../../db/db.php';
+require_once '../includes/db.php';
 requireUser();
 
-// Load facilities from the database
+$pageTitle = 'Fasilitas Kos — KostHub';
+$pageTitleShort = 'Fasilitas';
+
+// Fetch all facilities
 $facilities = $db->query("SELECT * FROM facilities ORDER BY id")->fetch_all(MYSQLI_ASSOC);
 
 require_once '../components/header.php';

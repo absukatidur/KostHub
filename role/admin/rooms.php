@@ -108,28 +108,7 @@ require_once '../components/admin_topbar.php';
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const searchInput = document.getElementById('room-search');
-  if (searchInput) {
-    searchInput.oninput = function() {
-      const q = this.value.toLowerCase();
-      let visibleCount = 0;
-      const rows = document.querySelectorAll('#room-tbody tr');
-      rows.forEach(tr => {
-        // Skip empty row if present
-        if (tr.cells.length < 2) return;
-        const text = tr.textContent.toLowerCase();
-        if (text.includes(q)) {
-          tr.style.display = '';
-          visibleCount++;
-        } else {
-          tr.style.display = 'none';
-        }
-      });
-      document.getElementById('room-count').textContent = `Menampilkan ${visibleCount} kamar`;
-    };
-  }
-});
+initTableSearch('room-search', '#room-tbody tr', 'room-count', '{count} kamar');
 </script>
 
 <?php require_once '../components/footer_scripts.php'; ?>

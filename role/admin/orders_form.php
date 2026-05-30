@@ -149,56 +149,5 @@ require_once '../components/admin_topbar.php';
   </div>
 </div>
 
-<script>
-function calculateEndAndTotal() {
-  const roomSelect = document.getElementById('no-room');
-  const selectedOption = roomSelect.options[roomSelect.selectedIndex];
-  if (!selectedOption || selectedOption.value === '') {
-    document.getElementById('no-total-display').textContent = 'Rp 0';
-    document.getElementById('no-total').value = 0;
-    return;
-  }
-
-  const price = parseInt(selectedOption.getAttribute('data-price') || 0);
-  const type = document.getElementById('no-type').value;
-  const startVal = document.getElementById('no-start').value;
-
-  // Calculate Total
-  let total = price;
-  if (type === 'Tahunan') {
-    total = price * 12;
-  }
-  
-  // Format total as Rupiah
-  const formatted = 'Rp ' + total.toLocaleString('id-ID');
-  document.getElementById('no-total-display').textContent = formatted;
-  document.getElementById('no-total').value = total;
-
-  // Calculate End Date
-  if (startVal) {
-    const d = new Date(startVal);
-    if (isNaN(d.getTime())) return;
-    
-    if (type === 'Harian') {
-      d.setDate(d.getDate() + 1);
-    } else if (type === 'Bulanan') {
-      d.setMonth(d.getMonth() + 1);
-    } else if (type === 'Tahunan') {
-      d.setFullYear(d.getFullYear() + 1);
-    }
-    
-    // Format to yyyy-mm-dd
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    document.getElementById('no-end').value = `${yyyy}-${mm}-${dd}`;
-  }
-}
-
-// Initial calculation on load
-document.addEventListener('DOMContentLoaded', () => {
-  calculateEndAndTotal();
-});
-</script>
-
+<script src="<?= $basePath ?? '' ?>assets/js/admin-orders-form.js?v=<?= time() ?>"></script>
 <?php require_once '../components/footer_scripts.php'; ?>

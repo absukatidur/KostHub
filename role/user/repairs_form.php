@@ -1,5 +1,73 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireUser();
+
+$cid = $_SESSION['customer_id'];
+
+// Get customer info
+$stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->bind_param('s', $cid);
+$stmt->execute();
+$customer = $stmt->get_result()->fetch_assoc();
+
+if (!$customer) {
+    session_destroy();
+    header('Location: ../login.php');
+    exit;
+}
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $type = $_POST['type'] ?? 'kamar';
+    $facilityName = $_POST['facility'] ?? '';
+    $issue = trim($_POST['issue'] ?? '');
+
+    $target = '';
+    if ($type === 'kamar') {
+        if (empty($customer['room'])) {
+            $error = 'Anda belum memiliki kamar untuk dilaporkan';
+        } else {
+            $target = 'Kamar ' . $customer['room'];
+        }
+    } else {
+        if (empty($facilityName)) {
+            $error = 'Fasilitas umum harus dipilih';
+        } else {
+            $target = $facilityName;
+        }
+    }
+
+    if (empty($error)) {
+        if (empty($issue)) {
+            $error = 'Deskripsi masalah harus diisi';
+        } else {
+            $nid = nextId($db, 'repairs', 'REP-');
+            $today = date('Y-m-d');
+            $tech = '-';
+            $voted_by = json_encode([$cid]);
+
+            $stmtRep = $db->prepare("INSERT INTO repairs (id, target, type, issue, reported, status, tech, votes, voted_by) VALUES (?, ?, ?, ?, ?, 'pending', ?, 1, ?)");
+            $stmtRep->bind_param('sssssss', $nid, $target, $type, $issue, $today, $tech, $voted_by);
+            if ($stmtRep->execute()) {
+                addLog($db, 'Laporan perbaikan', "$nid: $issue – $target", 'repair');
+                flashMsg("Laporan kerusakan $nid berhasil dikirim.", 'success');
+                header('Location: perbaikan.php');
+                exit;
+            } else {
+                $error = 'Gagal menyimpan laporan: ' . $db->error;
+            }
+        }
+    }
+}
+
+// Fetch facilities for select dropdown
+$facilities = $db->query("SELECT name FROM facilities ORDER BY name")->fetch_all(MYSQLI_ASSOC);
+
+$pageTitle = 'Lapor Kerusakan Baru — KostHub';
+$pageTitleShort = 'Perbaikan';
+
 require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';

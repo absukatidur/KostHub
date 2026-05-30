@@ -1,10 +1,109 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireUser();
+
+$id = $_GET['id'] ?? '';
+if (!$id) {
+    flashMsg("ID Order tidak valid.", 'error');
+    header('Location: tagihan.php');
+    exit;
+}
+
+$cid = $_SESSION['customer_id'];
+
+// Get customer info
+$stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->bind_param('s', $cid);
+$stmt->execute();
+$customer = $stmt->get_result()->fetch_assoc();
+
+if (!$customer) {
+    session_destroy();
+    header('Location: ../login.php');
+    exit;
+}
+
+// Verify order belongs to this customer
+$stmt_ord = $db->prepare("SELECT * FROM orders WHERE id = ? AND customer = ?");
+$stmt_ord->bind_param('ss', $id, $customer['name']);
+$stmt_ord->execute();
+$order = $stmt_ord->get_result()->fetch_assoc();
+
+if (!$order) {
+    flashMsg("Order tidak ditemukan.", 'error');
+    header('Location: tagihan.php');
+    exit;
+}
+
+if ($order['status'] === 'paid') {
+    flashMsg("Tagihan ini sudah lunas.", 'success');
+    header('Location: tagihan.php');
+    exit;
+}
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $method = $_POST['method'] ?? '';
+
+    if (!$method) {
+        $error = 'Pilih metode pembayaran terlebih dahulu';
+    } else {
+        $db->begin_transaction();
+        try {
+            // 1. Mark order paid
+            $stmtPay = $db->prepare("UPDATE orders SET status = 'paid' WHERE id = ?");
+            $stmtPay->bind_param('s', $id);
+            $stmtPay->execute();
+
+            // 2. Update room status/until date
+            $stmtRoom = $db->prepare("UPDATE rooms SET status = 'occupied', tenant = ?, `until` = ? WHERE id = ?");
+            $stmtRoom->bind_param('sss', $order['customer'], $order['end'], $order['room']);
+            $stmtRoom->execute();
+
+            // 3. Update customer room
+            $stmtCust = $db->prepare("UPDATE customers SET room = ? WHERE name = ?");
+            $stmtCust->bind_param('ss', $order['room'], $order['customer']);
+            $stmtCust->execute();
+
+            addLog($db, 'Pembayaran diterima', "$id via $method oleh {$customer['name']} (Masa sewa diperpanjang hingga {$order['end']})", 'order');
+            
+            $db->commit();
+            
+            flashMsg("Pembayaran tagihan $id via $method berhasil dilakukan!", 'success');
+            header('Location: tagihan.php');
+            exit;
+        } catch (Exception $e) {
+            $db->rollback();
+            $error = 'Gagal memproses pembayaran: ' . $e->getMessage();
+        }
+    }
+}
+
+// Payment Methods list
+$payMethods = [
+    'Virtual Account (VA)' => [
+        ['id' => 'BCA', 'name' => 'BCA Virtual Account', 'color' => '#003B7B', 'logo' => 'BCA'],
+        ['id' => 'Mandiri', 'name' => 'Mandiri Virtual Account', 'color' => '#003882', 'logo' => 'MAN'],
+        ['id' => 'BNI', 'name' => 'BNI Virtual Account', 'color' => '#E35A14', 'logo' => 'BNI'],
+        ['id' => 'BRI', 'name' => 'BRI Virtual Account', 'color' => '#00529C', 'logo' => 'BRI'],
+    ],
+    'e-Wallet' => [
+        ['id' => 'GoPay', 'name' => 'GoPay', 'color' => '#00AED6', 'logo' => 'GOP'],
+        ['id' => 'OVO', 'name' => 'OVO', 'color' => '#4C3494', 'logo' => 'OVO'],
+        ['id' => 'ShopeePay', 'name' => 'ShopeePay', 'color' => '#EE4D2D', 'logo' => 'SPP'],
+        ['id' => 'DANA', 'name' => 'DANA', 'color' => '#108EE9', 'logo' => 'DAN'],
+    ]
+];
+
+$pageTitle = 'Pembayaran Tagihan — KostHub';
+$pageTitleShort = 'Tagihan';
+
 require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';
 ?>
-
 <div style="max-width: 650px; margin: 0 auto;">
   <div class="section-header">
     <div>
@@ -79,42 +178,7 @@ require_once '../components/user_topbar.php';
 </style>
 
 <script>
-function selectPaymentMethod(element, methodId, logoText) {
-  // Clear previous selections
-  document.querySelectorAll('.pay-method-btn').forEach(btn => btn.classList.remove('selected'));
-  
-  // Mark current selected
-  element.classList.add('selected');
-  document.getElementById('selected-method').value = methodId;
-
-  // Show submit button
-  document.getElementById('submit-pay-btn').style.display = 'inline-flex';
-
-  // Generate simulated details
-  const detailsCard = document.getElementById('payment-details-card');
-  const detailsTitle = document.getElementById('details-title');
-  const detailsBody = document.getElementById('details-body');
-  
-  detailsCard.style.display = 'block';
-  
-  const isVA = logoText !== 'GOP' && logoText !== 'OVO' && logoText !== 'SPP' && logoText !== 'DAN';
-  
-  if (isVA) {
-    detailsTitle.textContent = `Nomor Virtual Account ${methodId}`;
-    const vaNum = '8800' + Math.floor(1000000000 + Math.random() * 9000000000);
-    const formattedVA = vaNum.match(/.{1,4}/g).join(' ');
-    detailsBody.innerHTML = `
-      <div style="font-size: 20px; font-weight: 700; color: var(--brand-accent); letter-spacing: 0.1em; margin: 10px 0; font-family: 'DM Mono', monospace;">${formattedVA}</div>
-      <div style="font-size: 12.5px; color: var(--slate-muted);">Transfer nominal tepat sebesar <b><?= fmtRupiah($order['total']) ?></b> ke nomor VA di atas sebelum masa tagihan berakhir.</div>
-    `;
-  } else {
-    detailsTitle.textContent = `Pembayaran via ${methodId}`;
-    detailsBody.innerHTML = `
-      <div style="font-size: 14.5px; color: var(--slate-bright); margin: 8px 0;">Konfirmasi akan dialihkan ke sistem aplikasi ${methodId} di HP Anda.</div>
-      <div style="font-size: 12.5px; color: var(--slate-muted);">Pastikan saldo ${methodId} Anda mencukupi nominal <b><?= fmtRupiah($order['total']) ?></b>.</div>
-    `;
-  }
-}
+<script src="<?= $basePath ?? '' ?>assets/js/user-pay.js?v=<?= time() ?>"></script>
 </script>
 
 <?php require_once '../components/user_footer_scripts.php'; ?>
