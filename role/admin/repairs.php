@@ -1,5 +1,31 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$pageTitle = 'Perbaikan — KostHub';
+$pageTitleShort = 'Perbaikan';
+
+// Handle delete repair report
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete') {
+    $id = $_POST['id'] ?? '';
+    if ($id) {
+        $stmt = $db->prepare("DELETE FROM repairs WHERE id = ?");
+        $stmt->bind_param('s', $id);
+        if ($stmt->execute()) {
+            addLog($db, 'Perbaikan dihapus', "$id dihapus", 'repair');
+            flashMsg("Laporan perbaikan $id berhasil dihapus.", 'success');
+        } else {
+            flashMsg("Gagal menghapus laporan: " . $db->error, 'error');
+        }
+    }
+    header('Location: repairs.php');
+    exit;
+}
+
+// Fetch all repairs
+$repairs = $db->query("SELECT * FROM repairs ORDER BY reported DESC")->fetch_all(MYSQLI_ASSOC);
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';

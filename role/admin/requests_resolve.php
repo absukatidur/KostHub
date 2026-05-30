@@ -1,5 +1,97 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$id = $_GET['id'] ?? '';
+$status = $_GET['status'] ?? ''; // approved or rejected
+
+if (!$id || !in_array($status, ['approved', 'rejected'])) {
+    flashMsg("Parameter tidak valid.", 'error');
+    header('Location: requests.php');
+    exit;
+}
+
+$stmt = $db->prepare("
+    SELECT r.*, c.name as customer_name, c.room as current_room 
+    FROM requests r 
+    LEFT JOIN customers c ON r.customer_id = c.id 
+    WHERE r.id = ?
+");
+$stmt->bind_param('s', $id);
+$stmt->execute();
+$req = $stmt->get_result()->fetch_assoc();
+
+if (!$req) {
+    flashMsg("Permintaan tidak ditemukan.", 'error');
+    header('Location: requests.php');
+    exit;
+}
+
+if ($req['status'] !== 'pending') {
+    flashMsg("Permintaan ini sudah diproses sebelumnya.", 'error');
+    header('Location: requests.php');
+    exit;
+}
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $note = trim($_POST['note'] ?? '');
+
+    $db->begin_transaction();
+    try {
+        $stmt_upd = $db->prepare("UPDATE requests SET status = ?, admin_note = ?, resolved_at = NOW() WHERE id = ?");
+        $stmt_upd->bind_param('sss', $status, $note, $id);
+        $stmt_upd->execute();
+
+        if ($status === 'approved') {
+            if ($req['type'] === 'pindah') {
+                $detail = json_decode($req['detail'], true);
+                $toRoom = $detail['toRoom'] ?? '';
+                if ($toRoom) {
+                    $fromRoom = $req['current_room'];
+                    // Free old room
+                    $db->query("UPDATE rooms SET status='cleaning', tenant='-', `until`='-' WHERE id='$fromRoom'");
+                    // Occupy new room
+                    $stmt2 = $db->prepare("UPDATE rooms SET status='occupied', tenant=? WHERE id=?");
+                    $stmt2->bind_param('ss', $req['customer_name'], $toRoom);
+                    $stmt2->execute();
+                    // Update customer
+                    $db->query("UPDATE customers SET room='$toRoom' WHERE id='{$req['customer_id']}'");
+                    
+                    addLog($db, 'Pindah kamar (disetujui)', "{$req['customer_name']}: $fromRoom → $toRoom", 'room');
+                }
+            } elseif ($req['type'] === 'checkout') {
+                $roomToClear = $req['current_room'];
+                if ($roomToClear) {
+                    $stmtRoom = $db->prepare("UPDATE rooms SET status='empty', tenant='-', `until`='-' WHERE id=?");
+                    $stmtRoom->bind_param('s', $roomToClear);
+                    $stmtRoom->execute();
+                }
+                $stmtCust = $db->prepare("UPDATE customers SET room='' WHERE id=?");
+                $stmtCust->bind_param('s', $req['customer_id']);
+                $stmtCust->execute();
+
+                addLog($db, 'Checkout disetujui', "{$req['customer_name']} telah checkout dari $roomToClear", 'customer');
+            }
+        }
+
+        addLog($db, 'Request ' . $status, "$id $status" . ($note ? " – $note" : ''), 'customer');
+        $db->commit();
+        
+        flashMsg("Permintaan " . ($status === 'approved' ? 'disetujui' : 'ditolak') . " dan diproses.", 'success');
+        header('Location: requests.php');
+        exit;
+    } catch (Exception $e) {
+        $db->rollback();
+        $error = 'Gagal memproses permintaan: ' . $e->getMessage();
+    }
+}
+
+$pageTitle = 'Proses Permintaan ' . htmlspecialchars($id) . ' — KostHub';
+$pageTitleShort = 'Permintaan User';
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';

@@ -1,5 +1,67 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $customerName = $_POST['customer'] ?? '';
+    $roomId = $_POST['room'] ?? '';
+    $type = $_POST['type'] ?? 'Bulanan';
+    $start = $_POST['start'] ?? '';
+    $end = $_POST['end'] ?? '';
+    $total = intval($_POST['total'] ?? 0);
+
+    if (!$customerName || !$roomId || !$start || !$end || !$total) {
+        $error = 'Semua field wajib diisi';
+    } else {
+        // Double-check if room is still empty/cleaning
+        $roomChk = $db->prepare("SELECT price, status FROM rooms WHERE id = ?");
+        $roomChk->bind_param('s', $roomId);
+        $roomChk->execute();
+        $roomData = $roomChk->get_result()->fetch_assoc();
+
+        if (!$roomData) {
+            $error = 'Kamar tidak valid';
+        } else {
+            $nid = nextId($db, 'orders', 'ORD-');
+            
+            // Insert order
+            $stmt = $db->prepare("INSERT INTO orders (id, customer, room, type, `start`, `end`, total, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')");
+            $stmt->bind_param('ssssssi', $nid, $customerName, $roomId, $type, $start, $end, $total);
+            
+            if ($stmt->execute()) {
+                // Update room status
+                $stmtRoom = $db->prepare("UPDATE rooms SET status = 'occupied', tenant = ?, `until` = ? WHERE id = ?");
+                $stmtRoom->bind_param('sss', $customerName, $end, $roomId);
+                $stmtRoom->execute();
+
+                // Update customer room
+                $stmtCust = $db->prepare("UPDATE customers SET room = ? WHERE name = ?");
+                $stmtCust->bind_param('ss', $roomId, $customerName);
+                $stmtCust->execute();
+
+                addLog($db, 'Order dibuat', "$nid oleh $customerName – Kamar $roomId", 'order');
+                flashMsg("Order $nid berhasil dibuat.", 'success');
+                header('Location: orders.php');
+                exit;
+            } else {
+                $error = 'Gagal menyimpan order: ' . $db->error;
+            }
+        }
+    }
+}
+
+// Fetch all customers for select dropdown
+$customers = $db->query("SELECT name FROM customers ORDER BY name")->fetch_all(MYSQLI_ASSOC);
+
+// Fetch only empty or cleaning rooms
+$rooms = $db->query("SELECT id, type, price FROM rooms WHERE status IN ('empty', 'cleaning') ORDER BY id")->fetch_all(MYSQLI_ASSOC);
+
+$pageTitle = 'Buat Order Baru — KostHub';
+$pageTitleShort = 'Order / Penyewaan';
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';

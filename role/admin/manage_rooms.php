@@ -1,5 +1,18 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$pageTitle = 'Manajemen Kamar — KostHub';
+$pageTitleShort = 'Manajemen Kamar';
+
+$rooms = $db->query("SELECT * FROM rooms ORDER BY id")->fetch_all(MYSQLI_ASSOC);
+
+$occupied = count(array_filter($rooms, fn($r) => $r['status'] === 'occupied'));
+$empty = count(array_filter($rooms, fn($r) => $r['status'] === 'empty'));
+$cleaning = count(array_filter($rooms, fn($r) => $r['status'] === 'cleaning'));
+$maint = count(array_filter($rooms, fn($r) => $r['status'] === 'maintenance'));
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';

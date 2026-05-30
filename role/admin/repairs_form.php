@@ -1,5 +1,80 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$id = $_GET['id'] ?? '';
+$isEdit = !empty($id);
+$repair = null;
+
+if ($isEdit) {
+    $stmt = $db->prepare("SELECT * FROM repairs WHERE id = ?");
+    $stmt->bind_param('s', $id);
+    $stmt->execute();
+    $repair = $stmt->get_result()->fetch_assoc();
+    if (!$repair) {
+        flashMsg("Laporan perbaikan tidak ditemukan.", 'error');
+        header('Location: repairs.php');
+        exit;
+    }
+}
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($isEdit) {
+        // Edit Mode (Updates status and tech)
+        $status = $_POST['status'] ?? 'pending';
+        $tech = trim($_POST['tech'] ?? '-');
+        if (empty($tech)) $tech = '-';
+
+        $stmt = $db->prepare("UPDATE repairs SET status = ?, tech = ? WHERE id = ?");
+        $stmt->bind_param('sss', $status, $tech, $id);
+        if ($stmt->execute()) {
+            addLog($db, 'Perbaikan diperbarui', "$id status: $status", 'repair');
+            flashMsg("Laporan $id berhasil diperbarui.", 'success');
+            header('Location: repairs.php');
+            exit;
+        } else {
+            $error = 'Gagal menyimpan pembaruan: ' . $db->error;
+        }
+    } else {
+        // Add Mode
+        $type = $_POST['type'] ?? 'kamar';
+        $target = $_POST['target'] ?? '';
+        $issue = trim($_POST['issue'] ?? '');
+        $tech = trim($_POST['tech'] ?? '-');
+        if (empty($tech)) $tech = '-';
+
+        if (!$target || !$issue) {
+            $error = 'Target dan deskripsi masalah harus diisi';
+        } else {
+            $nid = nextId($db, 'repairs', 'REP-');
+            $today = date('Y-m-d');
+            $reporter = $_SESSION['username'] ?? 'admin';
+            $voted_by = json_encode([$reporter]);
+            
+            $stmt = $db->prepare("INSERT INTO repairs (id, target, type, issue, reported, status, tech, votes, voted_by) VALUES (?, ?, ?, ?, ?, 'pending', ?, 1, ?)");
+            $stmt->bind_param('sssssss', $nid, $target, $type, $issue, $today, $tech, $voted_by);
+            if ($stmt->execute()) {
+                addLog($db, 'Laporan perbaikan', "$nid: $issue – $target", 'repair');
+                flashMsg("Laporan perbaikan $nid berhasil dibuat.", 'success');
+                header('Location: repairs.php');
+                exit;
+            } else {
+                $error = 'Gagal membuat laporan: ' . $db->error;
+            }
+        }
+    }
+}
+
+// Fetch rooms and facilities for add mode
+$rooms = $db->query("SELECT id FROM rooms ORDER BY id")->fetch_all(MYSQLI_ASSOC);
+$facilities = $db->query("SELECT name FROM facilities ORDER BY name")->fetch_all(MYSQLI_ASSOC);
+
+$pageTitle = ($isEdit ? 'Update Laporan Perbaikan' : 'Laporkan Kerusakan') . ' — KostHub';
+$pageTitleShort = 'Perbaikan';
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';

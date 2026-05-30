@@ -1,9 +1,64 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$pageTitle = 'Pindah Kamar — KostHub';
+$pageTitleShort = 'Pindah Kamar';
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $fromRoom = $_POST['from_room'] ?? '';
+    $toRoom = $_POST['to_room'] ?? '';
+    $newEnd = $_POST['new_end'] ?? '-';
+    $note = trim($_POST['note'] ?? '');
+
+    if (!$fromRoom || !$toRoom) {
+        $error = 'Kamar asal dan kamar tujuan harus dipilih';
+    } else {
+        // Fetch tenant from source room
+        $stmtSource = $db->prepare("SELECT tenant, status FROM rooms WHERE id = ?");
+        $stmtSource->bind_param('s', $fromRoom);
+        $stmtSource->execute();
+        $sourceRoom = $stmtSource->get_result()->fetch_assoc();
+
+        if (!$sourceRoom || $sourceRoom['status'] !== 'occupied') {
+            $error = 'Kamar asal tidak terisi oleh penghuni';
+        } else {
+            $tenant = $sourceRoom['tenant'];
+
+            // 1. Set old room to cleaning
+            $db->query("UPDATE rooms SET status='cleaning', tenant='-', `until`='-' WHERE id='" . $db->real_escape_string($fromRoom) . "'");
+
+            // 2. Set new room to occupied
+            $stmtDest = $db->prepare("UPDATE rooms SET status='occupied', tenant=?, `until`=? WHERE id=?");
+            $stmtDest->bind_param('sss', $tenant, $newEnd, $toRoom);
+            $stmtDest->execute();
+
+            // 3. Update customer table
+            $db->query("UPDATE customers SET room='" . $db->real_escape_string($toRoom) . "' WHERE name='" . $db->real_escape_string($tenant) . "'");
+
+            // 4. Log transfer
+            $detail = "$tenant: $fromRoom → $toRoom" . ($note ? " ($note)" : '');
+            addLog($db, 'Pindah kamar', $detail, 'room');
+
+            flashMsg("Berhasil memindahkan $tenant dari kamar $fromRoom ke kamar $toRoom.", 'success');
+            header('Location: transfer.php');
+            exit;
+        }
+    }
+}
+
+$occupiedRooms = $db->query("SELECT id, tenant, `until` FROM rooms WHERE status = 'occupied' ORDER BY id")->fetch_all(MYSQLI_ASSOC);
+
+$emptyRooms = $db->query("SELECT id, type, status FROM rooms WHERE status IN ('empty', 'cleaning') ORDER BY id")->fetch_all(MYSQLI_ASSOC);
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';
 ?>
+
 
 <div>
   <div class="section-header">

@@ -1,5 +1,43 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$id = $_GET['id'] ?? '';
+if (!$id) {
+    flashMsg("ID Order tidak valid.", 'error');
+    header('Location: orders.php');
+    exit;
+}
+
+$stmt = $db->prepare("SELECT * FROM orders WHERE id = ?");
+$stmt->bind_param('s', $id);
+$stmt->execute();
+$order = $stmt->get_result()->fetch_assoc();
+
+if (!$order) {
+    flashMsg("Order tidak ditemukan.", 'error');
+    header('Location: orders.php');
+    exit;
+}
+
+// Handle payment status update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'pay') {
+    $stmtPay = $db->prepare("UPDATE orders SET status = 'paid' WHERE id = ?");
+    $stmtPay->bind_param('s', $id);
+    if ($stmtPay->execute()) {
+        addLog($db, 'Order lunas', "$id lunas", 'order');
+        flashMsg("Order $id ditandai lunas.", 'success');
+    } else {
+        flashMsg("Gagal memproses pembayaran: " . $db->error, 'error');
+    }
+    header("Location: orders_detail.php?id=" . urlencode($id));
+    exit;
+}
+
+$pageTitle = 'Detail Order ' . htmlspecialchars($id) . ' — KostHub';
+$pageTitleShort = 'Order / Penyewaan';
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';

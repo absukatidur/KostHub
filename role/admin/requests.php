@@ -1,10 +1,23 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$pageTitle = 'Permintaan User — KostHub';
+$pageTitleShort = 'Permintaan User';
+
+// Fetch all requests
+$requests = $db->query("
+    SELECT r.*, c.name as customer_name 
+    FROM requests r 
+    LEFT JOIN customers c ON r.customer_id = c.id 
+    ORDER BY r.created_at DESC
+")->fetch_all(MYSQLI_ASSOC);
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';
 ?>
-
 <div>
   <div class="section-header">
     <div>

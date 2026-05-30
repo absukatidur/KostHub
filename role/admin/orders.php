@@ -1,5 +1,44 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$pageTitle = 'Order / Penyewaan — KostHub';
+$pageTitleShort = 'Order / Penyewaan';
+
+// Handle POST actions (delete / pay)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    $id = $_POST['id'] ?? '';
+
+    if ($id) {
+        if ($action === 'delete') {
+            $stmt = $db->prepare("DELETE FROM orders WHERE id = ?");
+            $stmt->bind_param('s', $id);
+            if ($stmt->execute()) {
+                addLog($db, 'Order dihapus', "$id dihapus", 'order');
+                flashMsg("Order $id berhasil dihapus.", 'success');
+            } else {
+                flashMsg("Gagal menghapus order: " . $db->error, 'error');
+            }
+        } elseif ($action === 'pay') {
+            $stmt = $db->prepare("UPDATE orders SET status = 'paid' WHERE id = ?");
+            $stmt->bind_param('s', $id);
+            if ($stmt->execute()) {
+                addLog($db, 'Order lunas', "$id lunas", 'order');
+                flashMsg("Order $id ditandai lunas.", 'success');
+            } else {
+                flashMsg("Gagal memproses pembayaran: " . $db->error, 'error');
+            }
+        }
+    }
+    header('Location: orders.php');
+    exit;
+}
+
+// Fetch all orders
+$orders = $db->query("SELECT * FROM orders ORDER BY id DESC")->fetch_all(MYSQLI_ASSOC);
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';

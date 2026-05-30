@@ -1,5 +1,17 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$pageTitle = 'Log Aktivitas — KostHub';
+$pageTitleShort = 'Log Aktivitas';
+
+$logs = $db->query("SELECT * FROM logs ORDER BY time DESC")->fetch_all(MYSQLI_ASSOC);
+
+// Log Icons & Colors
+$logIcons = ['order' => 'file-earmark-text', 'room' => 'door-open', 'customer' => 'person', 'invoice' => 'send', 'repair' => 'wrench'];
+$logColors = ['order' => 'ic-blue', 'room' => 'ic-green', 'customer' => 'ic-purple', 'invoice' => 'ic-amber', 'repair' => 'ic-red'];
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';
