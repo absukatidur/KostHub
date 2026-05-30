@@ -1,41 +1,74 @@
+<?php
+$currentScript = basename($_SERVER['SCRIPT_NAME']);
+$displayName = 'Portal Penghuni';
+if (!empty($_SESSION['customer_id'])) {
+    $cQuery = $db->prepare("SELECT name FROM customers WHERE id = ?");
+    $cQuery->bind_param('s', $_SESSION['customer_id']);
+    $cQuery->execute();
+    $cResult = $cQuery->get_result()->fetch_assoc();
+    if ($cResult) {
+        $displayName = $cResult['name'];
+    }
+}
+
+// Query pending bills/orders for the tenant
+$tagihanBadge = 0;
+if (!empty($_SESSION['customer_id'])) {
+    $roomQuery = $db->prepare("SELECT room FROM customers WHERE id = ?");
+    $roomQuery->bind_param('s', $_SESSION['customer_id']);
+    $roomQuery->execute();
+    $roomRes = $roomQuery->get_result()->fetch_assoc();
+    if ($roomRes && !empty($roomRes['room'])) {
+        $rName = $roomRes['room'];
+        $oQuery = $db->prepare("SELECT COUNT(*) as count FROM orders WHERE room = ? AND status = 'pending'");
+        $oQuery->bind_param('s', $rName);
+        $oQuery->execute();
+        $oRes = $oQuery->get_result()->fetch_assoc();
+        if ($oRes) {
+            $tagihanBadge = $oRes['count'];
+        }
+    }
+}
+?>
 <!-- ══════════════════════════ USER SIDEBAR ══════════════════════════ -->
 <nav id="sidebar">
   <div class="sidebar-logo">
     <h1>Kost<span>Hub</span></h1>
-    <p id="user-subtitle">Portal Penghuni</p>
+    <p id="user-subtitle"><?= htmlspecialchars($displayName) ?></p>
   </div>
   <div class="sidebar-nav">
     <div class="nav-section">
       <div class="nav-label">Menu</div>
-      <button class="nav-item active" onclick="navigate('dashboard')">
+      <a href="dashboard.php" class="nav-item <?= $currentScript === 'dashboard.php' ? 'active' : '' ?>" style="text-decoration: none;">
         <i class="bi bi-speedometer2"></i> Dashboard
-      </button>
-      <button class="nav-item" onclick="navigate('tagihan')">
-        <i class="bi bi-receipt"></i> Tagihan <span class="badge" id="tagihan-badge"></span>
-      </button>
-      <button class="nav-item" onclick="navigate('perbaikan')">
+      </a>
+      <a href="tagihan.php" class="nav-item <?= $currentScript === 'tagihan.php' ? 'active' : '' ?>" style="text-decoration: none;">
+        <i class="bi bi-receipt"></i> Tagihan 
+        <span class="badge" id="tagihan-badge"><?= $tagihanBadge > 0 ? $tagihanBadge : '' ?></span>
+      </a>
+      <a href="perbaikan.php" class="nav-item <?= $currentScript === 'perbaikan.php' ? 'active' : '' ?>" style="text-decoration: none;">
         <i class="bi bi-wrench"></i> Perbaikan
-      </button>
-      <button class="nav-item" onclick="navigate('fasilitas')">
+      </a>
+      <a href="fasilitas.php" class="nav-item <?= $currentScript === 'fasilitas.php' ? 'active' : '' ?>" style="text-decoration: none;">
         <i class="bi bi-buildings"></i> Fasilitas
-      </button>
-      <button class="nav-item" onclick="navigate('cari-kamar')">
+      </a>
+      <a href="browse_rooms.php" class="nav-item <?= $currentScript === 'browse_rooms.php' ? 'active' : '' ?>" style="text-decoration: none;">
         <i class="bi bi-search"></i> Cari Kamar
-      </button>
+      </a>
     </div>
     <div class="nav-section">
       <div class="nav-label">Akun</div>
-      <button class="nav-item" onclick="navigate('profil')">
+      <a href="profil.php" class="nav-item <?= $currentScript === 'profil.php' ? 'active' : '' ?>" style="text-decoration: none;">
         <i class="bi bi-person"></i> Profil
-      </button>
-      <button class="nav-item" onclick="navigate('layanan')">
+      </a>
+      <a href="layanan.php" class="nav-item <?= $currentScript === 'layanan.php' ? 'active' : '' ?>" style="text-decoration: none;">
         <i class="bi bi-file-text"></i> Layanan
-      </button>
+      </a>
     </div>
   </div>
   <div class="sidebar-footer">
-    <button class="nav-item" style="color:#ef4444" onclick="doLogout()">
+    <a href="../logout.php" class="nav-item" style="color:#ef4444; text-decoration: none;">
       <i class="bi bi-box-arrow-right"></i> Keluar
-    </button>
+    </a>
   </div>
 </nav>

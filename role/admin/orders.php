@@ -129,6 +129,7 @@ require_once '../components/admin_topbar.php';
   </div>
 </div>
 
+<script src="<?= $basePath ?? '' ?>assets/js/table-search.js?v=<?= time() ?>"></script>
 <script>
 initTableSearch('ord-search', '#ord-tbody tr', 'ord-count', '{count} order');
 </script>

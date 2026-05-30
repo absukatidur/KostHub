@@ -1,17 +1,16 @@
 <?php
-// KostHub/index.php
-$pageTitle = 'KostHub — Admin Dashboard';
-$extraJs = [
-    'assets/js/pages-dashboard.js',
-];
+require_once 'includes/db.php';
 
-require_once 'components/header.php';         // Berisi <html>, <head>, <link css>
-require_once 'components/admin_sidebar.php';  // Berisi <nav id="sidebar">
-require_once 'components/admin_topbar.php';   // Berisi <header id="topbar"> dan <main id="page-content">
-
-// Include semua template HTML untuk Admin
-require_once 'templates/admin/dashboard.php';
-// ... require template lain (kamar, order, dll)
-
-require_once 'components/footer_scripts.php'; // Berisi <script src="..."> dan penutup </body></html>
+if (!empty($_SESSION['role'])) {
+    if (in_array($_SESSION['role'], ['admin', 'owner'])) {
+        header('Location: admin/dashboard.php');
+        exit;
+    } else if ($_SESSION['role'] === 'user') {
+        header('Location: user/dashboard.php');
+        exit;
+    }
+} else {
+    header('Location: landing.php');
+    exit;
+}
 ?>

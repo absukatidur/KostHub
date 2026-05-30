@@ -107,8 +107,9 @@ require_once '../components/admin_topbar.php';
   </div>
 </div>
 
+<script src="<?= $basePath ?? '' ?>assets/js/table-search.js?v=<?= time() ?>"></script>
 <script>
-initTableSearch('room-search', '#room-tbody tr', 'room-count', '{count} kamar');
+initTableSearch('room-search', '#room-tbody tr', 'room-count', 'Menampilkan {count} kamar');
 </script>
 
 <?php require_once '../components/footer_scripts.php'; ?>

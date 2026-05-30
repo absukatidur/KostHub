@@ -130,15 +130,13 @@ require_once '../components/admin_topbar.php';
 
 <script>
 function switchTab(tabName) {
-  // Update tabs buttons active state
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.remove('active');
     if (btn.getAttribute('onclick').includes("'" + tabName + "'")) {
       btn.classList.add('active');
     }
   });
-  
-  // Toggle divs visibility
+
   if (tabName === 'overview') {
     document.getElementById('tab-overview').style.display = 'block';
     document.getElementById('tab-list').style.display = 'none';

@@ -111,8 +111,6 @@ require_once '../components/user_topbar.php';
   </div>
 </div>
 
-<script>
 <script src="<?= $basePath ?? '' ?>assets/js/user-browse-rooms.js?v=<?= time() ?>"></script>
-</script>
 
 <?php require_once '../components/user_footer_scripts.php'; ?>

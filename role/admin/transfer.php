@@ -59,7 +59,6 @@ require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';
 ?>
 
-
 <div>
   <div class="section-header">
     <div>

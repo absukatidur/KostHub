@@ -104,6 +104,7 @@ require_once '../components/header.php';
 require_once '../components/user_sidebar.php';
 require_once '../components/user_topbar.php';
 ?>
+
 <div style="max-width: 650px; margin: 0 auto;">
   <div class="section-header">
     <div>
@@ -127,6 +128,7 @@ require_once '../components/user_topbar.php';
     <div style="font-size: 12.5px; color: var(--slate-mid);">Order: <?= htmlspecialchars($order['id']) ?> · Kamar <?= htmlspecialchars($order['room']) ?> · <?= htmlspecialchars($order['type']) ?></div>
   </div>
 
+  <div id="pay-page-data" data-total-formatted="<?= fmtRupiah($order['total']) ?>"></div>
   <form method="POST" autocomplete="off">
     <input type="hidden" id="selected-method" name="method" value="" required />
     
@@ -177,8 +179,6 @@ require_once '../components/user_topbar.php';
 }
 </style>
 
-<script>
 <script src="<?= $basePath ?? '' ?>assets/js/user-pay.js?v=<?= time() ?>"></script>
-</script>
 
 <?php require_once '../components/user_footer_scripts.php'; ?>

@@ -1,9 +1,12 @@
 <?php
 // KostHub — Database Setup
-// Run once via browser
+// Run once via browser: http://localhost/Vanilla_Web/db/setup.php
+
 
 $db = new mysqli('localhost', 'root', '', 'kosmanager');
-if ($db->connect_error) { die('DB connection failed: ' . $db->connect_error); }
+if ($db->connect_error) {
+  die('DB connection failed: ' . $db->connect_error);
+}
 $db->set_charset('utf8mb4');
 
 //  Create users table 
@@ -31,11 +34,11 @@ $db->query("CREATE TABLE IF NOT EXISTS requests (
 //  Ensure repairs table schema upvotes compatibility 
 $chk = $db->query("SHOW COLUMNS FROM repairs LIKE 'votes'");
 if ($chk && $chk->num_rows === 0) {
-    $db->query("ALTER TABLE repairs ADD COLUMN votes INT NOT NULL DEFAULT 1");
+  $db->query("ALTER TABLE repairs ADD COLUMN votes INT NOT NULL DEFAULT 1");
 }
 $chk2 = $db->query("SHOW COLUMNS FROM repairs LIKE 'voted_by'");
 if ($chk2 && $chk2->num_rows === 0) {
-    $db->query("ALTER TABLE repairs ADD COLUMN voted_by TEXT DEFAULT NULL");
+  $db->query("ALTER TABLE repairs ADD COLUMN voted_by TEXT DEFAULT NULL");
 }
 
 //  Seed users 
@@ -44,7 +47,7 @@ $db->query("DELETE FROM users");
 
 $owner_hash = password_hash('owner123', PASSWORD_DEFAULT);
 $admin_hash = password_hash('admin123', PASSWORD_DEFAULT);
-$user_hash  = password_hash('user123', PASSWORD_DEFAULT);
+$user_hash = password_hash('user123', PASSWORD_DEFAULT);
 
 $db->query("INSERT INTO users (username, password, role, customer_id) VALUES
   ('owner',  '$owner_hash', 'owner', NULL),
@@ -65,7 +68,7 @@ $db->query("INSERT INTO requests (id, customer_id, type, detail, status, created
   ('REQ-002', 'C003', 'checkout', '{\"date\":\"2025-08-31\",\"reason\":\"Pindah ke luar kota\"}', 'pending', NOW())
 ");
 
-echo "<h2>✅ Setup Complete!</h2>";
+echo "<h2> Setup Complete!</h2>";
 echo "<p>Tables created: <b>users</b>, <b>requests</b></p>";
 echo "<p>Users seeded: owner + admin + 6 tenants</p>";
 echo "<p><b>Owner:</b> owner / owner123</p>";

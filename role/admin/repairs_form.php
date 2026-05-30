@@ -167,8 +167,6 @@ require_once '../components/admin_topbar.php';
   </div>
 </div>
 
-<script>
-<script src="<?= $basePath ?? '' ?>assets/js/user-books.js?v=<?= time() ?>"></script>
-</script>
+<script src="<?= $basePath ?? '' ?>assets/js/admin-repairs-form.js?v=<?= time() ?>"></script>
 
 <?php require_once '../components/footer_scripts.php'; ?>

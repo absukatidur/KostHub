@@ -6,19 +6,12 @@
       <button class="btn-icon" id="menu-toggle" onclick="toggleSidebar()">
         <i class="bi bi-list" style="font-size:16px"></i>
       </button>
-      <span class="topbar-title" id="page-title">Dashboard</span>
+      <span class="topbar-title" id="page-title"><?= htmlspecialchars($pageTitleShort ?? 'Dashboard') ?></span>
     </div>
     <div class="topbar-right">
-      <div class="avatar">AD</div>
+      <div class="avatar"><?= strtoupper(substr($_SESSION['username'] ?? 'AD', 0, 2)) ?></div>
     </div>
   </header>
 
   <!-- PAGE CONTENT -->
-  <main id="page-content"></main>
-</div>
-
-<!-- ══════════════════════════ MODAL CONTAINER ══════════════════════════ -->
-<div id="modal-container"></div>
-
-<!-- ══════════════════════════ TOAST CONTAINER ══════════════════════════ -->
-<div id="toast-container"></div>
+  <main id="page-content">

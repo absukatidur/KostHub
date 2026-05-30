@@ -131,6 +131,7 @@ require_once '../components/user_topbar.php';
     <div class="detail-row" style="display:flex; justify-content:space-between; padding:6px 0;"><span style="color:var(--slate-muted)">Fasilitas</span><span style="color:var(--slate-bright); max-width:70%; text-align:right"><?= htmlspecialchars($room['facilities'] ?: 'Fasilitas standar kos') ?></span></div>
   </div>
 
+  <div id="book-page-data" data-room-price="<?= intval($room['price']) ?>"></div>
   <div class="card">
     <div style="margin-bottom: 16px;"><h3 style="margin:0; font-size:15px; color:var(--slate-white)">Rincian Sewa</h3></div>
     
@@ -174,8 +175,6 @@ require_once '../components/user_topbar.php';
   </div>
 </div>
 
-<script>
-<script src="<?= $basePath ?? '' ?>assets/js/admin-orders-form.js?v=<?= time() ?>"></script>
-</script>
+<script src="<?= $basePath ?? '' ?>assets/js/user-book.js?v=<?= time() ?>"></script>
 
 <?php require_once '../components/user_footer_scripts.php'; ?>

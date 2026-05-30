@@ -72,7 +72,7 @@ require_once '../components/admin_topbar.php';
 <div>
   <div class="section-header">
     <div>
-      <h2>Selamat datang, Admin</h2>
+      <h2>Selamat datang, <?= $_SESSION['role'] === 'owner' ? 'Owner' : 'Admin' ?></h2>
       <p><?= htmlspecialchars($dateText) ?></p>
     </div>
     <a href="orders_form.php" class="btn btn-primary" style="text-decoration: none;">
@@ -104,6 +104,7 @@ require_once '../components/admin_topbar.php';
       <div class="value"><?= $maint ?></div>
       <div class="sub">Dalam proses</div>
     </div>
+    <?php if ($_SESSION['role'] === 'owner'): ?>
     <!-- Total Pendapatan -->
     <div class="stat-card">
       <div class="icon-wrap ic-green"><i class="bi bi-cash-stack" style="font-size:16px"></i></div>
@@ -118,8 +119,10 @@ require_once '../components/admin_topbar.php';
       <div class="value" style="font-size: 18px;"><?= fmtRupiah($pendingInv) ?></div>
       <div class="sub"><?= $pendingOrdersCount ?> invoice</div>
     </div>
+    <?php endif; ?>
   </div>
 
+  <?php if ($_SESSION['role'] === 'owner'): ?>
   <div class="two-col" style="margin-bottom:14px">
     <div class="card">
       <div class="card-header"><span class="card-title">Pendapatan Penyewaan</span></div>
@@ -170,6 +173,44 @@ require_once '../components/admin_topbar.php';
       </div>
     </div>
   </div>  
+  <?php else: ?>
+  <div style="margin-bottom:14px">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Order Terbaru</span>
+        <a href="orders.php" class="btn btn-secondary btn-sm" style="text-decoration: none;">Lihat Semua</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Kamar</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php $recentOrders = array_slice($orders, 0, 4); ?>
+            <?php if (empty($recentOrders)): ?>
+              <tr><td colspan="3" style="text-align:center; color:var(--slate-muted)">Tidak ada order terbaru</td></tr>
+            <?php else: ?>
+              <?php foreach ($recentOrders as $o): ?>
+                <tr>
+                  <td>
+                    <div class="ro-customer" style="font-weight:600"><?= htmlspecialchars($o['customer']) ?></div>
+                    <div class="ro-id" style="font-size:11px;color:var(--slate-muted)"><?= htmlspecialchars($o['id']) ?></div>
+                  </td>
+                  <td><?= htmlspecialchars($o['room']) ?></td>
+                  <td><?= statusBadge($o['status']) ?></td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>  
+  <?php endif; ?>
 
   <div class="two-col">
     <div class="card">

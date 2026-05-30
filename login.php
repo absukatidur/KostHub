@@ -3,8 +3,8 @@ require_once 'includes/db.php';
 
 // Redirect if already logged in
 if (!empty($_SESSION['role'])) {
-    if (in_array($_SESSION['role'], ['admin', 'owner'])) { header('Location: admin/dashboard.php'); exit; }
-    if ($_SESSION['role'] === 'user')  { header('Location: user/dashboard.php');  exit; }
+    if (in_array($_SESSION['role'], ['admin', 'owner'])) { header('Location: role/admin/dashboard.php'); exit; }
+    if ($_SESSION['role'] === 'user')  { header('Location: role/user/dashboard.php');  exit; }
 }
 
 $error = '';
@@ -30,10 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['customer_id'] = $user['customer_id'];
 
             if (in_array($user['role'], ['admin', 'owner'])) {
-                header('Location: admin/dashboard.php');
+                header('Location: role/admin/dashboard.php');
                 exit;
             } else {
-                header('Location: user/dashboard.php');
+                header('Location: role/user/dashboard.php');
                 exit;
             }
         }
