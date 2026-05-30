@@ -1,5 +1,31 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$pageTitle = 'Fasilitas Umum — KostHub';
+$pageTitleShort = 'Fasilitas Umum';
+
+// Handle delete facility
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete') {
+    $id = $_POST['id'] ?? '';
+    if ($id) {
+        $stmt = $db->prepare("DELETE FROM facilities WHERE id = ?");
+        $stmt->bind_param('s', $id);
+        if ($stmt->execute()) {
+            addLog($db, 'Fasilitas dihapus', "$id dihapus", 'room');
+            flashMsg("Fasilitas $id berhasil dihapus.", 'success');
+        } else {
+            flashMsg("Gagal menghapus fasilitas: " . $db->error, 'error');
+        }
+    }
+    header('Location: facilities.php');
+    exit;
+}
+
+// Fetch all facilities
+$facilities = $db->query("SELECT * FROM facilities ORDER BY id")->fetch_all(MYSQLI_ASSOC);
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';
