@@ -911,85 +911,7 @@ select:focus {
   gap: 8px;
 }
 
-
-/*  Gantt chart  */
-
-.gantt-wrap {
-  overflow-x: auto;
-}
-
-.gantt {
-  min-width: 700px;
-}
-
-.gantt-header {
-  display: flex;
-  border-bottom: 1px solid var(--slate-soft);
-  padding-bottom: 6px;
-  margin-bottom: 8px;
-}
-
-.gantt-room-col {
-  width: 80px;
-  flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--slate-muted);
-}
-
-.gantt-days {
-  flex: 1;
-  display: flex;
-}
-
-.gantt-day {
-  flex: 1;
-  text-align: center;
-  font-size: 10px;
-  color: var(--slate-muted);
-  font-weight: 500;
-}
-
-.gantt-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.gantt-label {
-  width: 80px;
-  flex-shrink: 0;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--slate-text);
-}
-
-.gantt-timeline {
-  flex: 1;
-  position: relative;
-  height: 28px;
-  background: var(--slate-thin);
-  border-radius: 6px;
-}
-
-.gantt-bar {
-  position: absolute;
-  top: 3px;
-  bottom: 3px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  padding: 0 8px;
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--slate-white);
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-
 /*  Empty / loading states  */
-
 .empty-state {
   text-align: center;
   padding: 48px 24px;
@@ -1010,14 +932,6 @@ select:focus {
   font-size: 12px;
 }
 
-.loading-shimmer {
-  background: linear-gradient(90deg, var(--slate-thin) 25%, var(--slate-faint) 50%, var(--slate-thin) 75%);
-  background-size: 400% 100%;
-  animation: shimmer 1.4s infinite;
-  border-radius: 6px;
-  height: 14px;
-  margin-bottom: 8px;
-}
 
 
 /*  Section header  */
@@ -1088,7 +1002,6 @@ select:focus {
 
 
 /* Chart bar (mini bar chart on dashboard) */
-
 .chart-bars {
   display: flex;
   align-items: flex-end;
@@ -1125,120 +1038,7 @@ select:focus {
   flex-shrink: 0;
 }
 
-
-/* Toast notifications */
-
-#toast-container {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  pointer-events: none;
-}
-
-.toast {
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 500;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  animation: toastIn 0.3s ease;
-  min-width: 280px;
-  max-width: 420px;
-  backdrop-filter: blur(12px);
-}
-
-.toast.toast-out {
-  animation: toastOut 0.3s ease forwards;
-}
-
-.toast-success {
-  background: var(--green-vivid);
-  color: var(--slate-white);
-}
-
-.toast-error {
-  background: var(--red-vivid);
-  color: var(--slate-white);
-}
-
-.toast-info {
-  background: var(--brand-accent);
-  color: var(--slate-white);
-}
-
-.toast-warning {
-  background: var(--amber-vivid);
-  color: var(--slate-white);
-}
-
-
-/*  Confirm dialog  */
-
-.confirm-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--bg-overlay);
-  backdrop-filter: blur(8px);
-  z-index: 300;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 0.15s ease;
-}
-
-.confirm-box {
-  background: var(--bg-card);
-  border-radius: 16px;
-  border: 1px solid var(--border-dim);
-  padding: 28px;
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  animation: slideUp 0.2s ease;
-}
-
-.confirm-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 16px;
-}
-
-.confirm-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--slate-white);
-  margin-bottom: 8px;
-}
-
-.confirm-msg {
-  font-size: 13px;
-  color: var(--slate-base);
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
-
-.confirm-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-}
-
-
 /* Keyframe animations */
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -1261,43 +1061,7 @@ select:focus {
   }
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-@keyframes toastIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes toastOut {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-
 /*  Small UI bits  */
-
 /* notification dot on icon buttons */
 .notif-dot {
   position: absolute;
