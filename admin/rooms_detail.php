@@ -101,7 +101,6 @@ require_once '../components/admin_topbar.php';
         <select class="filter-select" style="width:100%" id="status-select" name="status" onchange="toggleTenantFields()" required>
           <option value="empty" <?= $room['status'] === 'empty' ? 'selected' : '' ?>>Kosong</option>
           <option value="occupied" <?= $room['status'] === 'occupied' ? 'selected' : '' ?>>Terisi</option>
-          <option value="cleaning" <?= $room['status'] === 'cleaning' ? 'selected' : '' ?>>Cleaning</option>
           <option value="maintenance" <?= $room['status'] === 'maintenance' ? 'selected' : '' ?>>Perbaikan</option>
         </select>
       </div>

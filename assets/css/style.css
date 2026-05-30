@@ -770,10 +770,6 @@ select:focus {
   border-color: var(--blue-soft);
 }
 
-.room-cell.cleaning {
-  background: var(--amber-faded);
-  border-color: var(--amber-soft);
-}
 
 .room-cell.maintenance {
   background: var(--red-faded);
@@ -797,10 +793,6 @@ select:focus {
 
 .room-cell.empty .room-num {
   color: var(--brand-accent-hover);
-}
-
-.room-cell.cleaning .room-num {
-  color: var(--amber-pale);
 }
 
 .room-cell.maintenance .room-num {
