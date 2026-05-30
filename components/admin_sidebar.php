@@ -44,9 +44,6 @@ if ($reqBadgeQuery) {
     </div>
     <div class="nav-section">
       <div class="nav-label">Operasional</div>
-      <a href="manage_rooms.php" class="nav-item <?= $currentScript === 'manage_rooms.php' ? 'active' : '' ?>" style="text-decoration: none;">
-        <i class="bi bi-grid"></i> Manajemen Kamar
-      </a>
       <a href="orders.php" class="nav-item <?= ($currentScript === 'orders.php' || $currentScript === 'orders_form.php') ? 'active' : '' ?>" style="text-decoration: none;">
         <i class="bi bi-file-text"></i> Order / Sewa 
         <span class="badge" id="order-badge"><?= $orderBadge > 0 ? $orderBadge : '' ?></span>
