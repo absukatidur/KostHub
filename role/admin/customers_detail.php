@@ -1,5 +1,44 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$id = $_GET['id'] ?? '';
+if (!$id) {
+    flashMsg("ID Customer tidak valid.", 'error');
+    header('Location: customers.php');
+    exit;
+}
+
+$stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+$stmt->bind_param('s', $id);
+$stmt->execute();
+$customer = $stmt->get_result()->fetch_assoc();
+
+if (!$customer) {
+    flashMsg("Customer tidak ditemukan.", 'error');
+    header('Location: customers.php');
+    exit;
+}
+
+// Fetch room details if assigned
+$room = null;
+if (!empty($customer['room'])) {
+    $stmt_room = $db->prepare("SELECT * FROM rooms WHERE id = ?");
+    $stmt_room->bind_param('s', $customer['room']);
+    $stmt_room->execute();
+    $room = $stmt_room->get_result()->fetch_assoc();
+}
+
+// Fetch all orders/invoices for this customer name
+$stmt_orders = $db->prepare("SELECT * FROM orders WHERE customer = ? ORDER BY id DESC");
+$stmt_orders->bind_param('s', $customer['name']);
+$stmt_orders->execute();
+$orders = $stmt_orders->get_result()->fetch_all(MYSQLI_ASSOC);
+
+$pageTitle = 'Detail Customer — ' . htmlspecialchars($customer['name']);
+$pageTitleShort = 'Customer';
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';

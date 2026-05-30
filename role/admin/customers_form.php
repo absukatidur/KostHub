@@ -1,5 +1,107 @@
 <?php
 $basePath = '../';
+require_once '../includes/db.php';
+requireAdmin();
+
+$id = $_GET['id'] ?? '';
+$isEdit = !empty($id);
+$customer = null;
+
+if ($isEdit) {
+    $stmt = $db->prepare("SELECT * FROM customers WHERE id = ?");
+    $stmt->bind_param('s', $id);
+    $stmt->execute();
+    $customer = $stmt->get_result()->fetch_assoc();
+    if (!$customer) {
+        flashMsg("Customer tidak ditemukan.", 'error');
+        header('Location: customers.php');
+        exit;
+    }
+}
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $wa = trim($_POST['wa'] ?? '');
+    $roomField = $_POST['room'] ?? '';
+
+    if (!$name || !$email || !$wa) {
+        $error = 'Semua field wajib diisi';
+    } else {
+        // Check email unique (except itself if editing)
+        if ($isEdit) {
+            $chk = $db->prepare("SELECT id FROM customers WHERE email = ? AND id != ?");
+            $chk->bind_param('ss', $email, $id);
+        } else {
+            $chk = $db->prepare("SELECT id FROM customers WHERE email = ?");
+            $chk->bind_param('s', $email);
+        }
+        $chk->execute();
+        if ($chk->get_result()->num_rows > 0) {
+            $error = 'Email sudah digunakan oleh customer lain';
+        } else {
+            if ($isEdit) {
+                // Handle room changes
+                if ($customer['room'] !== $roomField) {
+                    if (!empty($customer['room'])) {
+                        // Clear old room
+                        $db->query("UPDATE rooms SET status='empty', tenant='-', `until`='-' WHERE id='" . $db->real_escape_string($customer['room']) . "'");
+                    }
+                    if (!empty($roomField)) {
+                        // Set new room occupied by this tenant
+                        $db->query("UPDATE rooms SET status='occupied', tenant='" . $db->real_escape_string($name) . "' WHERE id='" . $db->real_escape_string($roomField) . "'");
+                    }
+                } elseif (!empty($roomField) && $customer['name'] !== $name) {
+                    // If name changed, update the tenant name in the room too
+                    $db->query("UPDATE rooms SET tenant='" . $db->real_escape_string($name) . "' WHERE id='" . $db->real_escape_string($roomField) . "'");
+                }
+
+                $stmt = $db->prepare("UPDATE customers SET name = ?, email = ?, wa = ?, room = ? WHERE id = ?");
+                $stmt->bind_param('sssss', $name, $email, $wa, $roomField, $id);
+                if ($stmt->execute()) {
+                    addLog($db, 'Customer diperbarui', "$name ($id) diperbarui", 'customer');
+                    flashMsg("Customer $name berhasil diperbarui.", 'success');
+                    header('Location: customers.php');
+                    exit;
+                } else {
+                    $error = 'Gagal memperbarui data: ' . $db->error;
+                }
+            } else {
+                $nid = nextId($db, 'customers', 'C');
+                
+                if (!empty($roomField)) {
+                    // Set room occupied by new tenant
+                    $db->query("UPDATE rooms SET status='occupied', tenant='" . $db->real_escape_string($name) . "' WHERE id='" . $db->real_escape_string($roomField) . "'");
+                }
+
+                $stmt = $db->prepare("INSERT INTO customers (id, name, email, wa, room) VALUES (?, ?, ?, ?, ?)");
+                $stmt->bind_param('sssss', $nid, $name, $email, $wa, $roomField);
+                if ($stmt->execute()) {
+                    addLog($db, 'Customer ditambah', "$name terdaftar ($nid)", 'customer');
+                    flashMsg("Customer $name berhasil ditambahkan.", 'success');
+                    header('Location: customers.php');
+                    exit;
+                } else {
+                    $error = 'Gagal menambahkan customer: ' . $db->error;
+                }
+            }
+        }
+    }
+}
+
+// Fetch rooms that are empty or cleaning, plus the customer's current room if editing
+$roomOptionsQuery = "SELECT id, status, type FROM rooms WHERE status IN ('empty', 'cleaning')";
+if ($isEdit && !empty($customer['room'])) {
+    $roomOptionsQuery .= " OR id = '" . $db->real_escape_string($customer['room']) . "'";
+}
+$roomOptionsQuery .= " ORDER BY id";
+$rooms = $db->query($roomOptionsQuery)->fetch_all(MYSQLI_ASSOC);
+
+$pageTitle = ($isEdit ? 'Edit Customer' : 'Tambah Customer') . ' — KostHub';
+$pageTitleShort = 'Customer';
+
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';
