@@ -101,7 +101,7 @@ require_once '../components/admin_topbar.php';
           <select class="filter-select" style="width:100%" id="af-status" name="status" required>
             <option value="ok" <?= ($_POST['status'] ?? ($facility['status'] ?? 'ok')) === 'ok' ? 'selected' : '' ?>>Normal (OK)</option>
             <option value="pending" <?= ($_POST['status'] ?? ($facility['status'] ?? '')) === 'pending' ? 'selected' : '' ?>>Butuh Perbaikan</option>
-            <option value="maintenance" <?= ($_POST['status'] ?? ($facility['status'] ?? '')) === 'maintenance' ? 'selected' : '' ?>>Sedang Perbaikan</option>
+            <option value="repairing" <?= ($_POST['status'] ?? ($facility['status'] ?? '')) === 'repairing' ? 'selected' : '' ?>>Sedang Perbaikan</option>
           </select>
         </div>
       </div>

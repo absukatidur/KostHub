@@ -51,6 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmtRep = $db->prepare("INSERT INTO repairs (id, target, type, issue, reported, status, tech, votes, voted_by) VALUES (?, ?, ?, ?, ?, 'pending', ?, 1, ?)");
             $stmtRep->bind_param('sssssss', $nid, $target, $type, $issue, $today, $tech, $voted_by);
             if ($stmtRep->execute()) {
+                if ($type === 'fasum') {
+                    $facStmt = $db->prepare("UPDATE facilities SET status = 'pending' WHERE name = ?");
+                    $facStmt->bind_param('s', $target);
+                    $facStmt->execute();
+                }
                 addLog($db, 'Laporan perbaikan', "$nid: $issue – $target", 'repair');
                 flashMsg("Laporan kerusakan $nid berhasil dikirim.", 'success');
                 header('Location: perbaikan.php');

@@ -95,6 +95,7 @@ function repairStatusBadge($s)
         'pending' => '<span class="badge badge-amber">Butuh Perbaikan</span>',
         'repairing' => '<span class="badge badge-red">Sedang Perbaikan</span>',
         'done' => '<span class="badge badge-gray">Selesai</span>',
+        'ok' => '<span class="badge badge-green">Normal</span>',
     ];
     return $map[$s] ?? htmlspecialchars($s);
 }

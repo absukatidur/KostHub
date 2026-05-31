@@ -31,6 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $db->prepare("UPDATE repairs SET status = ?, tech = ? WHERE id = ?");
         $stmt->bind_param('sss', $status, $tech, $id);
         if ($stmt->execute()) {
+            if ($repair['type'] === 'fasum') {
+                $facStatus = 'ok';
+                if ($status === 'pending') $facStatus = 'pending';
+                if ($status === 'repairing') $facStatus = 'maintenance';
+                $facTarget = $repair['target'];
+                $facStmt = $db->prepare("UPDATE facilities SET status = ? WHERE name = ?");
+                $facStmt->bind_param('ss', $facStatus, $facTarget);
+                $facStmt->execute();
+            }
             addLog($db, 'Perbaikan diperbarui', "$id status: $status", 'repair');
             flashMsg("Laporan $id berhasil diperbarui.", 'success');
             header('Location: repairs.php');
@@ -57,6 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $db->prepare("INSERT INTO repairs (id, target, type, issue, reported, status, tech, votes, voted_by) VALUES (?, ?, ?, ?, ?, 'pending', ?, 1, ?)");
             $stmt->bind_param('sssssss', $nid, $target, $type, $issue, $today, $tech, $voted_by);
             if ($stmt->execute()) {
+                if ($type === 'fasum') {
+                    $facStmt = $db->prepare("UPDATE facilities SET status = 'pending' WHERE name = ?");
+                    $facStmt->bind_param('s', $target);
+                    $facStmt->execute();
+                }
                 addLog($db, 'Laporan perbaikan', "$nid: $issue – $target", 'repair');
                 flashMsg("Laporan perbaikan $nid berhasil dibuat.", 'success');
                 header('Location: repairs.php');

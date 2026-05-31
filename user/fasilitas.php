@@ -33,7 +33,7 @@ require_once '../components/user_topbar.php';
       <?php foreach ($facilities as $f): ?>
         <div class="card" style="position:relative">
           <div style="position:absolute; top:14px; right:14px">
-            <?= statusBadge($f['status']) ?>
+            <?= repairStatusBadge($f['status']) ?>
           </div>
           <div style="font-size:40px; border-radius:10px; background:var(--blue-faded); display:flex; align-items:center; justify-content:center; margin-bottom:12px; color:var(--brand-accent); width: 48px; height: 48px;">
             <i class="bi bi-buildings" style="font-size:18px"></i>
