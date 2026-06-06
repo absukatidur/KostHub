@@ -10,18 +10,31 @@ KostHub is a modern web-based boarding house (kost) room management system focus
 
 ## Main Menu & File Mapping
 
-### Admin Panel
+### Owner Panel
 * **Dashboard** - Dynamic dashboard showing key operational metrics: vacant/occupied rooms count, pending bookings, active repairs, monthly earnings, and recent logs.
 * **Tipe Kamar (Room Types)** - Manage categories of rooms, rents, prices, and amenities.
 * **Customer (Tenants)** - Manage registered boarding house residents, WhatsApp contacts, and active room assignments.
-* **Manajemen Kamar (Room Management)** - Operational list of rooms to check live occupancy status, tenant lease durations, and facility packages.
 * **Order / Sewa (Orders/Rentals)** - Add, approve, and track rental agreements, bills, and payment statuses.
 * **Pindah Kamar (Room Transfer)**  - Dedicated admin panel for coordinating room swap logistics.
 * **Perbaikan (Repairs)** - Track facility reports, assign technicians, monitor maintenance stages, and review tenant upvotes for public facilities.
 * **Fasilitas Umum (Public Facilities)**  - Manage the operational status of shared building areas (kitchens, parking, laundry, etc.).
 * **Log Aktivitas (Activity Logs)** - Audit logs detailing system transactions and administrator actions.
 * **Permintaan User (User Requests)** - Accept or reject tenant-initiated room transfers or checkouts, with customizable administrator notes.
+* **Kelola Admin (Manage Admin)** - Add, edit, and remove admin accounts.
+* **Laporan Keuangan (Revenue Repport)** - Dedicated owner panel for analysing finnancial repport and transactions.
 * **Reset Data**  - Administrative tool to quickly restore the database to seed conditions for debugging.
+
+### Admin Panel
+* **Dashboard** - Dynamic dashboard showing key operational metrics: vacant/occupied rooms count, pending bookings, active repairs, and recent logs.
+* **Tipe Kamar (Room Types)** - Manage categories of rooms, rents, prices, and amenities.
+* **Customer (Tenants)** - Manage registered boarding house residents, WhatsApp contacts, and active room assignments.
+* **Order / Sewa (Orders/Rentals)** - Add, approve, and track rental agreements, bills, and payment statuses.
+* **Pindah Kamar (Room Transfer)**  - Dedicated admin panel for coordinating room swap logistics.
+* **Perbaikan (Repairs)** - Track facility reports, assign technicians, monitor maintenance stages, and review tenant upvotes for public facilities.
+* **Fasilitas Umum (Public Facilities)**  - Manage the operational status of shared building areas (kitchens, parking, laundry, etc.).
+* **Log Aktivitas (Activity Logs)** - Audit logs detailing system transactions and administrator actions.
+* **Permintaan User (User Requests)** - Accept or reject tenant-initiated room transfers or checkouts, with customizable administrator notes.
+
 
 ### User (Tenant) Portal
 * **Dashboard** - Overview of tenant's current room, active lease date, payment invoices, and active maintenance reports.
@@ -63,7 +76,7 @@ KostHub is a modern web-based boarding house (kost) room management system focus
   * `id` (INT, PK, Auto Increment)
   * `username` (VARCHAR 50, Unique)
   * `password` (VARCHAR 255)
-  * `role` (ENUM: 'admin', 'user')
+  * `role` (ENUM: 'owner', 'admin', 'user')
   * `customer_id` (VARCHAR 10, Nullable, FK to `customers.id`)
 
 * **`rooms`** (Room Master Data)
