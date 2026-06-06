@@ -56,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="login-bg">
     <div class="login-card">
       <div class="login-logo">
-        <div class="logo-icon"><i class="bi bi-building"></i></div>
         <h1>Kost<span>Hub</span></h1>
         <p>Masuk ke akun Anda</p>
       </div>
