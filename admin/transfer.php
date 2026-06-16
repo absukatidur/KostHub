@@ -28,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
       $tenant = $sourceRoom['tenant'];
 
-      // 1. Set old room to cleaning
-      $db->query("UPDATE rooms SET status='cleaning', tenant='-', `until`='-' WHERE id='" . $db->real_escape_string($fromRoom) . "'");
+      // 1. Set old room to empty
+      $db->query("UPDATE rooms SET status='empty', tenant='-', `until`='-' WHERE id='" . $db->real_escape_string($fromRoom) . "'");
 
       // 2. Set new room to occupied
       $stmtDest = $db->prepare("UPDATE rooms SET status='occupied', tenant=?, `until`=? WHERE id=?");
