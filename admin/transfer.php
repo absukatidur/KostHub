@@ -25,10 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$sourceRoom || $sourceRoom['status'] !== 'occupied') {
       $error = 'Kamar asal tidak terisi oleh penghuni';
+    } else if ($fromRoom === $toRoom) {
+      $error = 'Kamar asal dan tujuan tidak boleh sama';
     } else {
-      $tenant = $sourceRoom['tenant'];
+      // Fetch target room to ensure it's empty
+      $stmtDestCheck = $db->prepare("SELECT status FROM rooms WHERE id = ?");
+      $stmtDestCheck->bind_param('s', $toRoom);
+      $stmtDestCheck->execute();
+      $destRoom = $stmtDestCheck->get_result()->fetch_assoc();
 
-      // 1. Set old room to empty
+      if (!$destRoom || !in_array($destRoom['status'], ['empty', 'cleaning'])) {
+        $error = 'Kamar tujuan tidak tersedia (sedang terisi atau tidak ada)';
+      } else {
+        $tenant = $sourceRoom['tenant'];
+
+        // 1. Set old room to empty
       $db->query("UPDATE rooms SET status='empty', tenant='-', `until`='-' WHERE id='" . $db->real_escape_string($fromRoom) . "'");
 
       // 2. Set new room to occupied
@@ -46,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       flashMsg("Berhasil memindahkan $tenant dari kamar $fromRoom ke kamar $toRoom.", 'success');
       header('Location: transfer.php');
       exit;
+      }
     }
   }
 }
