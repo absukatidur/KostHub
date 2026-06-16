@@ -51,7 +51,7 @@ require_once '../components/admin_topbar.php';
       <p>Kelola transaksi sewa kamar</p>
     </div>
     <a href="orders_form.php" class="btn btn-primary btn-link">
-      <i class="bi bi-plus-lg" class="fs-14"></i> Buat Order
+      <i class="bi bi-plus-lg" style="font-size: 14px;"></i> Buat Order
     </a>
   </div>
 
@@ -60,7 +60,7 @@ require_once '../components/admin_topbar.php';
   <div class="card">
     <div class="toolbar">
       <div class="search-wrap">
-        <i class="bi bi-search search-icon" class="fs-14"></i>
+        <i class="bi bi-search search-icon" style="font-size: 14px;"></i>
         <input id="ord-search" placeholder="Cari order..." />
       </div>
     </div>

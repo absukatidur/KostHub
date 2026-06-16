@@ -116,7 +116,7 @@ require_once '../components/admin_topbar.php';
 
   <div class="card card-mb">
     <div style="margin-bottom: 12px; border-bottom: 1px solid var(--border-soft); padding-bottom: 8px;">
-      <h3 class="card-section-title" class="fs-15">Rincian Pengajuan</h3>
+      <h3 class="card-section-title" style="font-size: 15px;">Rincian Pengajuan</h3>
     </div>
     <div class="detail-row"><span class="detail-key">Penghuni</span><span class="detail-val"><?= htmlspecialchars($req['customer_name']) ?></span></div>
     <div class="detail-row"><span class="detail-key">Tipe Permintaan</span><span class="detail-val"><?= $req['type'] === 'pindah' ? 'Pindah Kamar' : 'Checkout' ?></span></div>

@@ -72,19 +72,19 @@ require_once '../components/admin_topbar.php';
   <!-- Stats Cards Grid -->
   <div class="stats-grid card-mb">
     <div class="stat-card">
-      <div class="icon-wrap ic-green"><i class="bi bi-cash-stack" class="fs-16"></i></div>
+      <div class="icon-wrap ic-green"><i class="bi bi-cash-stack" style="font-size: 16px;"></i></div>
       <div class="label">Total Pendapatan (Lunas)</div>
       <div class="value" style="font-size: 22px;"><?= fmtRupiah($totalRev) ?></div>
       <div class="sub"><?= $paidCount ?> transaksi lunas</div>
     </div>
     <div class="stat-card">
-      <div class="icon-wrap ic-amber"><i class="bi bi-clock" class="fs-16"></i></div>
+      <div class="icon-wrap ic-amber"><i class="bi bi-clock" style="font-size: 16px;"></i></div>
       <div class="label">Tagihan Tertunda (Belum Bayar)</div>
       <div class="value" style="font-size: 22px;"><?= fmtRupiah($pendingInv) ?></div>
       <div class="sub"><?= $pendingCount ?> invoice pending</div>
     </div>
     <div class="stat-card">
-      <div class="icon-wrap ic-blue"><i class="bi bi-calculator" class="fs-16"></i></div>
+      <div class="icon-wrap ic-blue"><i class="bi bi-calculator" style="font-size: 16px;"></i></div>
       <div class="label">Total Nilai Transaksi</div>
       <div class="value" style="font-size: 22px;"><?= fmtRupiah($totalRev + $pendingInv) ?></div>
       <div class="sub">Dari <?= count($orders) ?> total order</div>
@@ -96,7 +96,7 @@ require_once '../components/admin_topbar.php';
     <div class="card-header">
       <span class="card-title">Rincian Transaksi Penyewaan</span>
       <div class="search-wrap" style="max-width: 300px; margin-bottom: 0;">
-        <i class="bi bi-search search-icon" class="fs-14"></i>
+        <i class="bi bi-search search-icon" style="font-size: 14px;"></i>
         <input id="report-search" placeholder="Cari ID order, nama, kamar..." />
       </div>
     </div>

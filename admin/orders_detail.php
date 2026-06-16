@@ -72,13 +72,13 @@ require_once '../components/admin_topbar.php';
 
   <?php if ($order['status'] === 'pending'): ?>
     <div class="card">
-      <div class="mb-12"><h3 class="card-section-title" class="fs-15">Tindakan</h3></div>
+      <div class="mb-12"><h3 class="card-section-title" style="font-size: 15px;">Tindakan</h3></div>
       <p class="text-sm text-muted" class="mb-16">Jika customer telah melakukan transfer atau membayar tunai, tandai tagihan ini sebagai lunas.</p>
       
       <form method="POST" action="orders_detail.php?id=<?= urlencode($id) ?>" class="form-actions" style="margin-top:0">
         <input type="hidden" name="action" value="pay">
         <button type="submit" class="btn btn-success">
-          <i class="bi bi-check-circle" class="fs-13"></i> Tandai Lunas
+          <i class="bi bi-check-circle" style="font-size: 13px;"></i> Tandai Lunas
         </button>
       </form>
     </div>

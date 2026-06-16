@@ -52,7 +52,7 @@ require_once '../components/admin_topbar.php';
       <p>Data penghuni kos</p>
     </div>
     <a href="customers_form.php" class="btn btn-primary btn-link">
-      <i class="bi bi-person-plus" class="fs-14"></i> Tambah Penghuni
+      <i class="bi bi-person-plus" style="font-size: 14px;"></i> Tambah Penghuni
     </a>
   </div>
 
@@ -61,7 +61,7 @@ require_once '../components/admin_topbar.php';
   <div class="card">
     <div class="toolbar">
       <div class="search-wrap">
-        <i class="bi bi-search search-icon" class="fs-14"></i>
+        <i class="bi bi-search search-icon" style="font-size: 14px;"></i>
         <input id="cust-search" placeholder="Cari nama, email, WA..." />
       </div>
     </div>

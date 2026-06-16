@@ -134,7 +134,7 @@ require_once '../components/admin_topbar.php';
 
         <div class="form-actions" style="margin-top:0">
           <button type="submit" class="btn btn-primary" onclick="return confirm('Konfirmasi memindahkan penghuni?');">
-            <i class="bi bi-arrow-left-right" class="fs-13"></i> Pindahkan Penghuni
+            <i class="bi bi-arrow-left-right" style="font-size: 13px;"></i> Pindahkan Penghuni
           </button>
         </div>
       </form>

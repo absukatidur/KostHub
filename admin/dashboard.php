@@ -91,7 +91,7 @@ require_once '../components/admin_topbar.php';
       <p><?= htmlspecialchars($dateText) ?></p>
     </div>
     <a href="orders_form.php" class="btn btn-primary btn-link">
-      <i class="bi bi-plus-lg" class="fs-14"></i> Buat Order
+      <i class="bi bi-plus-lg" style="font-size: 14px;"></i> Buat Order
     </a>
   </div>
 
@@ -100,21 +100,21 @@ require_once '../components/admin_topbar.php';
   <div class="stats-grid">
     <!-- Kamar Kosong -->
     <div class="stat-card">
-      <div class="icon-wrap ic-blue"><i class="bi bi-door-open" class="fs-16"></i></div>
+      <div class="icon-wrap ic-blue"><i class="bi bi-door-open" style="font-size: 16px;"></i></div>
       <div class="label">Kamar Kosong</div>
       <div class="value"><?= $empty ?></div>
       <div class="sub">Siap disewa</div>
     </div>
     <!-- Kamar Terisi -->
     <div class="stat-card">
-      <div class="icon-wrap ic-green"><i class="bi bi-check-circle" class="fs-16"></i></div>
+      <div class="icon-wrap ic-green"><i class="bi bi-check-circle" style="font-size: 16px;"></i></div>
       <div class="label">Kamar Terisi</div>
       <div class="value"><?= $occupied ?></div>
       <div class="sub">dari <?= $totalRooms ?> kamar</div>
     </div>
     <!-- Perbaikan -->
     <div class="stat-card">
-      <div class="icon-wrap ic-red"><i class="bi bi-wrench" class="fs-16"></i></div>
+      <div class="icon-wrap ic-red"><i class="bi bi-wrench" style="font-size: 16px;"></i></div>
       <div class="label">Perbaikan</div>
       <div class="value"><?= $maint ?></div>
       <div class="sub"><?= $maintRooms ?> kamar · <?= $maintFac ?> fasilitas</div>
@@ -122,16 +122,16 @@ require_once '../components/admin_topbar.php';
     <?php if ($_SESSION['role'] === 'owner'): ?>
       <!-- Total Pendapatan -->
       <div class="stat-card">
-        <div class="icon-wrap ic-green"><i class="bi bi-cash-stack" class="fs-16"></i></div>
+        <div class="icon-wrap ic-green"><i class="bi bi-cash-stack" style="font-size: 16px;"></i></div>
         <div class="label">Total Pendapatan</div>
-        <div class="value" class="fs-18"><?= fmtRupiah($totalRev) ?></div>
+        <div class="value" style="font-size: 18px;"><?= fmtRupiah($totalRev) ?></div>
         <div class="sub">Bulan ini</div>
       </div>
       <!-- Tagihan Tertunda -->
       <div class="stat-card">
-        <div class="icon-wrap ic-amber"><i class="bi bi-clock" class="fs-16"></i></div>
+        <div class="icon-wrap ic-amber"><i class="bi bi-clock" style="font-size: 16px;"></i></div>
         <div class="label">Tagihan Tertunda</div>
-        <div class="value" class="fs-18"><?= fmtRupiah($pendingInv) ?></div>
+        <div class="value" style="font-size: 18px;"><?= fmtRupiah($pendingInv) ?></div>
         <div class="sub"><?= $pendingOrdersCount ?> invoice</div>
       </div>
     <?php endif; ?>
@@ -246,7 +246,7 @@ require_once '../components/admin_topbar.php';
             $color = $logColors[$l['type']] ?? 'ic-gray';
             ?>
             <div class="activity-item">
-              <div class="act-dot <?= $color ?>"><i class="bi bi-<?= $icon ?>" class="fs-14"></i></div>
+              <div class="act-dot <?= $color ?>"><i class="bi bi-<?= $icon ?>" style="font-size: 14px;"></i></div>
               <div class="act-content">
                 <div class="act-title"><?= htmlspecialchars($l['action']) ?></div>
                 <div class="act-detail act-meta"><?= htmlspecialchars($l['detail']) ?></div>

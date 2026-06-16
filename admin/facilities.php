@@ -38,7 +38,7 @@ require_once '../components/admin_topbar.php';
       <p>Kelola fasilitas bersama di kos</p>
     </div>
     <a href="facilities_form.php" class="btn btn-primary btn-link">
-      <i class="bi bi-plus-lg" class="fs-14"></i> Tambah Fasilitas
+      <i class="bi bi-plus-lg" style="font-size: 14px;"></i> Tambah Fasilitas
     </a>
   </div>
 
@@ -56,7 +56,7 @@ require_once '../components/admin_topbar.php';
             <?= repairStatusBadge($f['status']) ?>
           </div>
           <div class="icon-lg-square">
-            <i class="bi bi-buildings" class="fs-18"></i>
+            <i class="bi bi-buildings" style="font-size: 18px;"></i>
           </div>
           <div style="font-weight:700; font-size:15px; margin-bottom:4px; color:var(--slate-white)"><?= htmlspecialchars($f['name']) ?></div>
           <div class="text-sm text-muted" class="mb-8">Lantai <?= htmlspecialchars($f['floor']) ?> · <?= htmlspecialchars($f['id']) ?></div>

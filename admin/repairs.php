@@ -38,7 +38,7 @@ require_once '../components/admin_topbar.php';
       <p>Monitor kerusakan kamar &amp; fasilitas umum</p>
     </div>
     <a href="repairs_form.php" class="btn btn-primary btn-link">
-      <i class="bi bi-plus-lg" class="fs-14"></i> Laporkan Kerusakan
+      <i class="bi bi-plus-lg" style="font-size: 14px;"></i> Laporkan Kerusakan
     </a>
   </div>
 
@@ -47,7 +47,7 @@ require_once '../components/admin_topbar.php';
   <div class="card">
     <div class="toolbar">
       <div class="search-wrap">
-        <i class="bi bi-search search-icon" class="fs-14"></i>
+        <i class="bi bi-search search-icon" style="font-size: 14px;"></i>
         <input id="rep-search" placeholder="Cari laporan..." />
       </div>
     </div>

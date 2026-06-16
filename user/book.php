@@ -122,7 +122,7 @@ require_once '../components/user_topbar.php';
 
   <div class="card card-mb">
     <div class="card-section-header" style="margin-bottom:14px; padding-bottom:10px">
-      <h3 class="card-section-title" class="fs-15">Detail Kamar</h3>
+      <h3 class="card-section-title" style="font-size: 15px;">Detail Kamar</h3>
       <span class="badge badge-blue">Tersedia</span>
     </div>
     <div class="detail-row"><span class="detail-key">ID Kamar</span><span
@@ -141,7 +141,7 @@ require_once '../components/user_topbar.php';
   <div id="book-page-data" data-room-price="<?= intval($room['price']) ?>"></div>
   <div class="card">
     <div class="mb-16">
-      <h3 class="card-section-title" class="fs-15">Rincian Sewa</h3>
+      <h3 class="card-section-title" style="font-size: 15px;">Rincian Sewa</h3>
     </div>
 
     <form method="POST" autocomplete="off" class="form-stack">

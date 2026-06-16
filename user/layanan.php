@@ -123,7 +123,7 @@ require_once '../components/user_topbar.php';
                   ?>
                   <span class="badge <?= $badgeCls ?>"><?= $text ?></span>
                 </td>
-                <td class="text-muted fs-13">
+                <td class="text-muted" style="font-size: 13px;">
                   <?= htmlspecialchars($r['admin_note'] ?: '-') ?>
                 </td>
               </tr>

@@ -38,7 +38,7 @@ require_once '../components/admin_topbar.php';
       <p>Kelola data master kamar kos</p>
     </div>
     <a href="rooms_form.php" class="btn btn-primary btn-link">
-      <i class="bi bi-plus-lg" class="fs-14"></i> Tambah Kamar
+      <i class="bi bi-plus-lg" style="font-size: 14px;"></i> Tambah Kamar
     </a>
   </div>
 
@@ -47,7 +47,7 @@ require_once '../components/admin_topbar.php';
   <div class="card">
     <div class="toolbar">
       <div class="search-wrap">
-        <i class="bi bi-search search-icon" class="fs-14"></i>
+        <i class="bi bi-search search-icon" style="font-size: 14px;"></i>
         <input id="room-search" placeholder="Cari kamar..." />
       </div>
     </div>

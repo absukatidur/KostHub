@@ -64,8 +64,8 @@ require_once '../components/user_topbar.php';
                 <td><span class="td-mono-accent"><?= htmlspecialchars($o['id']) ?></span></td>
                 <td class="td-bold"><?= htmlspecialchars($o['room']) ?></td>
                 <td>
-                  <div class="text-bright fs-13"><?= htmlspecialchars($o['start']) ?></div>
-                  <div class="text-muted fs-12">s/d <?= htmlspecialchars($o['end']) ?></div>
+                  <div class="text-bright" style="font-size: 13px;"><?= htmlspecialchars($o['start']) ?></div>
+                  <div class="text-muted" style="font-size: 12px;">s/d <?= htmlspecialchars($o['end']) ?></div>
                 </td>
                 <td><?= htmlspecialchars($o['type']) ?></td>
                 <td class="font-w600"><?= fmtRupiah($o['total']) ?></td>
@@ -76,7 +76,7 @@ require_once '../components/user_topbar.php';
                       <i class="bi bi-credit-card"></i> Bayar
                     </a>
                   <?php else: ?>
-                    <span class="fs-12" style="color:var(--green-vivid)">✓ Lunas</span>
+                    <span style="font-size: 12px; color:var(--green-vivid)">✓ Lunas</span>
                   <?php endif; ?>
                 </td>
               </tr>

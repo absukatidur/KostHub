@@ -1310,37 +1310,6 @@ select:focus {
   overflow-y: auto;
 }
 
-.fs-12 {
-  font-size: 12px;
-}
-
-.fs-13 {
-  font-size: 13px;
-}
-
-.fs-14 {
-  font-size: 14px;
-}
-
-.fs-15 {
-  font-size: 15px;
-}
-
-.fs-16 {
-  font-size: 16px;
-}
-
-.fs-18 {
-  font-size: 18px;
-}
-
-.mw-70 {
-  max-width: 70%;
-}
-
-.mw-220 {
-  max-width: 220px;
-}
 
 .text-underline {
   text-decoration: underline;
@@ -1354,7 +1323,6 @@ select:focus {
 /* 
    User Alert Banners
     */
-
 .user-alert {
   display: flex;
   align-items: center;

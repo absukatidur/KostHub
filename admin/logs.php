@@ -30,7 +30,7 @@ require_once '../components/admin_topbar.php';
   <div class="card">
     <div class="toolbar">
       <div class="search-wrap">
-        <i class="bi bi-search search-icon" class="fs-14"></i>
+        <i class="bi bi-search search-icon" style="font-size: 14px;"></i>
         <input id="log-search" placeholder="Cari aktivitas..." />
       </div>
     </div>
@@ -45,7 +45,7 @@ require_once '../components/admin_topbar.php';
           $color = $logColors[$l['type']] ?? 'ic-gray';
           ?>
           <div class="activity-item">
-            <div class="act-dot <?= $color ?>"><i class="bi bi-<?= $icon ?>" class="fs-14"></i></div>
+            <div class="act-dot <?= $color ?>"><i class="bi bi-<?= $icon ?>" style="font-size: 14px;"></i></div>
             <div class="act-content">
               <div class="act-title"><?= htmlspecialchars($l['action']) ?></div>
               <div class="act-meta"><?= htmlspecialchars($l['detail']) ?></div>
