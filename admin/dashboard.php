@@ -3,7 +3,7 @@ $basePath = '../';
 require_once '../includes/db.php';
 requireAdmin();
 
-$pageTitle = 'KostHub — Room Management System';
+$pageTitle = 'KostHub — Sistem Manajemen Kamar Kos';
 $pageTitleShort = 'Dashboard';
 
 // Date Text
@@ -127,10 +127,10 @@ require_once '../components/admin_topbar.php';
         <div class="value" style="font-size: 18px;"><?= fmtRupiah($totalRev) ?></div>
         <div class="sub">Bulan ini</div>
       </div>
-      <!-- Invoice Pending -->
+      <!-- Tagihan Tertunda -->
       <div class="stat-card">
         <div class="icon-wrap ic-amber"><i class="bi bi-clock" style="font-size:16px"></i></div>
-        <div class="label">Invoice Pending</div>
+        <div class="label">Tagihan Tertunda</div>
         <div class="value" style="font-size: 18px;"><?= fmtRupiah($pendingInv) ?></div>
         <div class="sub"><?= $pendingOrdersCount ?> invoice</div>
       </div>
@@ -163,7 +163,7 @@ require_once '../components/admin_topbar.php';
           <table>
             <thead>
               <tr>
-                <th>Customer</th>
+                <th>Penghuni</th>
                 <th>Kamar</th>
                 <th>Status</th>
               </tr>
@@ -203,7 +203,7 @@ require_once '../components/admin_topbar.php';
           <table>
             <thead>
               <tr>
-                <th>Customer</th>
+                <th>Penghuni</th>
                 <th>Kamar</th>
                 <th>Status</th>
               </tr>

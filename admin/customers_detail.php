@@ -5,7 +5,7 @@ requireAdmin();
 
 $id = $_GET['id'] ?? '';
 if (!$id) {
-    flashMsg("ID Customer tidak valid.", 'error');
+    flashMsg("ID Penghuni tidak valid.", 'error');
     header('Location: customers.php');
     exit;
 }
@@ -16,7 +16,7 @@ $stmt->execute();
 $customer = $stmt->get_result()->fetch_assoc();
 
 if (!$customer) {
-    flashMsg("Customer tidak ditemukan.", 'error');
+    flashMsg("Penghuni tidak ditemukan.", 'error');
     header('Location: customers.php');
     exit;
 }
@@ -36,8 +36,8 @@ $stmt_orders->bind_param('s', $customer['name']);
 $stmt_orders->execute();
 $orders = $stmt_orders->get_result()->fetch_all(MYSQLI_ASSOC);
 
-$pageTitle = 'Detail Customer — ' . htmlspecialchars($customer['name']);
-$pageTitleShort = 'Customer';
+$pageTitle = 'Detail Penghuni — ' . htmlspecialchars($customer['name']);
+$pageTitleShort = 'Penghuni';
 
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
@@ -47,7 +47,7 @@ require_once '../components/admin_topbar.php';
 <div style="max-width: 700px; margin: 0 auto;">
   <div class="section-header">
     <div>
-      <h2>Detail Customer</h2>
+      <h2>Detail Penghuni</h2>
       <p>Data lengkap dan riwayat sewa penghuni</p>
     </div>
     <div style="display:flex; gap:8px">
@@ -55,7 +55,7 @@ require_once '../components/admin_topbar.php';
         <i class="bi bi-arrow-left"></i> Kembali
       </a>
       <a href="customers_form.php?id=<?= urlencode($customer['id']) ?>" class="btn btn-primary" style="text-decoration: none;">
-        <i class="bi bi-pencil"></i> Edit Customer
+        <i class="bi bi-pencil"></i> Edit Penghuni
       </a>
     </div>
   </div>
@@ -91,7 +91,7 @@ require_once '../components/admin_topbar.php';
         <div class="detail-row" style="display:flex; justify-content:space-between;"><span style="color:var(--slate-muted)">Tipe / Lantai</span><span style="color:var(--slate-bright)"><?= htmlspecialchars($room['type']) ?> (Lantai <?= htmlspecialchars($room['floor']) ?>)</span></div>
         <div class="detail-row" style="display:flex; justify-content:space-between;"><span style="color:var(--slate-muted)">Sewa Hingga</span><span style="color:var(--slate-bright)"><?= htmlspecialchars($room['until']) ?></span></div>
       <?php else: ?>
-        <div style="text-align:center; padding:15px; color:var(--slate-muted)">Customer belum menempati kamar manapun.</div>
+        <div style="text-align:center; padding:15px; color:var(--slate-muted)">Penghuni belum menempati kamar manapun.</div>
       <?php endif; ?>
     </div>
   </div>

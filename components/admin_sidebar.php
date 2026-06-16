@@ -34,12 +34,12 @@ if ($reqBadgeQuery) {
       </a>
     </div>
     <div class="nav-section">
-      <div class="nav-label">Master Data</div>
+      <div class="nav-label">Data Utama</div>
       <a href="rooms.php" class="nav-item <?= ($currentScript === 'rooms.php' || $currentScript === 'rooms_form.php') ? 'active' : '' ?>" style="text-decoration: none;">
         <i class="bi bi-door-open"></i> Tipe Kamar
       </a>
       <a href="customers.php" class="nav-item <?= ($currentScript === 'customers.php' || $currentScript === 'customers_form.php') ? 'active' : '' ?>" style="text-decoration: none;">
-        <i class="bi bi-people"></i> Customer
+        <i class="bi bi-people"></i> Penghuni
       </a>
     </div>
     <div class="nav-section">
@@ -71,7 +71,7 @@ if ($reqBadgeQuery) {
     </div>
     <?php if ($_SESSION['role'] === 'owner'): ?>
     <div class="nav-section">
-      <div class="nav-label">Owner Tools</div>
+      <div class="nav-label">Alat Pemilik</div>
       <a href="admins.php" class="nav-item <?= ($currentScript === 'admins.php' || $currentScript === 'admins_form.php') ? 'active' : '' ?>" style="text-decoration: none;">
         <i class="bi bi-shield-lock"></i> Kelola Admin
       </a>

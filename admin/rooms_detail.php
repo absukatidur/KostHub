@@ -109,7 +109,7 @@ require_once '../components/admin_topbar.php';
         <div class="form-group" style="margin-bottom: 12px">
           <label class="form-label" style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Nama Penghuni</label>
           <select class="filter-select" style="width:100%" name="tenant">
-            <option value="-" <?= $room['tenant'] === '-' ? 'selected' : '' ?>>- Pilih Customer -</option>
+            <option value="-" <?= $room['tenant'] === '-' ? 'selected' : '' ?>>- Pilih Penghuni -</option>
             <?php foreach ($customers as $c): ?>
               <option value="<?= htmlspecialchars($c['name']) ?>" <?= $room['tenant'] === $c['name'] ? 'selected' : '' ?>><?= htmlspecialchars($c['name']) ?></option>
             <?php endforeach; ?>

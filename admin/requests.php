@@ -35,7 +35,7 @@ require_once '../components/admin_topbar.php';
         <thead>
           <tr>
             <th>ID</th>
-            <th>Customer</th>
+            <th>Penghuni</th>
             <th>Tipe</th>
             <th>Detail</th>
             <th>Tanggal</th>

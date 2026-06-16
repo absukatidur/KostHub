@@ -1,4 +1,4 @@
-﻿<nav id="sidebar">
+<nav id="sidebar">
   <div class="sidebar-logo">
     <h1>Kost<span>Hub</span></h1>
     <p>v1.0.0 · admin</p>
@@ -11,12 +11,12 @@
       </button>
     </div>
     <div class="nav-section">
-      <div class="nav-label">Master Data</div>
+      <div class="nav-label">Data Utama</div>
       <button class="nav-item" onclick="navigate('master-kamar')">
         <i class="bi bi-door-open"></i> Tipe Kamar
       </button>
       <button class="nav-item" onclick="navigate('master-customer')">
-        <i class="bi bi-people"></i> Customer
+        <i class="bi bi-people"></i> Penghuni
       </button>
     </div>
     <div class="nav-section">

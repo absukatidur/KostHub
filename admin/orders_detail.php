@@ -62,7 +62,7 @@ require_once '../components/admin_topbar.php';
       <div><?= statusBadge($order['status']) ?></div>
     </div>
     
-    <div class="detail-row" style="display:flex; justify-content:space-between; padding:8px 0; border-bottom: 1px solid var(--border-faint)"><span style="color:var(--slate-muted)">Customer</span><span style="font-weight:600; color:var(--slate-bright)"><?= htmlspecialchars($order['customer']) ?></span></div>
+    <div class="detail-row" style="display:flex; justify-content:space-between; padding:8px 0; border-bottom: 1px solid var(--border-faint)"><span style="color:var(--slate-muted)">Penghuni</span><span style="font-weight:600; color:var(--slate-bright)"><?= htmlspecialchars($order['customer']) ?></span></div>
     <div class="detail-row" style="display:flex; justify-content:space-between; padding:8px 0; border-bottom: 1px solid var(--border-faint)"><span style="color:var(--slate-muted)">Kamar</span><span style="font-weight:600; color:var(--slate-bright)"><?= htmlspecialchars($order['room']) ?></span></div>
     <div class="detail-row" style="display:flex; justify-content:space-between; padding:8px 0; border-bottom: 1px solid var(--border-faint)"><span style="color:var(--slate-muted)">Tipe Sewa</span><span style="color:var(--slate-bright)"><?= htmlspecialchars($order['type']) ?></span></div>
     <div class="detail-row" style="display:flex; justify-content:space-between; padding:8px 0; border-bottom: 1px solid var(--border-faint)"><span style="color:var(--slate-muted)">Tanggal Mulai</span><span style="color:var(--slate-bright)"><?= htmlspecialchars($order['start']) ?></span></div>

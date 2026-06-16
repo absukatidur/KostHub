@@ -70,7 +70,7 @@ require_once '../components/admin_topbar.php';
         <thead>
           <tr>
             <th>ID Order</th>
-            <th>Customer</th>
+            <th>Penghuni</th>
             <th>Kamar</th>
             <th>Periode</th>
             <th>Tipe</th>

@@ -13,7 +13,7 @@ if ($isEdit) {
     $stmt->execute();
     $customer = $stmt->get_result()->fetch_assoc();
     if (!$customer) {
-        flashMsg("Customer tidak ditemukan.", 'error');
+        flashMsg("Penghuni tidak ditemukan.", 'error');
         header('Location: customers.php');
         exit;
     }
@@ -61,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = $db->prepare("UPDATE customers SET name = ?, email = ?, wa = ?, room = ? WHERE id = ?");
                 $stmt->bind_param('sssss', $name, $email, $wa, $roomField, $id);
                 if ($stmt->execute()) {
-                    addLog($db, 'Customer diperbarui', "$name ($id) diperbarui", 'customer');
-                    flashMsg("Customer $name berhasil diperbarui.", 'success');
+                    addLog($db, 'Penghuni diperbarui', "$name ($id) diperbarui", 'customer');
+                    flashMsg("Penghuni $name berhasil diperbarui.", 'success');
                     header('Location: customers.php');
                     exit;
                 } else {
@@ -79,8 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = $db->prepare("INSERT INTO customers (id, name, email, wa, room) VALUES (?, ?, ?, ?, ?)");
                 $stmt->bind_param('sssss', $nid, $name, $email, $wa, $roomField);
                 if ($stmt->execute()) {
-                    addLog($db, 'Customer ditambah', "$name terdaftar ($nid)", 'customer');
-                    flashMsg("Customer $name berhasil ditambahkan.", 'success');
+                    addLog($db, 'Penghuni ditambah', "$name terdaftar ($nid)", 'customer');
+                    flashMsg("Penghuni $name berhasil ditambahkan.", 'success');
                     header('Location: customers.php');
                     exit;
                 } else {
@@ -99,8 +99,8 @@ if ($isEdit && !empty($customer['room'])) {
 $roomOptionsQuery .= " ORDER BY id";
 $rooms = $db->query($roomOptionsQuery)->fetch_all(MYSQLI_ASSOC);
 
-$pageTitle = ($isEdit ? 'Edit Customer' : 'Tambah Customer') . ' — KostHub';
-$pageTitleShort = 'Customer';
+$pageTitle = ($isEdit ? 'Edit Penghuni' : 'Tambah Penghuni') . ' — KostHub';
+$pageTitleShort = 'Penghuni';
 
 require_once '../components/header.php';
 require_once '../components/admin_sidebar.php';
@@ -110,7 +110,7 @@ require_once '../components/admin_topbar.php';
 <div style="max-width: 600px; margin: 0 auto;">
   <div class="section-header">
     <div>
-      <h2><?= $isEdit ? 'Edit Customer' : 'Tambah Customer' ?></h2>
+      <h2><?= $isEdit ? 'Edit Penghuni' : 'Tambah Penghuni' ?></h2>
       <p><?= $isEdit ? 'Perbarui data diri penghuni ' . htmlspecialchars($id) : 'Tambahkan data diri penghuni kos baru' ?></p>
     </div>
     <a href="customers.php" class="btn btn-secondary" style="text-decoration: none;">
@@ -164,7 +164,7 @@ require_once '../components/admin_topbar.php';
 
       <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px">
         <a href="customers.php" class="btn btn-secondary" style="text-decoration:none">Batal</a>
-        <button type="submit" class="btn btn-primary">Simpan Customer</button>
+        <button type="submit" class="btn btn-primary">Simpan Penghuni</button>
       </div>
     </form>
   </div>

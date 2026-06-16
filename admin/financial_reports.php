@@ -79,7 +79,7 @@ require_once '../components/admin_topbar.php';
     </div>
     <div class="stat-card">
       <div class="icon-wrap ic-amber"><i class="bi bi-clock" style="font-size:16px"></i></div>
-      <div class="label">Invoice Pending (Belum Bayar)</div>
+      <div class="label">Tagihan Tertunda (Belum Bayar)</div>
       <div class="value" style="font-size: 22px;"><?= fmtRupiah($pendingInv) ?></div>
       <div class="sub"><?= $pendingCount ?> invoice pending</div>
     </div>
@@ -106,7 +106,7 @@ require_once '../components/admin_topbar.php';
         <thead>
           <tr>
             <th>ID Order</th>
-            <th>Customer</th>
+            <th>Penghuni</th>
             <th>Kamar</th>
             <th>Tanggal Mulai</th>
             <th>Tanggal Selesai</th>

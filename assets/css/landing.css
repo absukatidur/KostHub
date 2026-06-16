@@ -9,7 +9,8 @@
 }
 
 :root {
-  /* Brand colors imported from style.css */
+
+  /* Brand */
   --blue-faded: rgba(66, 71, 138, 0.15);
   --blue-light: rgba(66, 71, 138, 0.25);
   --blue-soft: rgba(66, 71, 138, 0.4);
@@ -18,7 +19,7 @@
   --brand-accent: #f9b47a;
   --brand-accent-hover: #e8a36a;
 
-  /* Neutrals imported from style.css */
+  /* Neutrals */
   --slate-faint: rgba(255, 255, 255, 0.03);
   --slate-thin: rgba(255, 255, 255, 0.06);
   --slate-soft: rgba(255, 255, 255, 0.1);
@@ -30,7 +31,7 @@
   --slate-bright: #e0e2f0;
   --slate-white: #ffffff;
 
-  /* Status colors imported from style.css */
+  /* Status colors */
   --green-faded: rgba(34, 197, 94, 0.1);
   --green-light: rgba(34, 197, 94, 0.15);
   --green-soft: rgba(34, 197, 94, 0.25);
@@ -59,14 +60,14 @@
   --purple-main: #8b5cf6;
   --purple-deep: #c4b5fd;
 
-  /* Layout backgrounds imported from style.css */
+  /* Layout backgrounds */
   --bg-dark: #0f1123;
   --bg-sidebar: #0a0c1a;
   --bg-header: #131630;
   --bg-card: #1a1d3a;
   --bg-overlay: rgba(10, 12, 26, 0.7);
 
-  /* Opacity & borders imported from style.css */
+  /* Opacity & borders*/
   --border-soft: rgba(103, 111, 157, 0.15);
   --border-dim: rgba(103, 111, 157, 0.2);
   --border-faint: rgba(103, 111, 157, 0.08);
@@ -74,7 +75,7 @@
   --slate-trans-07: rgba(255, 255, 255, 0.07);
   --slate-trans-08: rgba(255, 255, 255, 0.08);
 
-  /* Extras imported from style.css */
+  /* Extras */
   --blue-mid-light: rgba(66, 71, 138, 0.3);
   --purple-medium-light: rgba(139, 92, 246, 0.3);
 
@@ -365,7 +366,7 @@ body {
 
 /* Hero Right Image */
 .hero-right {
-  width: 50%;
+  width: 45%;
   position: absolute;
   right: 0;
   top: 0;

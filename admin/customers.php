@@ -3,8 +3,8 @@ $basePath = '../';
 require_once '../includes/db.php';
 requireAdmin();
 
-$pageTitle = 'Customer — KostHub';
-$pageTitleShort = 'Customer';
+$pageTitle = 'Penghuni — KostHub';
+$pageTitleShort = 'Penghuni';
 
 // Handle delete customer
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete') {
@@ -26,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
             if ($stmt->execute()) {
                 // Delete linked user account
                 $db->query("DELETE FROM users WHERE customer_id = '" . $db->real_escape_string($id) . "'");
-                addLog($db, 'Customer dihapus', "$name ($id) dihapus", 'customer');
-                flashMsg("Customer $name berhasil dihapus.", 'success');
+                addLog($db, 'Penghuni dihapus', "$name ($id) dihapus", 'customer');
+                flashMsg("Penghuni $name berhasil dihapus.", 'success');
             } else {
                 flashMsg("Gagal menghapus customer: " . $db->error, 'error');
             }
@@ -48,11 +48,11 @@ require_once '../components/admin_topbar.php';
 <div>
   <div class="section-header">
     <div>
-      <h2>Customer</h2>
+      <h2>Penghuni</h2>
       <p>Data penghuni kos</p>
     </div>
     <a href="customers_form.php" class="btn btn-primary" style="text-decoration: none;">
-      <i class="bi bi-person-plus" style="font-size:14px"></i> Tambah Customer
+      <i class="bi bi-person-plus" style="font-size:14px"></i> Tambah Penghuni
     </a>
   </div>
 
@@ -104,7 +104,7 @@ require_once '../components/admin_topbar.php';
                     <a href="customers_form.php?id=<?= urlencode($c['id']) ?>" class="btn btn-secondary btn-sm" title="Edit">
                       <i class="bi bi-pencil" style="font-size:12px"></i>
                     </a>
-                    <form method="POST" action="customers.php" onsubmit="return confirm('Hapus Customer <?= htmlspecialchars($c['name']) ?>? Data sewa dan akun user juga akan dihapus.');" style="display:inline;">
+                    <form method="POST" action="customers.php" onsubmit="return confirm('Hapus Penghuni <?= htmlspecialchars($c['name']) ?>? Data sewa dan akun user juga akan dihapus.');" style="display:inline;">
                       <input type="hidden" name="action" value="delete">
                       <input type="hidden" name="id" value="<?= htmlspecialchars($c['id']) ?>">
                       <button type="submit" class="btn btn-danger btn-sm" title="Hapus">

@@ -56,7 +56,7 @@ require_once '../components/user_topbar.php';
     </div>
 
     <div class="detail-row" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-faint);">
-      <span style="color: var(--slate-muted); font-weight: 500;">ID Customer</span>
+      <span style="color: var(--slate-muted); font-weight: 500;">ID Penghuni</span>
       <span style="font-family: 'DM Mono', monospace; font-size: 13px; color: var(--slate-bright);"><?= htmlspecialchars($customer['id']) ?></span>
     </div>
     

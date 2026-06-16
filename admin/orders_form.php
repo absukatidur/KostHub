@@ -89,9 +89,9 @@ require_once '../components/admin_topbar.php';
       
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px">
         <div class="form-group">
-          <label class="form-label" style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Customer</label>
+          <label class="form-label" style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Penghuni</label>
           <select class="filter-select" style="width:100%" id="no-cust" name="customer" required>
-            <option value="">-- Pilih Customer --</option>
+            <option value="">-- Pilih Penghuni --</option>
             <?php foreach ($customers as $c): ?>
               <option value="<?= htmlspecialchars($c['name']) ?>" <?= (($_POST['customer'] ?? '') === $c['name']) ? 'selected' : '' ?>><?= htmlspecialchars($c['name']) ?></option>
             <?php endforeach; ?>

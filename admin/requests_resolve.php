@@ -118,7 +118,7 @@ require_once '../components/admin_topbar.php';
     <div style="margin-bottom: 12px; border-bottom: 1px solid var(--border-soft); padding-bottom: 8px;">
       <h3 style="margin:0; font-size:15px; color:var(--slate-white)">Rincian Pengajuan</h3>
     </div>
-    <div class="detail-row" style="display:flex; justify-content:space-between; padding:6px 0;"><span style="color:var(--slate-muted)">Customer</span><span style="color:var(--slate-bright); font-weight:600"><?= htmlspecialchars($req['customer_name']) ?></span></div>
+    <div class="detail-row" style="display:flex; justify-content:space-between; padding:6px 0;"><span style="color:var(--slate-muted)">Penghuni</span><span style="color:var(--slate-bright); font-weight:600"><?= htmlspecialchars($req['customer_name']) ?></span></div>
     <div class="detail-row" style="display:flex; justify-content:space-between; padding:6px 0;"><span style="color:var(--slate-muted)">Tipe Permintaan</span><span style="color:var(--slate-bright)"><?= $req['type'] === 'pindah' ? 'Pindah Kamar' : 'Checkout' ?></span></div>
     <div class="detail-row" style="display:flex; justify-content:space-between; padding:6px 0;"><span style="color:var(--slate-muted)">Detail</span><span style="color:var(--brand-accent)">
       <?php 
