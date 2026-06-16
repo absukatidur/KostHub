@@ -90,8 +90,8 @@ require_once '../components/admin_topbar.php';
       <h2>Selamat datang, <?= $_SESSION['role'] === 'owner' ? 'Owner' : 'Admin' ?></h2>
       <p><?= htmlspecialchars($dateText) ?></p>
     </div>
-    <a href="orders_form.php" class="btn btn-primary" style="text-decoration: none;">
-      <i class="bi bi-plus-lg" style="font-size:14px"></i> Buat Order
+    <a href="orders_form.php" class="btn btn-primary btn-link">
+      <i class="bi bi-plus-lg" class="fs-14"></i> Buat Order
     </a>
   </div>
 
@@ -100,21 +100,21 @@ require_once '../components/admin_topbar.php';
   <div class="stats-grid">
     <!-- Kamar Kosong -->
     <div class="stat-card">
-      <div class="icon-wrap ic-blue"><i class="bi bi-door-open" style="font-size:16px"></i></div>
+      <div class="icon-wrap ic-blue"><i class="bi bi-door-open" class="fs-16"></i></div>
       <div class="label">Kamar Kosong</div>
       <div class="value"><?= $empty ?></div>
       <div class="sub">Siap disewa</div>
     </div>
     <!-- Kamar Terisi -->
     <div class="stat-card">
-      <div class="icon-wrap ic-green"><i class="bi bi-check-circle" style="font-size:16px"></i></div>
+      <div class="icon-wrap ic-green"><i class="bi bi-check-circle" class="fs-16"></i></div>
       <div class="label">Kamar Terisi</div>
       <div class="value"><?= $occupied ?></div>
       <div class="sub">dari <?= $totalRooms ?> kamar</div>
     </div>
     <!-- Perbaikan -->
     <div class="stat-card">
-      <div class="icon-wrap ic-red"><i class="bi bi-wrench" style="font-size:16px"></i></div>
+      <div class="icon-wrap ic-red"><i class="bi bi-wrench" class="fs-16"></i></div>
       <div class="label">Perbaikan</div>
       <div class="value"><?= $maint ?></div>
       <div class="sub"><?= $maintRooms ?> kamar · <?= $maintFac ?> fasilitas</div>
@@ -122,23 +122,23 @@ require_once '../components/admin_topbar.php';
     <?php if ($_SESSION['role'] === 'owner'): ?>
       <!-- Total Pendapatan -->
       <div class="stat-card">
-        <div class="icon-wrap ic-green"><i class="bi bi-cash-stack" style="font-size:16px"></i></div>
+        <div class="icon-wrap ic-green"><i class="bi bi-cash-stack" class="fs-16"></i></div>
         <div class="label">Total Pendapatan</div>
-        <div class="value" style="font-size: 18px;"><?= fmtRupiah($totalRev) ?></div>
+        <div class="value" class="fs-18"><?= fmtRupiah($totalRev) ?></div>
         <div class="sub">Bulan ini</div>
       </div>
       <!-- Tagihan Tertunda -->
       <div class="stat-card">
-        <div class="icon-wrap ic-amber"><i class="bi bi-clock" style="font-size:16px"></i></div>
+        <div class="icon-wrap ic-amber"><i class="bi bi-clock" class="fs-16"></i></div>
         <div class="label">Tagihan Tertunda</div>
-        <div class="value" style="font-size: 18px;"><?= fmtRupiah($pendingInv) ?></div>
+        <div class="value" class="fs-18"><?= fmtRupiah($pendingInv) ?></div>
         <div class="sub"><?= $pendingOrdersCount ?> invoice</div>
       </div>
     <?php endif; ?>
   </div>
 
   <?php if ($_SESSION['role'] === 'owner'): ?>
-    <div class="two-col" style="margin-bottom:14px">
+    <div class="two-col" class="mb-14">
       <div class="card">
         <div class="card-header"><span class="card-title">Pendapatan Penyewaan</span></div>
         <div class="chart-bars">
@@ -150,14 +150,14 @@ require_once '../components/admin_topbar.php';
             </div>
           <?php endforeach; ?>
         </div>
-        <div style="font-size:11px;color:var(--slate-muted);text-align:center;margin-top:6px">Tahun <?= $currentYear ?> ·
+        <div class="text-xs text-muted" style="text-align:center; margin-top:6px">Tahun <?= $currentYear ?> ·
           Hover untuk detail</div>
       </div>
 
       <div class="card">
         <div class="card-header">
           <span class="card-title">Order Terbaru</span>
-          <a href="orders.php" class="btn btn-secondary btn-sm" style="text-decoration: none;">Lihat Semua</a>
+          <a href="orders.php" class="btn btn-secondary btn-sm btn-link">Lihat Semua</a>
         </div>
         <div class="table-wrap">
           <table>
@@ -172,15 +172,14 @@ require_once '../components/admin_topbar.php';
               <?php $recentOrders = array_slice($orders, 0, 4); ?>
               <?php if (empty($recentOrders)): ?>
                 <tr>
-                  <td colspan="3" style="text-align:center; color:var(--slate-muted)">Tidak ada order terbaru</td>
+                  <td colspan="3" class="td-empty">Tidak ada order terbaru</td>
                 </tr>
               <?php else: ?>
                 <?php foreach ($recentOrders as $o): ?>
                   <tr>
                     <td>
-                      <div class="ro-customer" style="font-weight:600"><?= htmlspecialchars($o['customer']) ?></div>
-                      <div class="ro-id" style="font-size:11px;color:var(--slate-muted)"><?= htmlspecialchars($o['id']) ?>
-                      </div>
+                      <div class="td-bold"><?= htmlspecialchars($o['customer']) ?></div>
+                      <div class="text-xs text-muted"><?= htmlspecialchars($o['id']) ?></div>
                     </td>
                     <td><?= htmlspecialchars($o['room']) ?></td>
                     <td><?= statusBadge($o['status']) ?></td>
@@ -193,11 +192,11 @@ require_once '../components/admin_topbar.php';
       </div>
     </div>
   <?php else: ?>
-    <div style="margin-bottom:14px">
+    <div class="mb-14">
       <div class="card">
         <div class="card-header">
           <span class="card-title">Order Terbaru</span>
-          <a href="orders.php" class="btn btn-secondary btn-sm" style="text-decoration: none;">Lihat Semua</a>
+          <a href="orders.php" class="btn btn-secondary btn-sm btn-link">Lihat Semua</a>
         </div>
         <div class="table-wrap">
           <table>
@@ -212,15 +211,14 @@ require_once '../components/admin_topbar.php';
               <?php $recentOrders = array_slice($orders, 0, 4); ?>
               <?php if (empty($recentOrders)): ?>
                 <tr>
-                  <td colspan="3" style="text-align:center; color:var(--slate-muted)">Tidak ada order terbaru</td>
+                  <td colspan="3" class="td-empty">Tidak ada order terbaru</td>
                 </tr>
               <?php else: ?>
                 <?php foreach ($recentOrders as $o): ?>
                   <tr>
                     <td>
-                      <div class="ro-customer" style="font-weight:600"><?= htmlspecialchars($o['customer']) ?></div>
-                      <div class="ro-id" style="font-size:11px;color:var(--slate-muted)"><?= htmlspecialchars($o['id']) ?>
-                      </div>
+                      <div class="td-bold"><?= htmlspecialchars($o['customer']) ?></div>
+                      <div class="text-xs text-muted"><?= htmlspecialchars($o['id']) ?></div>
                     </td>
                     <td><?= htmlspecialchars($o['room']) ?></td>
                     <td><?= statusBadge($o['status']) ?></td>
@@ -240,7 +238,7 @@ require_once '../components/admin_topbar.php';
       <div class="activity-list">
         <?php $recentLogs = array_slice($logs, 0, 5); ?>
         <?php if (empty($recentLogs)): ?>
-          <div style="text-align:center;padding:20px;color:var(--slate-muted)">Tidak ada aktivitas</div>
+          <div class="td-empty" style="padding:20px">Tidak ada aktivitas</div>
         <?php else: ?>
           <?php foreach ($recentLogs as $l): ?>
             <?php
@@ -248,7 +246,7 @@ require_once '../components/admin_topbar.php';
             $color = $logColors[$l['type']] ?? 'ic-gray';
             ?>
             <div class="activity-item">
-              <div class="act-dot <?= $color ?>"><i class="bi bi-<?= $icon ?>" style="font-size:14px"></i></div>
+              <div class="act-dot <?= $color ?>"><i class="bi bi-<?= $icon ?>" class="fs-14"></i></div>
               <div class="act-content">
                 <div class="act-title"><?= htmlspecialchars($l['action']) ?></div>
                 <div class="act-detail act-meta"><?= htmlspecialchars($l['detail']) ?></div>
@@ -263,7 +261,7 @@ require_once '../components/admin_topbar.php';
     <div class="card">
       <div class="card-header">
         <span class="card-title">Overview Kamar</span>
-        <a href="rooms.php" class="btn btn-secondary btn-sm" style="text-decoration: none;">Detail</a>
+        <a href="rooms.php" class="btn btn-secondary btn-sm btn-link">Detail</a>
       </div>
       <div class="legend">
         <div class="legend-item">

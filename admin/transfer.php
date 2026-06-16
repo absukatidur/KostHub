@@ -40,23 +40,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tenant = $sourceRoom['tenant'];
 
         // 1. Set old room to empty
-      $db->query("UPDATE rooms SET status='empty', tenant='-', `until`='-' WHERE id='" . $db->real_escape_string($fromRoom) . "'");
+        $db->query("UPDATE rooms SET status='empty', tenant='-', `until`='-' WHERE id='" . $db->real_escape_string($fromRoom) . "'");
 
-      // 2. Set new room to occupied
-      $stmtDest = $db->prepare("UPDATE rooms SET status='occupied', tenant=?, `until`=? WHERE id=?");
-      $stmtDest->bind_param('sss', $tenant, $newEnd, $toRoom);
-      $stmtDest->execute();
+        // 2. Set new room to occupied
+        $stmtDest = $db->prepare("UPDATE rooms SET status='occupied', tenant=?, `until`=? WHERE id=?");
+        $stmtDest->bind_param('sss', $tenant, $newEnd, $toRoom);
+        $stmtDest->execute();
 
-      // 3. Update customer table
-      $db->query("UPDATE customers SET room='" . $db->real_escape_string($toRoom) . "' WHERE name='" . $db->real_escape_string($tenant) . "'");
+        // 3. Update customer table
+        $db->query("UPDATE customers SET room='" . $db->real_escape_string($toRoom) . "' WHERE name='" . $db->real_escape_string($tenant) . "'");
 
-      // 4. Log transfer
-      $detail = "$tenant: $fromRoom → $toRoom" . ($note ? " ($note)" : '');
-      addLog($db, 'Pindah kamar', $detail, 'room');
+        // 4. Log transfer
+        $detail = "$tenant: $fromRoom → $toRoom" . ($note ? " ($note)" : '');
+        addLog($db, 'Pindah kamar', $detail, 'room');
 
-      flashMsg("Berhasil memindahkan $tenant dari kamar $fromRoom ke kamar $toRoom.", 'success');
-      header('Location: transfer.php');
-      exit;
+        flashMsg("Berhasil memindahkan $tenant dari kamar $fromRoom ke kamar $toRoom.", 'success');
+        header('Location: transfer.php');
+        exit;
       }
     }
   }
@@ -82,13 +82,7 @@ require_once '../components/admin_topbar.php';
   <?php showFlash(); ?>
 
   <?php if (!empty($error)): ?>
-    <div class="alert alert-danger" style="margin-bottom: 20px; 
-    padding: 15px; 
-    border-radius: 8px; 
-    font-weight: 500; 
-    background: rgba(239, 68, 68, 0.15); 
-    color: #ef4444; 
-    border: 1px solid rgba(239, 68, 68, 0.2);">
+    <div class="alert-danger">
       <?= htmlspecialchars($error) ?>
     </div>
   <?php endif; ?>
@@ -96,16 +90,14 @@ require_once '../components/admin_topbar.php';
   <div class="two-col">
     <!-- Transfer Form Card -->
     <div class="card">
-      <div style="margin-bottom:16px">
-        <h3 style="margin:0; font-size:16px; color:var(--slate-white)">Form Pindah Kamar</h3>
+      <div class="mb-16">
+        <h3 class="card-section-title">Form Pindah Kamar</h3>
       </div>
 
-      <form method="POST" autocomplete="off" style="display:flex; flex-direction:column; gap:16px">
+      <form method="POST" autocomplete="off" class="form-stack">
         <div class="form-group">
-          <label class="form-label"
-            style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Pilih Kamar Asal
-            (Penghuni)</label>
-          <select class="filter-select" style="width:100%" name="from_room" required>
+          <label class="form-label">Pilih Kamar Asal (Penghuni)</label>
+          <select class="filter-select-full" name="from_room" required>
             <option value="">-- Pilih Kamar Asal --</option>
             <?php foreach ($occupiedRooms as $r): ?>
               <option value="<?= htmlspecialchars($r['id']) ?>">
@@ -117,10 +109,8 @@ require_once '../components/admin_topbar.php';
         </div>
 
         <div class="form-group">
-          <label class="form-label"
-            style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Pilih Kamar
-            Tujuan</label>
-          <select class="filter-select" style="width:100%" name="to_room" required>
+          <label class="form-label">Pilih Kamar Tujuan</label>
+          <select class="filter-select-full" name="to_room" required>
             <option value="">-- Pilih Kamar Tujuan --</option>
             <?php foreach ($emptyRooms as $r): ?>
               <option value="<?= htmlspecialchars($r['id']) ?>">
@@ -132,48 +122,41 @@ require_once '../components/admin_topbar.php';
         </div>
 
         <div class="form-group">
-          <label class="form-label"
-            style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Sewa Hingga di Kamar
-            Baru</label>
-          <input class="search-wrap"
-            style="width:100%; padding:8px 12px; border:1px solid var(--border-dim); border-radius:8px; background:var(--slate-very-faint); color:var(--slate-bright); outline:none"
-            type="date" name="new_end" />
+          <label class="form-label">Sewa Hingga di Kamar Baru</label>
+          <input class="form-input" type="date" name="new_end" />
         </div>
 
         <div class="form-group">
-          <label class="form-label"
-            style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Catatan / Alasan
-            Pindah</label>
-          <textarea class="search-wrap"
-            style="width:100%; padding:8px 12px; border:1px solid var(--border-dim); border-radius:8px; background:var(--slate-very-faint); color:var(--slate-bright); outline:none; font-family:inherit"
+          <label class="form-label">Catatan / Alasan Pindah</label>
+          <textarea class="form-input"
             rows="3" name="note" placeholder="Ingin kamar yang lebih luas, dll..."></textarea>
         </div>
 
-        <div style="display:flex; justify-content:flex-end; margin-top:10px">
+        <div class="form-actions" style="margin-top:0">
           <button type="submit" class="btn btn-primary" onclick="return confirm('Konfirmasi memindahkan penghuni?');">
-            <i class="bi bi-arrow-left-right" style="font-size:13px"></i> Pindahkan Penghuni
+            <i class="bi bi-arrow-left-right" class="fs-13"></i> Pindahkan Penghuni
           </button>
         </div>
       </form>
     </div>
 
     <!-- Info Column -->
-    <div style="display:flex; flex-direction:column; gap:14px">
+    <div class="flex-col gap-14">
       <!-- Occupied List -->
-      <div class="card" style="max-height: 250px; overflow-y: auto;">
+      <div class="card" class="max-h-250">
         <div class="card-title"
-          style="margin-bottom:14px; position: sticky; top: 0; background: var(--bg-card); padding-bottom: 6px; z-index: 10;">
+          class="mb-14 pos-sticky">
           Kamar Terisi</div>
-        <div style="display:flex; flex-direction:column; gap:8px">
+        <div class="flex-col gap-8">
           <?php if (empty($occupiedRooms)): ?>
-            <div style="text-align:center; color:var(--slate-muted); padding:10px;">Semua kamar kosong</div>
+            <div class="td-empty" style="padding:10px;">Semua kamar kosong</div>
           <?php else: ?>
             <?php foreach ($occupiedRooms as $r): ?>
               <div
-                style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border:1px solid var(--border-soft); border-radius:8px">
+                class="flex-between-center p-10">
                 <div>
-                  <div style="font-weight:600; color:var(--slate-bright)">Kamar <?= htmlspecialchars($r['id']) ?></div>
-                  <div style="font-size:12px; color:var(--slate-muted)"><?= htmlspecialchars($r['tenant']) ?></div>
+                  <div class="td-bold text-bright">Kamar <?= htmlspecialchars($r['id']) ?></div>
+                  <div class="text-sm text-muted"><?= htmlspecialchars($r['tenant']) ?></div>
                 </div>
                 <span class="badge badge-green">Terisi</span>
               </div>
@@ -183,13 +166,13 @@ require_once '../components/admin_topbar.php';
       </div>
 
       <!-- Empty List -->
-      <div class="card" style="max-height: 250px; overflow-y: auto;">
+      <div class="card" class="max-h-250">
         <div class="card-title"
-          style="margin-bottom:14px; position: sticky; top: 0; background: var(--bg-card); padding-bottom: 6px; z-index: 10;">
+          class="mb-14 pos-sticky">
           Kamar Kosong</div>
-        <div style="display:flex; flex-direction:column; gap:8px">
+        <div class="flex-col gap-8">
           <?php if (empty($emptyRooms)): ?>
-            <div style="text-align:center; color:var(--slate-muted); padding:10px;">Tidak ada kamar kosong</div>
+            <div class="td-empty" style="padding:10px;">Tidak ada kamar kosong</div>
           <?php else: ?>
             <?php foreach ($emptyRooms as $r): ?>
               <div

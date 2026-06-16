@@ -37,8 +37,8 @@ require_once '../components/admin_topbar.php';
       <h2>Tipe Kamar</h2>
       <p>Kelola data master kamar kos</p>
     </div>
-    <a href="rooms_form.php" class="btn btn-primary" style="text-decoration: none;">
-      <i class="bi bi-plus-lg" style="font-size:14px"></i> Tambah Kamar
+    <a href="rooms_form.php" class="btn btn-primary btn-link">
+      <i class="bi bi-plus-lg" class="fs-14"></i> Tambah Kamar
     </a>
   </div>
 
@@ -47,7 +47,7 @@ require_once '../components/admin_topbar.php';
   <div class="card">
     <div class="toolbar">
       <div class="search-wrap">
-        <i class="bi bi-search search-icon" style="font-size:14px"></i>
+        <i class="bi bi-search search-icon" class="fs-14"></i>
         <input id="room-search" placeholder="Cari kamar..." />
       </div>
     </div>
@@ -67,7 +67,7 @@ require_once '../components/admin_topbar.php';
         </thead>
         <tbody id="room-tbody">
           <?php if (empty($rooms)): ?>
-            <tr><td colspan="7" style="text-align:center; color:var(--slate-muted)">Tidak ada data kamar</td></tr>
+            <tr><td colspan="7" class="td-empty">Tidak ada data kamar</td></tr>
           <?php else: ?>
             <?php foreach ($rooms as $r): ?>
               <tr>
@@ -78,18 +78,18 @@ require_once '../components/admin_topbar.php';
                 <td><?= fmtRupiah($r['price']) ?></td>
                 <td><?= statusBadge($r['status']) ?></td>
                 <td>
-                  <div style="display:flex; gap:6px">
+                  <div class="action-group">
                     <a href="rooms_detail.php?id=<?= urlencode($r['id']) ?>" class="btn btn-secondary btn-sm" title="Detail">
-                      <i class="bi bi-eye" style="font-size:12px"></i>
+                      <i class="bi bi-eye" class="text-sm"></i>
                     </a>
                     <a href="rooms_form.php?id=<?= urlencode($r['id']) ?>" class="btn btn-secondary btn-sm" title="Edit">
-                      <i class="bi bi-pencil" style="font-size:12px"></i>
+                      <i class="bi bi-pencil" class="text-sm"></i>
                     </a>
-                    <form method="POST" action="rooms.php" onsubmit="return confirm('Hapus Kamar <?= htmlspecialchars($r['id']) ?>? Kamar akan dihapus permanen.');" style="display:inline;">
+                    <form method="POST" action="rooms.php" onsubmit="return confirm('Hapus Kamar <?= htmlspecialchars($r['id']) ?>? Kamar akan dihapus permanen.');" class="inline-form">
                       <input type="hidden" name="action" value="delete">
                       <input type="hidden" name="id" value="<?= htmlspecialchars($r['id']) ?>">
                       <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
-                        <i class="bi bi-trash" style="font-size:12px"></i>
+                        <i class="bi bi-trash" class="text-sm"></i>
                       </button>
                     </form>
                   </div>

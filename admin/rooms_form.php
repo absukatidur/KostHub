@@ -99,34 +99,34 @@ require_once '../components/admin_sidebar.php';
 require_once '../components/admin_topbar.php';
 ?>
 
-<div style="max-width: 600px; margin: 0 auto;">
+<div class="form-container">
   <div class="section-header">
     <div>
       <h2><?= $isEdit ? 'Edit Kamar' : 'Tambah Kamar' ?></h2>
       <p><?= $isEdit ? 'Perbarui data kamar ' . htmlspecialchars($id) : 'Tambahkan unit kamar kos baru' ?></p>
     </div>
-    <a href="rooms.php" class="btn btn-secondary" style="text-decoration: none;">
+    <a href="rooms.php" class="btn btn-secondary btn-link">
       <i class="bi bi-arrow-left"></i> Kembali
     </a>
   </div>
 
   <?php if (!empty($error)): ?>
-    <div class="alert alert-danger" style="margin-bottom: 20px; padding: 15px; border-radius: 8px; font-weight: 500; background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2);">
+    <div class="alert-danger">
       <?= htmlspecialchars($error) ?>
     </div>
   <?php endif; ?>
 
   <div class="card">
-    <form method="POST" autocomplete="off" style="display:flex; flex-direction:column; gap:16px">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px">
+    <form method="POST" autocomplete="off" class="form-stack">
+      <div class="form-row">
         <div class="form-group">
-          <label class="form-label" for="mk-id" style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">ID Kamar</label>
-          <input class="search-wrap" style="width:100%; padding:8px 12px; border:1px solid var(--border-dim); border-radius:8px; background:var(--slate-very-faint); color:var(--slate-bright); outline:none" 
+          <label class="form-label" for="mk-id">ID Kamar</label>
+          <input class="form-input" 
                  id="mk-id" name="id" placeholder="A101" value="<?= htmlspecialchars($_POST['id'] ?? ($room['id'] ?? '')) ?>" required <?= $isEdit ? '' : 'autofocus' ?> />
         </div>
         <div class="form-group">
-          <label class="form-label" for="mk-floor" style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Lantai</label>
-          <select class="filter-select" style="width:100%" id="mk-floor" name="floor" required>
+          <label class="form-label" for="mk-floor">Lantai</label>
+          <select class="filter-select-full" id="mk-floor" name="floor" required>
             <?php 
             $selectedFloor = $_POST['floor'] ?? ($room['floor'] ?? 1); 
             for($f = 1; $f <= 3; $f++): ?>
@@ -136,10 +136,10 @@ require_once '../components/admin_topbar.php';
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px">
+      <div class="form-row">
         <div class="form-group">
-          <label class="form-label" for="mk-type" style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Tipe Kamar</label>
-          <select class="filter-select" style="width:100%" id="mk-type" name="type" required>
+          <label class="form-label" for="mk-type">Tipe Kamar</label>
+          <select class="filter-select-full" id="mk-type" name="type" required>
             <?php 
             $selectedType = $_POST['type'] ?? ($room['type'] ?? 'Standar'); 
             foreach(['Standar', 'VIP', 'Executive'] as $t): ?>
@@ -148,8 +148,8 @@ require_once '../components/admin_topbar.php';
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label" for="mk-rent" style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Tipe Sewa</label>
-          <select class="filter-select" style="width:100%" id="mk-rent" name="rent" required>
+          <label class="form-label" for="mk-rent">Tipe Sewa</label>
+          <select class="filter-select-full" id="mk-rent" name="rent" required>
             <?php 
             $selectedRent = $_POST['rent'] ?? ($room['rent'] ?? 'Bulanan'); 
             foreach(['Harian', 'Bulanan', 'Tahunan'] as $r): ?>
@@ -160,19 +160,19 @@ require_once '../components/admin_topbar.php';
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="mk-price" style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Harga Sewa</label>
-        <input class="search-wrap" style="width:100%; padding:8px 12px; border:1px solid var(--border-dim); border-radius:8px; background:var(--slate-very-faint); color:var(--slate-bright); outline:none" 
+        <label class="form-label" for="mk-price">Harga Sewa</label>
+        <input class="form-input" 
                type="number" id="mk-price" name="price" placeholder="800000" value="<?= htmlspecialchars($_POST['price'] ?? ($room['price'] ?? '')) ?>" required />
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="mk-fac" style="display:block; margin-bottom:6px; font-weight:500; color:var(--slate-text)">Fasilitas Kamar</label>
-        <textarea class="search-wrap" style="width:100%; padding:8px 12px; border:1px solid var(--border-dim); border-radius:8px; background:var(--slate-very-faint); color:var(--slate-bright); outline:none; font-family:inherit" 
+        <label class="form-label" for="mk-fac">Fasilitas Kamar</label>
+        <textarea class="form-input" 
                   rows="3" id="mk-fac" name="facilities" placeholder="AC, WiFi, Kamar Mandi Dalam..."><?= htmlspecialchars($_POST['facilities'] ?? ($room['facilities'] ?? '')) ?></textarea>
       </div>
 
-      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px">
-        <a href="rooms.php" class="btn btn-secondary" style="text-decoration:none">Batal</a>
+      <div class="form-actions">
+        <a href="rooms.php" class="btn btn-secondary btn-link">Batal</a>
         <button type="submit" class="btn btn-primary">Simpan</button>
       </div>
     </form>

@@ -57,26 +57,26 @@ require_once '../components/user_topbar.php';
         </thead>
         <tbody>
           <?php if (empty($orders)): ?>
-            <tr><td colspan="7" style="text-align:center; color:var(--slate-muted); padding:40px">Tidak ada tagihan</td></tr>
+            <tr><td colspan="7" class="td-empty" style="padding:40px">Tidak ada tagihan</td></tr>
           <?php else: ?>
             <?php foreach ($orders as $o): ?>
               <tr>
-                <td><span style="font-family:'DM Mono',monospace; font-size:12px; color:var(--brand-accent)"><?= htmlspecialchars($o['id']) ?></span></td>
-                <td><b><?= htmlspecialchars($o['room']) ?></b></td>
+                <td><span class="td-mono-accent"><?= htmlspecialchars($o['id']) ?></span></td>
+                <td class="td-bold"><?= htmlspecialchars($o['room']) ?></td>
                 <td>
-                  <div style="font-size: 13px; color: var(--slate-bright);"><?= htmlspecialchars($o['start']) ?></div>
-                  <div style="font-size: 12px; color: var(--slate-muted)">s/d <?= htmlspecialchars($o['end']) ?></div>
+                  <div class="text-bright fs-13"><?= htmlspecialchars($o['start']) ?></div>
+                  <div class="text-muted fs-12">s/d <?= htmlspecialchars($o['end']) ?></div>
                 </td>
                 <td><?= htmlspecialchars($o['type']) ?></td>
-                <td style="font-weight:600"><?= fmtRupiah($o['total']) ?></td>
+                <td class="font-w600"><?= fmtRupiah($o['total']) ?></td>
                 <td><?= statusBadge($o['status']) ?></td>
                 <td>
                   <?php if ($o['status'] === 'pending'): ?>
                     <a href="pay.php?id=<?= urlencode($o['id']) ?>" class="btn btn-success btn-sm">
-                      <i class="bi bi-credit-card" style="font-size:12px"></i> Bayar
+                      <i class="bi bi-credit-card"></i> Bayar
                     </a>
                   <?php else: ?>
-                    <span style="font-size:12px; color:var(--green-vivid)">✓ Lunas</span>
+                    <span class="fs-12" style="color:var(--green-vivid)">✓ Lunas</span>
                   <?php endif; ?>
                 </td>
               </tr>

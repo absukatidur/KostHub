@@ -50,8 +50,8 @@ require_once '../components/admin_topbar.php';
       <h2>Order / Penyewaan</h2>
       <p>Kelola transaksi sewa kamar</p>
     </div>
-    <a href="orders_form.php" class="btn btn-primary" style="text-decoration: none;">
-      <i class="bi bi-plus-lg" style="font-size:14px"></i> Buat Order
+    <a href="orders_form.php" class="btn btn-primary btn-link">
+      <i class="bi bi-plus-lg" class="fs-14"></i> Buat Order
     </a>
   </div>
 
@@ -60,7 +60,7 @@ require_once '../components/admin_topbar.php';
   <div class="card">
     <div class="toolbar">
       <div class="search-wrap">
-        <i class="bi bi-search search-icon" style="font-size:14px"></i>
+        <i class="bi bi-search search-icon" class="fs-14"></i>
         <input id="ord-search" placeholder="Cari order..." />
       </div>
     </div>
@@ -81,37 +81,37 @@ require_once '../components/admin_topbar.php';
         </thead>
         <tbody id="ord-tbody">
           <?php if (empty($orders)): ?>
-            <tr><td colspan="8" style="text-align:center; color:var(--slate-muted)">Tidak ada data order</td></tr>
+            <tr><td colspan="8" class="td-empty">Tidak ada data order</td></tr>
           <?php else: ?>
             <?php foreach ($orders as $o): ?>
               <tr>
-                <td><span style="font-family:'DM Mono',monospace; font-size:12px; color:var(--brand-accent)"><?= htmlspecialchars($o['id']) ?></span></td>
-                <td><div style="font-weight:600"><?= htmlspecialchars($o['customer']) ?></div></td>
+                <td><span class="td-mono-accent"><?= htmlspecialchars($o['id']) ?></span></td>
+                <td><div class="td-bold"><?= htmlspecialchars($o['customer']) ?></div></td>
                 <td><b><?= htmlspecialchars($o['room']) ?></b></td>
                 <td>
-                  <div style="font-size:12px"><?= htmlspecialchars($o['start']) ?></div>
-                  <div style="font-size:12px; color:var(--slate-muted)">s/d <?= htmlspecialchars($o['end']) ?></div>
+                  <div class="text-sm"><?= htmlspecialchars($o['start']) ?></div>
+                  <div class="text-sm text-muted">s/d <?= htmlspecialchars($o['end']) ?></div>
                 </td>
                 <td><?= htmlspecialchars($o['type']) ?></td>
-                <td style="font-weight:600"><?= fmtRupiah($o['total']) ?></td>
+                <td class="td-bold"><?= fmtRupiah($o['total']) ?></td>
                 <td><?= statusBadge($o['status']) ?></td>
                 <td>
-                  <div style="display:flex; gap:6px">
+                  <div class="action-group">
                     <a href="orders_detail.php?id=<?= urlencode($o['id']) ?>" class="btn btn-secondary btn-sm" title="Detail">
-                      <i class="bi bi-eye" style="font-size:12px"></i>
+                      <i class="bi bi-eye" class="text-sm"></i>
                     </a>
                     <?php if ($o['status'] === 'pending'): ?>
-                      <form method="POST" action="orders.php" style="display:inline;">
+                      <form method="POST" action="orders.php" class="inline-form">
                         <input type="hidden" name="action" value="pay">
                         <input type="hidden" name="id" value="<?= htmlspecialchars($o['id']) ?>">
                         <button type="submit" class="btn btn-success btn-sm">Lunas</button>
                       </form>
                     <?php endif; ?>
-                    <form method="POST" action="orders.php" onsubmit="return confirm('Hapus Order <?= htmlspecialchars($o['id']) ?>?');" style="display:inline;">
+                    <form method="POST" action="orders.php" onsubmit="return confirm('Hapus Order <?= htmlspecialchars($o['id']) ?>?');" class="inline-form">
                       <input type="hidden" name="action" value="delete">
                       <input type="hidden" name="id" value="<?= htmlspecialchars($o['id']) ?>">
                       <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
-                        <i class="bi bi-trash" style="font-size:12px"></i>
+                        <i class="bi bi-trash" class="text-sm"></i>
                       </button>
                     </form>
                   </div>

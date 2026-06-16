@@ -56,8 +56,8 @@ require_once '../components/admin_topbar.php';
       <h2>Kelola Admin</h2>
       <p>Manajemen akun staff dan operator sistem</p>
     </div>
-    <a href="admins_form.php" class="btn btn-primary" style="text-decoration: none;">
-      <i class="bi bi-person-plus" style="font-size:14px"></i> Tambah Admin
+    <a href="admins_form.php" class="btn btn-primary btn-link">
+      <i class="bi bi-person-plus" class="fs-14"></i> Tambah Admin
     </a>
   </div>
 
@@ -66,7 +66,7 @@ require_once '../components/admin_topbar.php';
   <div class="card">
     <div class="toolbar">
       <div class="search-wrap">
-        <i class="bi bi-search search-icon" style="font-size:14px"></i>
+        <i class="bi bi-search search-icon" class="fs-14"></i>
         <input id="staff-search" placeholder="Cari username..." />
       </div>
     </div>
@@ -83,12 +83,12 @@ require_once '../components/admin_topbar.php';
         </thead>
         <tbody id="staff-tbody">
           <?php if (empty($staff)): ?>
-            <tr><td colspan="4" style="text-align:center; color:var(--slate-muted)">Tidak ada data staff</td></tr>
+            <tr><td colspan="4" class="td-empty">Tidak ada data staff</td></tr>
           <?php else: ?>
             <?php foreach ($staff as $s): ?>
               <tr>
-                <td><span style="font-family:'DM Mono',monospace; font-size:12px; color:var(--slate-muted)"><?= htmlspecialchars($s['id']) ?></span></td>
-                <td><div style="font-weight:600"><?= htmlspecialchars($s['username']) ?></div></td>
+                <td><span class="td-mono"><?= htmlspecialchars($s['id']) ?></span></td>
+                <td><div class="td-bold"><?= htmlspecialchars($s['username']) ?></div></td>
                 <td>
                   <?php if ($s['role'] === 'owner'): ?>
                     <span class="badge badge-purple" style="font-weight:600;">Owner</span>
@@ -97,22 +97,22 @@ require_once '../components/admin_topbar.php';
                   <?php endif; ?>
                 </td>
                 <td>
-                  <div style="display:flex; gap:6px">
+                  <div class="action-group">
                     <?php if ($s['role'] === 'admin'): ?>
                       <a href="admins_form.php?id=<?= urlencode($s['id']) ?>" class="btn btn-secondary btn-sm" title="Edit">
-                        <i class="bi bi-pencil" style="font-size:12px"></i>
+                        <i class="bi bi-pencil" class="text-sm"></i>
                       </a>
                       <?php if (intval($s['id']) !== intval($_SESSION['user_id'])): ?>
-                        <form method="POST" action="admins.php" onsubmit="return confirm('Hapus akun admin <?= htmlspecialchars($s['username']) ?>?');" style="display:inline;">
+                        <form method="POST" action="admins.php" onsubmit="return confirm('Hapus akun admin <?= htmlspecialchars($s['username']) ?>?');" class="inline-form">
                           <input type="hidden" name="action" value="delete">
                           <input type="hidden" name="id" value="<?= htmlspecialchars($s['id']) ?>">
                           <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
-                            <i class="bi bi-trash" style="font-size:12px"></i>
+                            <i class="bi bi-trash" class="text-sm"></i>
                           </button>
                         </form>
                       <?php endif; ?>
                     <?php else: ?>
-                      <span style="color:var(--slate-muted); font-size:12px; font-style:italic">Akses Superadmin</span>
+                      <span class="text-muted text-sm" style="font-style:italic">Akses Superadmin</span>
                     <?php endif; ?>
                   </div>
                 </td>

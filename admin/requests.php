@@ -45,12 +45,12 @@ require_once '../components/admin_topbar.php';
         </thead>
         <tbody>
           <?php if (empty($requests)): ?>
-            <tr><td colspan="7" style="text-align:center; color:var(--slate-muted); padding:40px">Tidak ada permintaan</td></tr>
+            <tr><td colspan="7" class="td-empty" class="p-40">Tidak ada permintaan</td></tr>
           <?php else: ?>
             <?php foreach ($requests as $r): ?>
               <tr>
-                <td><span style="font-family:'DM Mono',monospace; font-size:12px; color:var(--slate-muted)"><?= htmlspecialchars($r['id']) ?></span></td>
-                <td style="font-weight:600"><?= htmlspecialchars($r['customer_name'] ?: $r['customer_id']) ?></td>
+                <td><span class="td-mono"><?= htmlspecialchars($r['id']) ?></span></td>
+                <td class="td-bold"><?= htmlspecialchars($r['customer_name'] ?: $r['customer_id']) ?></td>
                 <td>
                   <?php if ($r['type'] === 'pindah'): ?>
                     <span class="badge badge-blue">Pindah</span>
@@ -58,7 +58,7 @@ require_once '../components/admin_topbar.php';
                     <span class="badge badge-amber">Checkout</span>
                   <?php endif; ?>
                 </td>
-                <td style="font-size:12px; max-width:220px">
+                <td class="text-sm" class="mw-220">
                   <?php 
                   $detail = json_decode($r['detail'] ?: '{}', true);
                   if ($r['type'] === 'pindah') {
@@ -68,7 +68,7 @@ require_once '../components/admin_topbar.php';
                   }
                   ?>
                 </td>
-                <td style="font-size:12px; color:var(--slate-muted)"><?= htmlspecialchars(substr($r['created_at'], 0, 10)) ?></td>
+                <td class="text-sm text-muted"><?= htmlspecialchars(substr($r['created_at'], 0, 10)) ?></td>
                 <td>
                   <?php
                   $statusMap = ['pending' => 'badge-amber', 'approved' => 'badge-green', 'rejected' => 'badge-red'];
@@ -79,16 +79,16 @@ require_once '../components/admin_topbar.php';
                   <span class="badge <?= $badgeCls ?>"><?= $text ?></span>
                 </td>
                 <td>
-                  <div style="display:flex; gap:6px">
+                  <div class="action-group">
                     <?php if ($r['status'] === 'pending'): ?>
                       <a href="requests_resolve.php?id=<?= urlencode($r['id']) ?>&status=approved" class="btn btn-success btn-sm">
-                        <i class="bi bi-check-lg" style="font-size:12px"></i> Setujui
+                        <i class="bi bi-check-lg" class="text-sm"></i> Setujui
                       </a>
                       <a href="requests_resolve.php?id=<?= urlencode($r['id']) ?>&status=rejected" class="btn btn-danger btn-sm">
-                        <i class="bi bi-x-lg" style="font-size:12px"></i> Tolak
+                        <i class="bi bi-x-lg" class="text-sm"></i> Tolak
                       </a>
                     <?php else: ?>
-                      <span style="font-size:12px; color:var(--slate-muted)"><?= htmlspecialchars($r['admin_note'] ?: '-') ?></span>
+                      <span class="text-sm text-muted"><?= htmlspecialchars($r['admin_note'] ?: '-') ?></span>
                     <?php endif; ?>
                   </div>
                 </td>

@@ -48,21 +48,21 @@ require_once '../components/admin_topbar.php';
   <?php showFlash(); ?>
 
   <!-- Date Filter Form -->
-  <div class="card" style="margin-bottom: 20px;">
+  <div class="card card-mb">
     <form method="GET" action="financial_reports.php" style="display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap;">
       <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 150px;">
-        <label class="form-label" for="start_date" style="margin-bottom: 6px; font-weight: 500; color: var(--slate-text);">Mulai Tanggal</label>
+        <label class="form-label" for="start_date">Mulai Tanggal</label>
         <input class="form-input" type="date" id="start_date" name="start_date" value="<?= htmlspecialchars($start_date) ?>" required />
       </div>
       <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 150px;">
-        <label class="form-label" for="end_date" style="margin-bottom: 6px; font-weight: 500; color: var(--slate-text);">Sampai Tanggal</label>
+        <label class="form-label" for="end_date">Sampai Tanggal</label>
         <input class="form-input" type="date" id="end_date" name="end_date" value="<?= htmlspecialchars($end_date) ?>" required />
       </div>
-      <div style="display: flex; gap: 8px;">
+      <div class="action-group">
         <button type="submit" class="btn btn-primary" style="padding: 9px 16px;">
           <i class="bi bi-filter"></i> Filter
         </button>
-        <a href="financial_reports.php" class="btn btn-secondary" style="padding: 9px 16px; text-decoration: none; display: inline-flex; align-items: center;">
+        <a href="financial_reports.php" class="btn btn-secondary btn-link" style="padding: 9px 16px;">
           Reset
         </a>
       </div>
@@ -70,21 +70,21 @@ require_once '../components/admin_topbar.php';
   </div>
 
   <!-- Stats Cards Grid -->
-  <div class="stats-grid" style="margin-bottom: 20px;">
+  <div class="stats-grid card-mb">
     <div class="stat-card">
-      <div class="icon-wrap ic-green"><i class="bi bi-cash-stack" style="font-size:16px"></i></div>
+      <div class="icon-wrap ic-green"><i class="bi bi-cash-stack" class="fs-16"></i></div>
       <div class="label">Total Pendapatan (Lunas)</div>
       <div class="value" style="font-size: 22px;"><?= fmtRupiah($totalRev) ?></div>
       <div class="sub"><?= $paidCount ?> transaksi lunas</div>
     </div>
     <div class="stat-card">
-      <div class="icon-wrap ic-amber"><i class="bi bi-clock" style="font-size:16px"></i></div>
+      <div class="icon-wrap ic-amber"><i class="bi bi-clock" class="fs-16"></i></div>
       <div class="label">Tagihan Tertunda (Belum Bayar)</div>
       <div class="value" style="font-size: 22px;"><?= fmtRupiah($pendingInv) ?></div>
       <div class="sub"><?= $pendingCount ?> invoice pending</div>
     </div>
     <div class="stat-card">
-      <div class="icon-wrap ic-blue"><i class="bi bi-calculator" style="font-size:16px"></i></div>
+      <div class="icon-wrap ic-blue"><i class="bi bi-calculator" class="fs-16"></i></div>
       <div class="label">Total Nilai Transaksi</div>
       <div class="value" style="font-size: 22px;"><?= fmtRupiah($totalRev + $pendingInv) ?></div>
       <div class="sub">Dari <?= count($orders) ?> total order</div>
@@ -96,7 +96,7 @@ require_once '../components/admin_topbar.php';
     <div class="card-header">
       <span class="card-title">Rincian Transaksi Penyewaan</span>
       <div class="search-wrap" style="max-width: 300px; margin-bottom: 0;">
-        <i class="bi bi-search search-icon" style="font-size:14px"></i>
+        <i class="bi bi-search search-icon" class="fs-14"></i>
         <input id="report-search" placeholder="Cari ID order, nama, kamar..." />
       </div>
     </div>
@@ -116,16 +116,16 @@ require_once '../components/admin_topbar.php';
         </thead>
         <tbody id="report-tbody">
           <?php if (empty($orders)): ?>
-            <tr><td colspan="7" style="text-align:center; color:var(--slate-muted)">Tidak ada data transaksi pada periode ini</td></tr>
+            <tr><td colspan="7" class="td-empty">Tidak ada data transaksi pada periode ini</td></tr>
           <?php else: ?>
             <?php foreach ($orders as $o): ?>
               <tr>
-                <td><span style="font-family:'DM Mono',monospace; font-size:12px; color:var(--brand-accent)"><?= htmlspecialchars($o['id']) ?></span></td>
-                <td><div style="font-weight:600"><?= htmlspecialchars($o['customer']) ?></div></td>
+                <td><span class="td-mono-accent"><?= htmlspecialchars($o['id']) ?></span></td>
+                <td><div class="td-bold"><?= htmlspecialchars($o['customer']) ?></div></td>
                 <td><b><?= htmlspecialchars($o['room']) ?></b></td>
                 <td><?= htmlspecialchars($o['start']) ?></td>
                 <td><?= htmlspecialchars($o['end']) ?></td>
-                <td style="font-weight:600"><?= fmtRupiah($o['total']) ?></td>
+                <td class="td-bold"><?= fmtRupiah($o['total']) ?></td>
                 <td><?= statusBadge($o['status']) ?></td>
               </tr>
             <?php endforeach; ?>

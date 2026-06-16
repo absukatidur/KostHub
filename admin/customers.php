@@ -51,8 +51,8 @@ require_once '../components/admin_topbar.php';
       <h2>Penghuni</h2>
       <p>Data penghuni kos</p>
     </div>
-    <a href="customers_form.php" class="btn btn-primary" style="text-decoration: none;">
-      <i class="bi bi-person-plus" style="font-size:14px"></i> Tambah Penghuni
+    <a href="customers_form.php" class="btn btn-primary btn-link">
+      <i class="bi bi-person-plus" class="fs-14"></i> Tambah Penghuni
     </a>
   </div>
 
@@ -61,7 +61,7 @@ require_once '../components/admin_topbar.php';
   <div class="card">
     <div class="toolbar">
       <div class="search-wrap">
-        <i class="bi bi-search search-icon" style="font-size:14px"></i>
+        <i class="bi bi-search search-icon" class="fs-14"></i>
         <input id="cust-search" placeholder="Cari nama, email, WA..." />
       </div>
     </div>
@@ -79,36 +79,36 @@ require_once '../components/admin_topbar.php';
         </thead>
         <tbody id="cust-tbody">
           <?php if (empty($customers)): ?>
-            <tr><td colspan="5" style="text-align:center; color:var(--slate-muted)">Tidak ada data customer</td></tr>
+            <tr><td colspan="5" class="td-empty">Tidak ada data customer</td></tr>
           <?php else: ?>
             <?php foreach ($customers as $c): ?>
               <tr>
-                <td><span style="font-family:'DM Mono',monospace; font-size:12px; color:var(--slate-muted)"><?= htmlspecialchars($c['id']) ?></span></td>
-                <td><div style="font-weight:600"><?= htmlspecialchars($c['name']) ?></div></td>
+                <td><span class="td-mono"><?= htmlspecialchars($c['id']) ?></span></td>
+                <td><div class="td-bold"><?= htmlspecialchars($c['name']) ?></div></td>
                 <td>
-                  <div style="color:var(--brand-accent)"><?= htmlspecialchars($c['email']) ?></div>
-                  <div style="font-size:12px; color:var(--slate-muted)"><?= htmlspecialchars($c['wa']) ?></div>
+                  <div class="text-accent"><?= htmlspecialchars($c['email']) ?></div>
+                  <div class="text-sm text-muted"><?= htmlspecialchars($c['wa']) ?></div>
                 </td>
                 <td>
                   <?php if (!empty($c['room'])): ?>
-                    <a href="rooms_detail.php?id=<?= urlencode($c['room']) ?>" class="badge badge-green" style="text-decoration: none; font-weight:600;"><?= htmlspecialchars($c['room']) ?></a>
+                    <a href="rooms_detail.php?id=<?= urlencode($c['room']) ?>" class="badge badge-green btn-link" style="font-weight:600;"><?= htmlspecialchars($c['room']) ?></a>
                   <?php else: ?>
-                    <span style="color:var(--slate-muted)">Belum sewa</span>
+                    <span class="text-muted">Belum sewa</span>
                   <?php endif; ?>
                 </td>
                 <td>
-                  <div style="display:flex; gap:6px">
+                  <div class="action-group">
                     <a href="customers_detail.php?id=<?= urlencode($c['id']) ?>" class="btn btn-secondary btn-sm" title="Detail">
-                      <i class="bi bi-eye" style="font-size:12px"></i>
+                      <i class="bi bi-eye" class="text-sm"></i>
                     </a>
                     <a href="customers_form.php?id=<?= urlencode($c['id']) ?>" class="btn btn-secondary btn-sm" title="Edit">
-                      <i class="bi bi-pencil" style="font-size:12px"></i>
+                      <i class="bi bi-pencil" class="text-sm"></i>
                     </a>
-                    <form method="POST" action="customers.php" onsubmit="return confirm('Hapus Penghuni <?= htmlspecialchars($c['name']) ?>? Data sewa dan akun user juga akan dihapus.');" style="display:inline;">
+                    <form method="POST" action="customers.php" onsubmit="return confirm('Hapus Penghuni <?= htmlspecialchars($c['name']) ?>? Data sewa dan akun user juga akan dihapus.');" class="inline-form">
                       <input type="hidden" name="action" value="delete">
                       <input type="hidden" name="id" value="<?= htmlspecialchars($c['id']) ?>">
                       <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
-                        <i class="bi bi-trash" style="font-size:12px"></i>
+                        <i class="bi bi-trash" class="text-sm"></i>
                       </button>
                     </form>
                   </div>

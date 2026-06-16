@@ -42,32 +42,32 @@ require_once '../components/user_topbar.php';
   <?php showFlash(); ?>
 
   <!-- Actions Row -->
-  <div class="two-col mb-16" style="margin-bottom: 20px;">
+  <div class="two-col mb-16">
     <!-- Card Pindah Kamar -->
-    <div class="card" style="display:flex; flex-direction:column; gap:12px; align-items:center; text-align:center;">
-      <div class="icon-wrap ic-blue" style="width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+    <div class="card request-action-card">
+      <div class="icon-wrap ic-blue icon-lg-round">
         <i class="bi bi-arrow-left-right"></i>
       </div>
-      <div style="font-weight: 700; font-size: 15px; color: var(--slate-white)">Pindah Kamar</div>
-      <div style="font-size: 12.5px; color: var(--slate-muted); min-height: 38px;">Ajukan pindah ke unit kamar lain yang tersedia</div>
+      <div class="rac-title">Pindah Kamar</div>
+      <div class="rac-desc">Ajukan pindah ke unit kamar lain yang tersedia</div>
       
       <?php if (!empty($customer['room'])): ?>
-        <a href="requests_form.php?type=pindah" class="btn btn-primary btn-sm" style="text-decoration: none;">Ajukan Pindah</a>
+        <a href="requests_form.php?type=pindah" class="btn btn-primary btn-sm btn-link">Ajukan Pindah</a>
       <?php else: ?>
         <button class="btn btn-secondary btn-sm" disabled title="Anda harus menyewa kamar terlebih dahulu">Ajukan Pindah</button>
       <?php endif; ?>
     </div>
 
     <!-- Card Checkout -->
-    <div class="card" style="display:flex; flex-direction:column; gap:12px; align-items:center; text-align:center;">
-      <div class="icon-wrap ic-amber" style="width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+    <div class="card request-action-card">
+      <div class="icon-wrap ic-amber icon-lg-round">
         <i class="bi bi-box-arrow-right"></i>
       </div>
-      <div style="font-weight: 700; font-size: 15px; color: var(--slate-white)">Pengajuan Checkout</div>
-      <div style="font-size: 12.5px; color: var(--slate-muted); min-height: 38px;">Informasikan jika Anda tidak ingin memperpanjang sewa kamar</div>
+      <div class="rac-title">Pengajuan Checkout</div>
+      <div class="rac-desc">Informasikan jika Anda tidak ingin memperpanjang sewa kamar</div>
       
       <?php if (!empty($customer['room'])): ?>
-        <a href="requests_form.php?type=checkout" class="btn btn-primary btn-sm" style="text-decoration: none;">Ajukan Checkout</a>
+        <a href="requests_form.php?type=checkout" class="btn btn-primary btn-sm btn-link">Ajukan Checkout</a>
       <?php else: ?>
         <button class="btn btn-secondary btn-sm" disabled title="Anda harus menyewa kamar terlebih dahulu">Ajukan Checkout</button>
       <?php endif; ?>
@@ -91,11 +91,11 @@ require_once '../components/user_topbar.php';
         </thead>
         <tbody>
           <?php if (empty($requests)): ?>
-            <tr><td colspan="6" style="text-align:center; color:var(--slate-muted); padding:40px">Belum ada riwayat pengajuan</td></tr>
+            <tr><td colspan="6" class="td-empty" style="padding:40px">Belum ada riwayat pengajuan</td></tr>
           <?php else: ?>
             <?php foreach ($requests as $r): ?>
               <tr>
-                <td><span style="font-family:'DM Mono',monospace; font-size:12px; color:var(--slate-muted)"><?= htmlspecialchars($r['id']) ?></span></td>
+                <td><span class="td-mono"><?= htmlspecialchars($r['id']) ?></span></td>
                 <td>
                   <?php if ($r['type'] === 'pindah'): ?>
                     <span class="badge badge-blue">Pindah</span>
@@ -103,7 +103,7 @@ require_once '../components/user_topbar.php';
                     <span class="badge badge-amber">Checkout</span>
                   <?php endif; ?>
                 </td>
-                <td style="font-size: 12.5px; color: var(--slate-bright)">
+                <td class="rq-detail text-bright">
                   <?php
                   $detail = json_decode($r['detail'] ?: '{}', true);
                   if ($r['type'] === 'pindah') {
@@ -113,7 +113,7 @@ require_once '../components/user_topbar.php';
                   }
                   ?>
                 </td>
-                <td style="font-size:12px; color:var(--slate-muted)"><?= htmlspecialchars(substr($r['created_at'], 0, 10)) ?></td>
+                <td class="rq-date"><?= htmlspecialchars(substr($r['created_at'], 0, 10)) ?></td>
                 <td>
                   <?php
                   $statusMap = ['pending' => 'badge-amber', 'approved' => 'badge-green', 'rejected' => 'badge-red'];
@@ -123,7 +123,7 @@ require_once '../components/user_topbar.php';
                   ?>
                   <span class="badge <?= $badgeCls ?>"><?= $text ?></span>
                 </td>
-                <td style="font-size:12.5px; color:var(--slate-muted)">
+                <td class="text-muted fs-13">
                   <?= htmlspecialchars($r['admin_note'] ?: '-') ?>
                 </td>
               </tr>

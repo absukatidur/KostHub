@@ -30,14 +30,14 @@ require_once '../components/admin_topbar.php';
   <div class="card">
     <div class="toolbar">
       <div class="search-wrap">
-        <i class="bi bi-search search-icon" style="font-size:14px"></i>
+        <i class="bi bi-search search-icon" class="fs-14"></i>
         <input id="log-search" placeholder="Cari aktivitas..." />
       </div>
     </div>
     
     <div class="activity-list" id="log-list">
       <?php if (empty($logs)): ?>
-        <div style="text-align:center; padding:40px; color:var(--slate-muted)">Tidak ada riwayat aktivitas</div>
+        <div class="td-empty" class="p-40">Tidak ada riwayat aktivitas</div>
       <?php else: ?>
         <?php foreach ($logs as $l): ?>
           <?php 
@@ -45,12 +45,12 @@ require_once '../components/admin_topbar.php';
           $color = $logColors[$l['type']] ?? 'ic-gray';
           ?>
           <div class="activity-item">
-            <div class="act-dot <?= $color ?>"><i class="bi bi-<?= $icon ?>" style="font-size:14px"></i></div>
-            <div class="act-content" style="flex:1">
-              <div class="act-title" style="color:var(--slate-bright); font-weight:600"><?= htmlspecialchars($l['action']) ?></div>
-              <div class="act-detail act-meta" style="color:var(--slate-muted); font-size:12px; margin-top:2px"><?= htmlspecialchars($l['detail']) ?></div>
+            <div class="act-dot <?= $color ?>"><i class="bi bi-<?= $icon ?>" class="fs-14"></i></div>
+            <div class="act-content">
+              <div class="act-title"><?= htmlspecialchars($l['action']) ?></div>
+              <div class="act-meta"><?= htmlspecialchars($l['detail']) ?></div>
             </div>
-            <div class="log-time" style="font-size:11px; color:var(--slate-muted); white-space:nowrap; padding-left:12px">
+            <div class="text-xs text-muted" style="white-space:nowrap; padding-left:12px">
               <?= htmlspecialchars($l['time']) ?>
             </div>
           </div>
