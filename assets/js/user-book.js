@@ -9,6 +9,10 @@ function calculatePeriod() {
   var total = price;
   if (type === 'Tahunan') {
     total = price * 12;
+  } else if (type === 'Harian') {
+    total = price / 30;
+  } else {
+    total = price;
   }
 
   // Format total as Rupiah

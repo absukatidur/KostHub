@@ -10,6 +10,7 @@ if (!$id) {
   exit;
 }
 
+// Taking the custID for current session into var
 $cid = $_SESSION['customer_id'];
 
 // Get customer info
@@ -172,7 +173,7 @@ require_once '../components/user_topbar.php';
           <span class="text-muted">Total Pembayaran</span>
           <span id="bk-total-display" class="order-summary-total">Rp 0</span>
         </div>
-        <input type="hidden" id="bk-total" name="total" value="0" />
+        <!-- <input type="hidden" id="bk-total" name="total" value="0" /> -->
       </div>
 
       <div class="form-actions">
