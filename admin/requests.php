@@ -46,7 +46,9 @@ require_once '../components/admin_topbar.php';
         </thead>
         <tbody>
           <?php if (empty($requests)): ?>
-            <tr><td colspan="8" class="td-empty" class="p-40">Tidak ada permintaan</td></tr>
+            <tr>
+              <td colspan="8" class="td-empty" class="p-40">Tidak ada permintaan</td>
+            </tr>
           <?php else: ?>
             <?php foreach ($requests as $r): ?>
               <tr>
@@ -61,12 +63,12 @@ require_once '../components/admin_topbar.php';
                 </td>
                 <td><span class="td-mono"><?= htmlspecialchars($r['from_room'] ?: '-') ?></span></td>
                 <td class="text-sm" class="mw-220">
-                  <?php 
+                  <?php
                   $detail = json_decode($r['detail'] ?: '{}', true);
                   if ($r['type'] === 'pindah') {
-                      echo 'Ke kamar ' . htmlspecialchars($detail['toRoom'] ?? '?') . ' — ' . htmlspecialchars($detail['reason'] ?? '-');
+                    echo 'Ke kamar ' . htmlspecialchars($detail['toRoom'] ?? '?') . ' — ' . htmlspecialchars($detail['reason'] ?? '-');
                   } else {
-                      echo 'Tgl: ' . htmlspecialchars($detail['date'] ?? '-') . ' — ' . htmlspecialchars($detail['reason'] ?? '-');
+                    echo 'Tgl: ' . htmlspecialchars($detail['date'] ?? '-') . ' — ' . htmlspecialchars($detail['reason'] ?? '-');
                   }
                   ?>
                 </td>
@@ -83,10 +85,12 @@ require_once '../components/admin_topbar.php';
                 <td>
                   <div class="action-group">
                     <?php if ($r['status'] === 'pending'): ?>
-                      <a href="requests_resolve.php?id=<?= urlencode($r['id']) ?>&status=approved" class="btn btn-success btn-sm">
+                      <a href="requests_resolve.php?id=<?= urlencode($r['id']) ?>&status=approved"
+                        class="btn btn-success btn-sm">
                         <i class="bi bi-check-lg" class="text-sm"></i> Setujui
                       </a>
-                      <a href="requests_resolve.php?id=<?= urlencode($r['id']) ?>&status=rejected" class="btn btn-danger btn-sm">
+                      <a href="requests_resolve.php?id=<?= urlencode($r['id']) ?>&status=rejected"
+                        class="btn btn-danger btn-sm">
                         <i class="bi bi-x-lg" class="text-sm"></i> Tolak
                       </a>
                     <?php else: ?>
