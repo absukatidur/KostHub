@@ -53,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nid = nextId($db, 'requests', 'REQ-');
         $detailJson = json_encode($detailData);
 
-        $stmtReq = $db->prepare("INSERT INTO requests (id, customer_id, type, detail, status) VALUES (?, ?, ?, ?, 'pending')");
-        $stmtReq->bind_param('ssss', $nid, $cid, $type, $detailJson);
+        $stmtReq = $db->prepare("INSERT INTO requests (id, customer_id, type, detail, status, from_room) VALUES (?, ?, ?, ?, 'pending', ?)");
+        $stmtReq->bind_param('sssss', $nid, $cid, $type, $detailJson, $customer['room']);
         
         if ($stmtReq->execute()) {
             $typeLabel = $type === 'pindah' ? 'Pindah Kamar' : 'Checkout';

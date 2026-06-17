@@ -70,6 +70,7 @@ $db->query("CREATE TABLE `requests` (
   `customer_id` varchar(10) NOT NULL,
   `type` enum('pindah','checkout') NOT NULL,
   `detail` text DEFAULT NULL,
+  `from_room` varchar(10) DEFAULT NULL,
   `status` enum('pending','approved','rejected') DEFAULT 'pending',
   `created_at` datetime DEFAULT current_timestamp(),
   `resolved_at` datetime DEFAULT NULL,

@@ -37,15 +37,16 @@ require_once '../components/admin_topbar.php';
             <th>ID</th>
             <th>Penghuni</th>
             <th>Tipe</th>
+            <th>Kamar Asal</th>
             <th>Detail</th>
             <th>Tanggal</th>
             <th>Status</th>
-            <th>Aksi</th>
+            <th>Deskripsi</th>
           </tr>
         </thead>
         <tbody>
           <?php if (empty($requests)): ?>
-            <tr><td colspan="7" class="td-empty" class="p-40">Tidak ada permintaan</td></tr>
+            <tr><td colspan="8" class="td-empty" class="p-40">Tidak ada permintaan</td></tr>
           <?php else: ?>
             <?php foreach ($requests as $r): ?>
               <tr>
@@ -58,6 +59,7 @@ require_once '../components/admin_topbar.php';
                     <span class="badge badge-amber">Checkout</span>
                   <?php endif; ?>
                 </td>
+                <td><span class="td-mono"><?= htmlspecialchars($r['from_room'] ?: '-') ?></span></td>
                 <td class="text-sm" class="mw-220">
                   <?php 
                   $detail = json_decode($r['detail'] ?: '{}', true);
