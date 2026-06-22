@@ -130,6 +130,7 @@ KostHub is a modern web-based boarding house (kost) room management system focus
   * `customer_id` (VARCHAR 10)
   * `type` (ENUM: 'pindah', 'checkout')
   * `detail` (TEXT) - JSON string containing specific request details (e.g., target room, check-out date, and descriptions)
+  * `from_room` (VARCHAR 10)
   * `status` (ENUM: 'pending', 'approved', 'rejected')
   * `created_at` (DATETIME)
   * `resolved_at` (DATETIME, Nullable)
